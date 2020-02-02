@@ -1,11 +1,27 @@
 #include <algorithm>
 #include <numeric> 
+#include <vector>
 
 #include "thread_utils.hpp"
 #include "util.hpp"
 
 namespace advcpp
 {
+
+inline void JoinAll (std::vector<Thread*> a_threads)
+{
+    const size_t size = a_threads.size();
+    for (size_t i = 0; i < size; ++i)
+    {
+        a_threads[i]->Join();
+    }
+}
+
+
+
+
+
+
 template <typename Iter, typename Generator> 
 ContainerFiller<Iter, Generator>::ContainerFiller(Iter a_begin, Iter a_end, Generator a_generator)
 : m_begin(a_begin)

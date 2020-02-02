@@ -12,6 +12,9 @@
 namespace advcpp
 {
 
+void JoinAll (std::vector<Thread*> a_threads);
+
+
 template <typename Iter, typename Generator>
 class ContainerFiller: public advcpp::IRunnable {
 public:

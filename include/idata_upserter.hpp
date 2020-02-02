@@ -1,5 +1,5 @@
-#ifndef I_RECIEVERS_HPP
-#define I_RECIEVERS_HPP
+#ifndef I_DATA_UPSERTER_HPP
+#define I_DATA_UPSERTER_HPP
 
 #include "thread.hpp"
 #include "waitable_queue.hpp"
@@ -9,22 +9,23 @@
 namespace advcpp 
 {
 
-class Irecievers: public IRunnable {
+class IDataUpserter: public IRunnable {
 public:
     
-    ~Irecievers() {};
+    ~IDataUpserter() {};
 
-    //Irecievers();
-    //Irecievers(const Irecievers<T>& a_rhs) = delete;
-    //Irecievers& operator = (const Irecievers<T> a_rhs) = delete;
+    //IDataUpserter();
+    //IDataUpserter(const IDataUpserter<T>& a_rhs) = delete;
+    //IDataUpserter& operator = (const IDataUpserter<T> a_rhs) = delete;
 
     virtual void Run() = 0;
 };
 
 template <typename T> 
-class CdrRecievers: public Irecievers {
+//T must be a pointer allocated with new
+class CdrUpserter: public IDataUpserter {
 public:
-    explicit CdrRecievers(WaitableQueue<ISocket*>& a_socketQue, WaitableQueue<T>& a_msgQue);
+    explicit CdrRecievers(WaitableQueue<T>& a_msgQue, IDecoder a_decoder, IReducer a_reducer);
 
     //~CdrRecievers() = default;
     //CdrRecievers(const CdrRecievers<T>& a_rhs) = default;
@@ -36,14 +37,12 @@ private:
     void ReadMsgs();
 
 private:
-    WaitableQueue<ISocket*>& m_socketQue;
     WaitableQueue<T>& m_msgQue;
     bool m_switch; 
-    ISocket* m_socket;
+    T m_socket;
 };
-
 
 } //namespace advcpp 
 
 #include "irecievers.inl"
-#endif //I_RECIEVERS_HPP
+#endif //I_DATA_UPSERTER_HPP
