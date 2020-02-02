@@ -1,0 +1,15 @@
+#ignore all out, o files
+*
+!*.*
+!*/
+*.o
+*.d
+*.out
+.vscode
+launch.json
+settings.json
+*.zip
+!.gitignore
+!Makefile
+!makefile
+
