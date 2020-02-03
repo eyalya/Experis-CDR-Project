@@ -28,7 +28,7 @@ int main()
     {
         acceptor.Run();
     }
-    return 0;    
+    return 0;
 }
 
 
