@@ -194,10 +194,10 @@ END_UNIT
 
 
 UNIT(hash_table_upserts_thread_safely)
-    const size_t capacity = 20;
+    const size_t capacity = 100;
     IntHashSafe table(capacity, HashC);
 
-    const size_t pairs = 10;
+    const size_t pairs = 20;
     const size_t size = 10000;
 
     UpsertHash<int, int, Hasher>(table, pairs, size);
@@ -209,7 +209,6 @@ UNIT(hash_table_upserts_thread_safely)
         ASSERT_EQUAL(data, 0);
     }
     ASSERT_EQUAL(table.Size(), size);
-
 END_UNIT
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -237,9 +236,11 @@ AddSert<Key, Value, Hasher>::AddSert(advcpp::HashTableSafe<Key, Value, Hasher>& 
 template <typename Key, typename Value, typename Hasher>
 void AddSert<Key, Value, Hasher>::Run()
 {
-    for (size_t i=0; i<m_size; ++i)
+    size_t i = 0;
+    while(i < m_size)    
     {
         m_table.Upsert(i, 1, Adder<Key>());
+        ++i;
     }
 }
 
