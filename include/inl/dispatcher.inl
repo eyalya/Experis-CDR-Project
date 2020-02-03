@@ -5,8 +5,9 @@ namespace advcpp
 {
 
 template <typename Runnable>
-Dispatcher<Runnable>::Dispatcher(std::vector<Runnable>& a_receivers)
+Dispatcher<Runnable>::Dispatcher(std::vector<Runnable>& a_receivers, bool& a_switch)
 : m_receivers(a_receivers)
+, m_switch(a_switch)
 {
 }
 
@@ -39,6 +40,12 @@ void Dispatcher<Runnable>::ActivateWorkers()
         }
         throw;
     }
+}
+
+template <typename Runnable>
+void Dispatcher<Runnable>::ShutDown()
+{
+    m_switch = false;
     JoinAll(m_workers);
 }
 

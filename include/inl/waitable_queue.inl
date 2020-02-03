@@ -44,21 +44,18 @@ size_t WaitableQueue<T>::Size() const THROW1(MutexException)
 template <typename T>
 size_t WaitableQueue<T>::Capacity() const NOEXCEPT
 {
-    Guard guard(m_mutex);
     return m_capacity;
 }
 
 template <typename T>
 bool WaitableQueue<T>::IsEmpty() const NOEXCEPT
 {
-    Guard guard(m_mutex);
     return m_queue.size() == 0;
 }
 
 template <typename T>
 bool WaitableQueue<T>::IsFull() const NOEXCEPT
 {
-    Guard guard(m_mutex);
     return m_queue.size() == m_capacity;
 }
 

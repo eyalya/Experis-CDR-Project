@@ -23,7 +23,7 @@ public:
 template <typename T> 
 class CdrRecievers: public Irecievers {
 public:
-    explicit CdrRecievers(WaitableQueue<ISocket*>& a_socketQue, WaitableQueue<T>& a_msgQue);
+    explicit CdrRecievers(WaitableQueue<ISocket*>& a_socketQue, WaitableQueue<T>& a_msgQue, bool& a_switch);
 
     //~CdrRecievers() = default;
     //CdrRecievers(const CdrRecievers<T>& a_rhs) = default;
@@ -37,7 +37,7 @@ private:
 private:
     WaitableQueue<ISocket*>& m_socketQue;
     WaitableQueue<T>& m_msgQue;
-    bool m_switch; 
+    bool& m_switch; 
     ISocket* m_socket;
 };
 

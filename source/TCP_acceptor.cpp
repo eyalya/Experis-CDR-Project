@@ -68,7 +68,6 @@ void TCPAcceptor::Run()
 		{
 			throw;
 		}
-
 		m_queue.Enqueue(newSock);
 	}
 

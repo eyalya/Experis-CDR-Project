@@ -25,10 +25,8 @@ INC_DIRS += ../../../include ../../include ../../include/inl/
 INC_DIRS += ../../../cpp/inc
 
 SOURCES  = ./$(TARGET).cpp
-#SOURCES += $(wildcard ../../source/*.cpp)
+SOURCES += $(wildcard ../../source/*.cpp)
 SOURCES  = ../../source/TCP_acceptor.cpp ../../source/socket.cpp ../../source/condVar.cpp
-
-#SOURCES += ../../src/Text_Transform_src/cap_words.cpp
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 

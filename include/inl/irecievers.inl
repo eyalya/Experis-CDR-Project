@@ -6,19 +6,22 @@ namespace advcpp
 {
     
 template <typename T> 
-CdrRecievers<T>::CdrRecievers(WaitableQueue<ISocket*>& a_socketQue, WaitableQueue<T>& a_msgQue)
+CdrRecievers<T>::CdrRecievers(WaitableQueue<ISocket*>& a_socketQue, WaitableQueue<T>& a_msgQue, bool& a_switch)
 : m_socketQue(a_socketQue)
 , m_msgQue (a_msgQue)
-, m_switch(true)
+, m_switch(a_switch)
 {
 }
 
 template <typename T> 
 void CdrRecievers<T>::Run()
 {
+    std::cout << "wait for socket\n";
     while (m_switch)
     {
+        std::cout << "got socket\n";
         m_socketQue.Dequeue(m_socket);
+        std::cout << "got socket\n";
         ReadMsgs();
     }
 }
@@ -31,6 +34,7 @@ void CdrRecievers<T>::ReadMsgs()
     {
         char* buff = new char[BUFFER_SIZE];
         byte = m_socket->Recv(buff);
+        std::cout << buff <<"\n";
         if (byte <= 0)
         {
             delete[] buff;
