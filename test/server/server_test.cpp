@@ -24,7 +24,6 @@ int main()
 
     advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(vec, switchButton);
     dispatcher.ActivateWorkers();
-    std::cout << "Im hegher\n";
     Acceptor acceptor(LOOPBACK_ADDR, port, queueSocket);
     
     while(true)

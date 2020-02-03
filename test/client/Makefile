@@ -20,15 +20,13 @@ CXXFLAGS += -O0
 
 #INC_DIRS += ../include
 
-INC_DIRS += ../../../include ../../include
+INC_DIRS += ../../../include ../../include ../../include/inl
 
 INC_DIRS += ../../../cpp/inc
 
-#SOURCES  = $(wildcard ../source/*.cpp)
-
-SOURCES += $(wildcard ../../source/*.cpp)
-
-#SOURCES += ../../src/Text_Transform_src/cap_words.cpp
+SOURCES  = ./$(TARGET).cpp
+#SOURCES += $(wildcard ../../source/*.cpp)
+SOURCES  = ../../source/TCP_client.cpp ../../source/socket.cpp ../../source/condVar.cpp
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 
