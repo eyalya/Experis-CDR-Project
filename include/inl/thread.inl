@@ -17,7 +17,7 @@ inline ThreadException::ThreadException(const char* a_msg, ExtendInfo a_xInfo)
 {    
 }
 
-Thread::Thread(IRunnable* a_prun, Policy a_poli) THROW1(ThreadException)
+inline Thread::Thread(IRunnable* a_prun, Policy a_poli) THROW1(ThreadException)
 : m_isJoinable(true)
 , m_policy(a_poli)
 {

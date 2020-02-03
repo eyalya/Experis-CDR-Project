@@ -6,8 +6,6 @@ namespace advcpp
 template <typename DsCont> 
 CdrFactoryWorker<DsCont>::CdrFactoryWorker(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont)
 : m_msgQue(a_msgQue)
-, m_decoder(a_decoder)
-, m_reducer(a_reducer)
 , m_switch(false)
 {
 }
@@ -19,7 +17,7 @@ void CdrFactoryWorker<DsCont>::Run()
     {
         char* msg = ReadMsgs();
         a_reporter.Generate(msg, m_report);
-        DsCont.Insert(m_report);
+        DsCont.DsUpserter(m_report);
         delete[] msg;
     }
 }
