@@ -7,7 +7,6 @@
 
 namespace advcpp{
 
-
 inline IRunnable::~IRunnable()
 {    
 }
