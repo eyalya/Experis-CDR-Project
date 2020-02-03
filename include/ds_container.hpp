@@ -1,28 +1,30 @@
 #ifndef DS_CONTAINER_HPP
 #define DS_CONTAINER_HPP
 
-#include <map>
-typedef std::map Hash
+#include <vector>
+
+#include "i_record.hpp"
+
 
 namespace advcpp 
 {
 
-template <typename T> 
+template <typename Cont> 
 class DsContainer {
 public:
-    explicit DsContainer();
+    explicit DsContainer(std::vector<Cont>& a_conts);
 
-    //~Class() = default;
-    //Class(const Class<T>& a_rhs) = default;
-    //Class& operator = (const Class<T> a_rhs) = default;
+    //~DsContainer() = default;
+    //DsContainer(const DsContainer<T>& a_rhs) = default;
+    //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
-    DsUpserter();
+    void DsUpserter(IRecord* a_record);
 
 private:
-    T m_mmb;
+    std::vector<Cont>& m_conts; 
 };
 
 } //namespace advcpp 
 
-// #include "class.inl"
+#include "ds_container.inl"
 #endif //DS_CONTAINER_HPP
