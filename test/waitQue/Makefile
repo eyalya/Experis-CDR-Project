@@ -18,21 +18,21 @@ LDFLAGS += -pthread
 
 # LDLIBS += 
 
-#INC_DIRS += ../include
+#INC_DIRS += ../../include/inl
 
 INC_DIRS += ../../../include ../../include
 
-INC_DIRS += ../../../cpp/inc
+#INC_DIRS += ../../../advcpp/include
 
 #SOURCES  = $(wildcard ../source/*.cpp)
 
-SOURCES += $(wildcard ../../src/*.cpp)
+SOURCES += ../../source/condVar.cpp 
 
-#SOURCES += ../../src/Text_Transform_src/cap_words.cpp
+#SOURCES += ../../source/condVar.cpp 
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 
-TARGET = hashSafeTest
+TARGET = waitableQueueTest
 
 .PHONY: clean test all val
 

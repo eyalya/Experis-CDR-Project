@@ -3,10 +3,9 @@
 
 #include <utility> //pair
 #include <algorithm> //find
-//#include <deque>
 #include <vector>
 #include <list>
-#include <cmath> //fmod
+#include <cmath> //fmod, ceil
 #include <cassert>
 #include "hash_table_safe.hpp"
 #include "numbers.hpp" //NextPrime
@@ -38,9 +37,8 @@ HashTableSafe<Key, Value, HashFunc>::~HashTableSafe()
 
 size_t MutexSize(size_t a_size)
 {
-	size_t size = fmod(a_size, numbers::GOLDEN_RATIO) + 1;
-
-	return numbers::NextPrime(size);
+	size_t size = a_size / numbers::GOLDEN_RATIO;    
+    return size;
 }
 
 template <typename Key, typename Value, typename HashFunc>
@@ -52,11 +50,11 @@ size_t HashTableSafe<Key, Value, HashFunc>::MutexIndex(Key const& a_key) const
 template <typename Key, typename Value, typename HashFunc>
 bool HashTableSafe<Key, Value, HashFunc>::Find(Key const& a_key, Value& a_value)
 {
-	size_t index = HashIndex(a_key);
-	Bucket<Key, Value>& bucket = this->at(index);
     
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
+        size_t index = HashIndex(a_key);
+        Bucket<Key, Value>& bucket = this->at(index);
 	    typename Bucket<Key, Value>::iterator found = bucket.Find(a_key);
 
         if (found != bucket.End())
@@ -71,17 +69,19 @@ bool HashTableSafe<Key, Value, HashFunc>::Find(Key const& a_key, Value& a_value)
 template <typename Key, typename Value, typename HashFunc>
 bool HashTableSafe<Key, Value, HashFunc>::Insert(Key const& a_key, Value const& a_value)
 {
-    size_t index = HashIndex(a_key);
-    Bucket<Key, Value>& bucket = this->at(index);
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
+        size_t index = HashIndex(a_key);
+        Bucket<Key, Value>& bucket = this->at(index);
         typename Bucket<Key, Value>::iterator found = bucket.Find(a_key);        
             
+        // found -> return
         if (found != bucket.End())
         {
             return false;
         }        
         
+        // not found -> insert
         Pair pair(a_key, a_value);
         typename Bucket<Key, Value>::iterator inserted = bucket.Insert(pair);
         assert(inserted != bucket.End());
@@ -95,20 +95,20 @@ template <typename Key, typename Value, typename HashFunc> //TODO: insert Update
 template <typename Update>
 bool HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& a_value, Update a_update)
 {
-    size_t index = HashIndex(a_key);    
-    Bucket<Key, Value>& bucket = this->at(index);
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
+        size_t index = HashIndex(a_key);
+        Bucket<Key, Value>& bucket = this->at(index);
         typename Bucket<Key, Value>::iterator found = bucket.Find(a_key);
 
-        //not found - do insert -> false
+        //found - do update -> true
         if (found != bucket.End())
         {
             a_update(found->second, a_value);
             return true;
         }
         
-        //found - do update -> true
+        //not found - do insert -> false
         Pair pair(a_key, a_value);
         typename Bucket<Key, Value>::iterator inserted = bucket.Insert(pair);
         assert(inserted != bucket.End());
@@ -121,11 +121,11 @@ template <typename Key, typename Value, typename HashFunc>
 bool HashTableSafe<Key, Value, HashFunc>::Remove(Key const& a_key, Value& a_value)
 {
 	
-    size_t index = HashIndex(a_key);    
-    Bucket<Key, Value>& bucket = this->at(index);
-    typename Bucket<Key, Value>::iterator found;
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
+        size_t index = HashIndex(a_key);    
+        Bucket<Key, Value>& bucket = this->at(index);
+        typename Bucket<Key, Value>::iterator found;
         found = bucket.Find(a_key);
 	
         if (found == bucket.End())
@@ -201,7 +201,7 @@ size_t HashTableSafe<Key, Value, HashFunc>::LoadFactor() const
 template <typename Key, typename Value, typename HashFunc>
 size_t HashTableSafe<Key, Value, HashFunc>::HashIndex(Key const& a_key) const
 {
-   return m_hushFunc(a_key) % Capacity();
+    return m_hushFunc(a_key) % m_capacity;
 }
 
 template <typename Key, typename Value, typename HashFunc>
@@ -241,7 +241,7 @@ LockAll<Key, Value, HashFunc>::~LockAll() NOEXCEPT
         }
         catch(...)
         {
-            throw;        
+            throw;
         }    
     }
 }
