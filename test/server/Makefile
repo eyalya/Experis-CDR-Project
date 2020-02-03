@@ -39,7 +39,7 @@ all:  $(TARGET)
 test: $(TARGET)
 	./$(TARGET) -v
 
-$(TARGET): $(OBJECTS) -lpthred
+$(TARGET): $(OBJECTS) -lpthread
 
 clean:
 

@@ -4,9 +4,11 @@ namespace advcpp
 {
 
 template <typename DsCont> 
-CdrFactoryWorker<DsCont>::CdrFactoryWorker(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont)
+CdrFactoryWorker<DsCont>::CdrFactoryWorker(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, bool& a_switch)
 : m_msgQue(a_msgQue)
-, m_switch(false)
+, m_recorder (a_recorder)
+, m_dsCont(a_dsCont)
+, m_switch(a_switch)
 {
 }
 
@@ -16,7 +18,7 @@ void CdrFactoryWorker<DsCont>::Run()
     while (m_switch)
     {
         char* msg = ReadMsgs();
-        a_reporter.Generate(msg, m_report);
+        m_reporter.Generate(msg, m_report);
         DsCont.DsUpserter(m_report);
         delete[] msg;
     }

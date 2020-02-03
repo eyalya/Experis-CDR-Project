@@ -13,7 +13,7 @@ namespace advcpp
 template <typename DsCont> 
 class CdrFactoryWorker: public IRunnable {
 public:
-    explicit CdrFactoryWorker(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont);
+    explicit CdrFactoryWorker(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, bool& a_switch);
 
     //~CdrRecievers() = default;
     //CdrRecievers(const CdrRecievers<T>& a_rhs) = default;
@@ -27,8 +27,9 @@ private:
 private:
     WaitableQueue<char*>& m_msgQue;
     IRecorder& m_recorder;
-    bool m_switch; 
-    IRecord & m_record;
+    DsCont& m_dsCont;
+    bool& m_switch; 
+    IRecord m_record;
 };
 
 } //namespace advcpp 
