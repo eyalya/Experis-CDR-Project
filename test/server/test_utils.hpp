@@ -29,7 +29,6 @@ void UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue
     }
 }
 
-template <typename DsCont> 
 class AcceptorThread: public IRunnable {
 public:
     explicit AcceptorThread(IAcceptor* a_acceptor) :m_acceptor(a_acceptor) {};

@@ -9,6 +9,8 @@
 namespace advcpp 
 {
 
+//TODO: irecorder need to get t template
+
 template <typename T> 
 class IRecorder {
 public:
@@ -22,6 +24,7 @@ public:
     virtual void Generate(char * src, Record& a_record) = 0;
 };
 
+//TODO: change src to T from char*
 template <typename T> 
 class RecordAggregator: public IRecorder<T> 
 {

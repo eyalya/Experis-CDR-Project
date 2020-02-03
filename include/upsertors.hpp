@@ -3,7 +3,6 @@
 
 #include "thread.hpp"
 #include "waitable_queue.hpp"
-#include "irunnable.hpp"
 #include "irecorder.hpp"
 #include "i_record.hpp"
 
@@ -13,7 +12,7 @@ namespace advcpp
 template <typename DsCont> 
 class Upsertors: public IRunnable {
 public:
-    explicit Upsertors(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, bool& a_switch);
+    explicit Upsertors(WaitableQueue<char*>& a_msgQue, IRecorder<char*>& a_recorder, DsCont& a_dsCont, bool& a_switch);
 
     //~Upsertors() = default;
     //Upsertors(const Upsertors<T>& a_rhs) = default;
@@ -26,10 +25,10 @@ private:
 
 private:
     WaitableQueue<char*>& m_msgQue;
-    IRecorder& m_recorder;
+    IRecorder<char*>& m_recorder;
     DsCont& m_dsCont;
     bool& m_switch; 
-    IRecord m_record;
+    RecordAggregator m_record;
 };
 
 } //namespace advcpp 

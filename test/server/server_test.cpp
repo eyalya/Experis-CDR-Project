@@ -4,6 +4,11 @@
 #include "dispatcher.hpp"
 #include "ds_container.hpp"
 #include "hash_table_safe.hpp"
+#include "upsertors.hpp"
+#include "irecorder.hpp"
+#include "cdr_decoder.hpp"
+#include "reducer.hpp"
+#include "test_utils.hpp"
 
 typedef size_t (*Hasher)(size_t a_key);
 
@@ -11,8 +16,11 @@ typedef advcpp::WaitableQueue<advcpp::ISocket*> WQSocket;
 typedef advcpp::WaitableQueue<char *> WQMsg;
 typedef advcpp::CdrRecievers<char*> Receivers;
 typedef std::vector<advcpp::Irecievers*> RecieversVec;
+
 typedef advcpp::TCPAcceptor Acceptor;
 typedef typename advcpp::HashTableSafe<int, int, Hasher> IntHashSafe;
+typedef advcpp::DsContainer<IntHashSafe> HashConts;
+typedef advcpp::Upsertors< HashConts > HashUpsertors;
 
 
 static const char* LOOPBACK_ADDR = "127.0.0.1";
@@ -27,22 +35,29 @@ int main()
     WQSocket queueSocket;
     WQMsg queReceivers(10);
 
+    std::vector<IntHashSafe> hashVec;
+    HashConts dsCont(hashVec);
+
     RecieversVec msgRecievers;
-    Receivers cdrRceiever(queueSocket, queReceivers, switchButton);
-
-    DsContainer<HashTableSafe> dsCont;
-
+    //Receivers cdrRceiever(queueSocket, queReceivers, switchButton);
     ReciversCreate (msgRecievers, queueSocket, queReceivers, switchButton, nRecivers);
-    UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, switchButton, nUpsertors)
+
+    // std::vector<advcpp::IReducing* > reducingVec;
+    // reducingVec.push_back (advcpp::MCOReducing())
+    // advcpp::Reducer reducer
+    // advcpp::RecordAggregator<char*> recorder();
+
+    // HashUpsertors upsertors(queReceivers, IRecorder& a_recorder, dsCont, switchButton));
+    // UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, switchButton, nUpsertors)
 
     advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(vec, switchButton);
     dispatcher.ActivateWorkers();
+
     Acceptor acceptor(LOOPBACK_ADDR, port, queueSocket);
-    
-    while(true)
-    {
-        acceptor.Run();
-    }
+    AcceptorThread acceptorActivator;
+    advcpp::Thread acceptorThread(acceptorActivator)
+
+
     return 0;
 }
 
