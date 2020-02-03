@@ -3,6 +3,8 @@
 
 //TODO: pesuod need to replace
 #include "record.hpp"
+#include "cdr_decoder.hpp"
+#include "reducer.hpp"
 
 namespace advcpp 
 {
@@ -24,14 +26,17 @@ template <typename T>
 class RecordAggregator: public IRecorder<T> 
 {
 public:
-    explicit RecordAggregator();
+    explicit RecordAggregator(CdrDecoder & a_decoder, Reducer & a_reducer);
 
     //~RecordAggregator() = default;
     //RecordAggregator(const RecordAggregator<T>& a_rhs) = default;
     //RecordAggregator& operator = (const RecordAggregator<T> a_rhs) = default;
 
     virtual void Generate(char * src, Record& a_record);
-    
+
+private:
+    CdrDecoder & m_decoder; 
+    Reducer & m_reducer;
 };
 
 
