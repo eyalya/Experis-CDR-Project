@@ -14,10 +14,11 @@ RecordAggregator<T>::RecordAggregator()
 template <typename T> 
 void RecordAggregator<T>::Generate(char * src, Record& a_record)
 {
-    protocol::MOC moc;
-    DecodeMoc(moc, src);
-    Reducer reducer(moc);
-    reducer.Reduce(a_record);
+    protocol::Message msg;
+    DecodeMoc(msg, src);
+    (void)a_record;
+    // Reducer reducer(Message);
+    // reducer.Reduce(a_record);
 }
 
 

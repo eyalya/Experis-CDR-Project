@@ -1,16 +1,40 @@
 #include <cstdio>
 #include "cdr_decoder.hpp"
-#include "protocol.hpp"
+
 #include <cstring>
 
 namespace advcpp
 {
 
+template <typename T>
+T DecodeT(char * a_src, int a_len);
 size_t DecodeCdr(protocol::CDR & a_cdr, char * a_src);
 size_t DecodeOperator(protocol::Operator & a_op, char * a_src);
 size_t DecodeTime(protocol::Time & a_time, char * a_src);
 size_t DecodeParty(protocol::Party & a_party, char * a_src);
 size_t DecodeDate(protocol::Date & a_date, char * a_src);
+size_t DecodeMoc(protocol::Message & a_moc, char * a_src);
+
+inline IDecodeMassge::~IDecodeMassge()
+{
+}
+
+
+inline void DecodeMCO::Decode(char * a_src, protocol::Message & a_message)
+{
+    DecodeMoc(a_message, a_src);
+}
+
+inline CdrDecoder::CdrDecoder(std::vector<IDecodeMassge *> & a_decoders)
+: m_decoders(a_decoders)
+{ 
+}
+
+inline void CdrDecoder::Decode(char * a_src, protocol::Message & a_message)
+{
+    uchar index = DecodeT<uchar>(&(a_src[0]), sizeof(uchar));
+    m_decoders[index] -> Decode(a_src, a_message);
+}
 
 
 template <typename T>
@@ -22,7 +46,7 @@ T DecodeT(char * a_src, int a_len)
     return newType;
 }
 
-inline size_t DecodeMoc(protocol::MOC & a_moc, char * a_src)
+inline size_t DecodeMoc(protocol::Message & a_moc, char * a_src)
 {
     size_t loc = 0; 
     a_moc.m_type = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));

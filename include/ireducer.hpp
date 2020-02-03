@@ -2,6 +2,8 @@
 #define I_REDUCER_H
 
 #include "record.hpp"
+#include "protocol.hpp"
+#include "record.hpp"
 
 namespace advcpp
 {
@@ -11,7 +13,7 @@ class IReducer
 public:
     virtual ~IReducer() = 0;
 
-    virtual void Reduce(Record & a_record) = 0;
+    virtual void Reduce(const protocol::Message & a_message, Record & a_record) = 0;
 
 };
 
