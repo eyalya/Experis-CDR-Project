@@ -11,7 +11,7 @@ namespace advcpp
 template <typename Runnable>
 class CdrFactory: public Dispatcher {
 public:
-    explicit CdrFactory(std::vector<Runnable>& a_cdrMakers);
+    explicit CdrFactory(std::vector<Runnable>& a_upsertors);
 
     //~CdrFactory() = default;
     //CdrFactory(const CdrFactory<T>& a_rhs) = delete;

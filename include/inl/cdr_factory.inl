@@ -4,7 +4,7 @@ namespace advcpp
 {
 
 template <typename Runnable>
-CdrFactory::CdrFactory(std::vector<Runnable>& a_cdrMakers)
+CdrFactory<Runnable>::CdrFactory(std::vector<Runnable>& a_upsertors)
 : Dispatcher(a_cdrMakers)
 {
 }
