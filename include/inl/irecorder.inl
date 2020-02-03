@@ -7,17 +7,18 @@ namespace advcpp
 {
 
 template <typename T> 
-RecordAggregator<T>::RecordAggregator()
+RecordAggregator<T>::RecordAggregator(CdrDecoder & a_decoder, Reducer & a_reducer)
+: m_decoder(a_decoder)
+, m_reducer(a_reducer)
 {
 }
 
 template <typename T> 
 void RecordAggregator<T>::Generate(char * src, Record& a_record)
 {
-    protocol::MOC moc;
-    DecodeMoc(moc, src);
-    Reducer reducer(moc);
-    reducer.Reduce(a_record);
+    protocol::Message msg;
+    m_decoder.Decode(src, msg);
+    m_reducer.Reduce(msg, a_record);
 }
 
 
