@@ -44,7 +44,6 @@ private:
     IAcceptor* m_acceptor;
 };
 
-class ServerRun
 
 
 } //namespace advcpp
