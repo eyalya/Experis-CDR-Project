@@ -5,6 +5,7 @@
 
 #include "irecievers.hpp"
 #include "upsertors.hpp"
+#include "TCP_acceptor.hpp"
 
 namespace advcpp
 {
@@ -28,7 +29,20 @@ void UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue
     }
 }
 
+template <typename DsCont> 
+class AcceptorThread: public IRunnable {
+public:
+    explicit AcceptorThread(IAcceptor* a_acceptor) :m_acceptor(a_acceptor) {};
 
+    //~AcceptorThread() = default;
+    //AcceptorThread(const AcceptorThread<T>& a_rhs) = default;
+    //AcceptorThread& operator = (const AcceptorThread<T> a_rhs) = default;
+
+    void Run() { m_acceptor.Run(); };
+
+private:
+    IAcceptor* m_acceptor;
+};
 
 class ServerRun
 
