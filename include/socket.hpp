@@ -18,8 +18,8 @@ public:
 
 class ISocket
 {
-public:
-    //virtual ISocket() = default;
+public:    
+    ISocket() {};
     virtual ~ISocket() = 0;
 
 private:
@@ -27,35 +27,39 @@ private:
     ISocket& operator=(ISocket const&);
 
 public:
-    virtual void Connect(const char* a_address, int a_port) = 0;
-    virtual void Bind(int a_port) = 0;
-    virtual void Listen() = 0;
-    virtual void Accept() = 0;
+    virtual void Connect() = 0;
+
+    virtual void Bind() = 0;
+    virtual void Listen(int a_backLog) = 0;
+    virtual ISocket* Accept() = 0;
     virtual void Reuse() = 0;
     virtual void NoBlock() = 0;
     virtual size_t Recv(char* a_msg) = 0;
     virtual void Send(const char* a_msg) = 0;
     virtual void Close() = 0;
+    
     virtual int Sock() const = 0;
 };
 
 
-class Socket : private Uncopyable
+class Socket : public ISocket
 {
 public:
     Socket(const char* a_ip, int a_port, int a_domain = AF_INET, int a_type = SOCK_STREAM, int a_protocol = 0);
     explicit Socket(long a_socket) NOEXCEPT;
-    ~Socket() NOEXCEPT;
+    virtual ~Socket() NOEXCEPT;
 
     virtual void Connect();
+
     virtual void Bind();
     virtual void Listen(int a_backLog);
-    virtual void Accept();
+    virtual ISocket* Accept();
     virtual void Reuse();
     virtual void NoBlock();
     virtual size_t Recv(char* a_msg);
     virtual void Send(const char* a_msg);
     virtual void Close();
+    
     virtual int Sock() const;
 
 private:

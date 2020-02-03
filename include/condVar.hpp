@@ -1,39 +1,32 @@
-#ifndef COND_VAR_H
-#define COND_VAR_H
+#ifndef CONDVAR_HPP
+#define CONDVAR_HPP
+#include "mutex.hpp"
+namespace advcpp{
 
-#include "common.hpp"
-#include "enriched_exeptions.hpp" // EnrichedExeption
-#include "locks.hpp" //mutexs
+static const size_t INIT_RETRIES = 4;
 
-namespace advcpp
+class CondVarException : public ExtendedException
 {
-
-class VCException: public EnrichedExeption {
 public:
-    explicit VCException (InfoException a_info, const char* a_msg = "Vc Failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
+    explicit CondVarException(const char* a_msg, ExtendInfo a_xInfo);
 };
 
-class CondVar: public UnCopiable {
+class CondVar : private Uncopyable
+{
 public:
-    explicit CondVar(Mutex& a_mutex) THROW1(VCException);
+    CondVar() THROW1(CondVarException);
     ~CondVar() NOEXCEPT;
-    //CondVar(const CondVar<T>& a_rhs) = deleted;
-    //CondVar& operator = (const CondVar<T> a_rhs)  = deleted;
 
-    template <typename Predicate>
-    void Wait(Predicate const& a_pred) NOEXCEPT;
-    void Notify() NOEXCEPT;
-    void NotifyAll() NOEXCEPT;    
+    template <typename Pred>
+    void Wait(Mutex& a_mutex, Pred a_pred) THROW1(CondVarException);
+    void Notify() THROW1(CondVarException);
+    void NotifyAll() THROW1(CondVarException);
+    
 private:
-    Mutex& m_mutex;
-    pthread_cond_t m_vc;
+    pthread_cond_t m_cv;
 };
 
+}//namespace advcpp
 
-} // namespace advcpp
-
-#include "condVar.inl"
-
-#endif //COND_VAR_H
+#include "inl/condVar.inl"
+#endif //CONDVAR_HPP

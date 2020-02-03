@@ -1,80 +1,76 @@
-#ifndef WAITABLE_QUEUE_H
-#define WAITABLE_QUEUE_H
-
-#include <queue> //queue
-
+#ifndef WAITABLE_QUEUE_HPP
+#define WAITABLE_QUEUE_HPP
+#include <queue>
 #include "common.hpp"
-#include "enriched_exeptions.hpp" // EnrichedExeption
-#include "locks.hpp" //mutexs
-#include "condVar.hpp" //CondVar
+#include "mutex.hpp"
+#include "condVar.hpp"
 
-namespace advcpp
+namespace advcpp{
+
+static const size_t DEFAULT_CAPACITY = 64;
+
+template <typename T>
+class WaitableQueue : private Uncopyable
 {
-
-class WaitableQueueException: public EnrichedExeption {
 public:
-    explicit WaitableQueueException (InfoException a_info, const char* a_msg = "Vc Failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
-};
+    explicit WaitableQueue(size_t a_capacity = DEFAULT_CAPACITY) THROW2(MutexException, CondVarException);
+    //~WaitableQueue() NOEXCEPT = default;
 
-template <typename T>
-class PredicateEmpty;
-template <typename T>
-class PredicateFull;
+    void Enqueue(T const& a_data) THROW2(MutexException, CondVarException);
+    void Dequeue(T& a_data);
 
-template <typename T>
-class WaitableQueue: public UnCopiable {
-public:
-    explicit WaitableQueue(size_t a_capapcity);
-    
-    //~WaitableQueue() = default;
-
-    //WaitableQueue(const WaitableQueue<T>& a_rhs) = deleted;
-    //WaitableQueue& operator = (const WaitableQueue<T> a_rhs)  = deleted;
-    
-    void Enqueue(T const& a_val);
-    void Dequeue(T& a_result);
+    size_t Size() const THROW1(MutexException);
+    size_t Capacity() const NOEXCEPT;
 
     template <typename U>
-    friend class PredicateEmpty;
+    friend class IsQEmpty;
+
     template <typename U>
-    friend class PredicateFull;
-    bool IsEmpty() const;
+    friend class IsQFull;
 
 private:
-    bool isEmpty() const;
-    bool isFull() const;
-    
+    bool IsFull() const NOEXCEPT;
+    bool IsEmpty() const NOEXCEPT;
+
 private:
-    std::queue<T> m_que;
-    mutable Mutex m_lock;
-    CondVar m_conitionalVariable;
-    size_t m_capacity;
+    std::queue<T> m_queue;
+    CondVar m_cv;
+    mutable Mutex m_mutex; 
+    const size_t m_capacity;
 };
 
 template <typename T>
-class PredicateEmpty {
+class IsQEmpty
+{
 public:
-    PredicateEmpty(WaitableQueue<T> const& a_que);
-    bool operator () () const;
+    explicit IsQEmpty(WaitableQueue<T>& a_queue);
+    //~IsEmpty() = default;
+    //IsEmpty(IsEmpty const&) = default;
+    //IsEmpty& operator=(IsEmpty const&) = default;
+
+    bool operator()();
 
 private:
-    WaitableQueue<T> const& m_que;
+    WaitableQueue<T> const& m_queue;
 };
 
 template <typename T>
-class PredicateFull {
+class IsQFull
+{
 public:
-    PredicateFull(WaitableQueue<T> const& a_que);
-    bool operator () () const;
+    explicit IsQFull(WaitableQueue<T>& a_queue);
+   //~IsFull() = default;
+    //IsFull(IsFull const&) = default;
+    //IsFull& operator=(IsFull const&) = default;
+
+    bool operator()();
 
 private:
-    WaitableQueue<T>const & m_que;
+    WaitableQueue<T> const& m_queue;    
 };
 
+} //namespace advcpp
 
-} // namespace advcpp
+#include "inl/waitable_queue.inl"
 
-#include "waitable_queue.inl"
-#endif //WAITABLE_QUEUE_H
+#endif //WAITABLE_QUEUE_HPP

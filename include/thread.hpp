@@ -1,83 +1,57 @@
-#ifndef THREAD_HPP
-#define THREAD_HPP
-
+#ifndef THREAD_H
+#define THREAD_H
 #include <pthread.h>
-#include <vector>
-
-#include "irunnable.hpp"
 #include "common.hpp"
-#include "enriched_exeptions.hpp"
-#include "timer.hpp"
 
-namespace advcpp
+namespace advcpp{
+
+
+class IRunnable : private Uncopyable
 {
-
-class ThreadCreateException: public EnrichedExeption {
 public:
-    explicit ThreadCreateException (InfoException a_info, const char* a_msg = "thread create failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
+    virtual ~IRunnable() = 0;
+    virtual void Run() = 0;
 };
 
-class ThreadDetachedException: public EnrichedExeption {
-public:
-    explicit ThreadDetachedException (InfoException a_info, const char* a_msg = "thread detahced failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
+enum Policy
+{
+    TERMINATE,
+    JOIN
 };
 
-class ThreadJoinException: public EnrichedExeption {
+class ThreadException : public ExtendedException
+{
 public:
-    explicit ThreadJoinException (InfoException a_info, const char* a_msg = "thread join failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
+    explicit ThreadException(const char* a_msg, ExtendInfo a_xInfo);
 };
 
-class ThreadTimeoutException: public EnrichedExeption {
+class Thread : private Uncopyable
+{
 public:
-    explicit ThreadTimeoutException (InfoException a_info, const char* a_msg = "thread join failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
-};
+    Thread(IRunnable *a_prun, Policy a_poli = TERMINATE) THROW1(ThreadException);
+    ~Thread();    
 
-class ThreadUnValidSignalException: public EnrichedExeption {
-public:
-    explicit ThreadUnValidSignalException (InfoException a_info, const char* a_msg = "thread join failed")
-    : EnrichedExeption(a_msg, a_info) 
-    {};
-};
-
-class Thread: private UnCopiable {
-public: 
-    explicit Thread(IRunnable* a_prun) THROW1(ThreadCreateException);
-
-    ~Thread() NOEXCEPT;
-
-    bool IsJoinable() NOEXCEPT;
-    void Detach() NOEXCEPT;    
-    void Join() THROW1(ThreadJoinException);
-    void TryJoin(Nano a_timeout)  THROW1(ThreadTimeoutException);
-
-    void Cancel() NOEXCEPT;
-    void Kill(int a_signal) THROW1(ThreadUnValidSignalException);
-
-    static void Yield() NOEXCEPT;
-    static void Exit(void* a_retval = 0);
-
-private:
-    static void* thunk(void* a_pctx) NOEXCEPT;
-
-    bool& joinable();
-    bool const& joinable() const;
-    pthread_t& getThread();
-    pthread_t const& getThread() const;
+    void Detach() THROW1(ThreadException);
+    void Join() THROW1(ThreadException);
+    void TryJoin(timespec a_timeOut) THROW1(ThreadException);
+    void Cancel()THROW1(ThreadException);
+    void Kill() THROW1(ThreadException); 
     
+    static void Yield() THROW1(ThreadException);
+    static void Exit(void* a_retVal = 0) NOEXCEPT;
+
 private:
-    bool m_joinable;
+    static void* Thunk(void* a_pctx) NOEXCEPT;
+
+private:
     pthread_t m_thread;
+    bool m_isJoinable;
+    Policy m_policy;
 };
 
-} //namespace advcpp
 
-#include "thread.inl"
-#endif //THREAD_HPP
+}//namespace advcpp
+
+#include "inl/thread.inl"
+
+#endif //THREAD_H

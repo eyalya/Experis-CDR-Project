@@ -16,7 +16,7 @@ ISocket::~ISocket()
 }
 
 Socket::Socket(const char* a_ip, int a_port, int a_domain, int a_type, int a_protocol)
-: m_socket(socket(a_domain, a_type, a_protocol))
+: m_socket(static_cast<long>(socket(a_domain, a_type, a_protocol)))
 , m_ip(a_ip)
 , m_port(a_port)
 {
@@ -97,7 +97,7 @@ void Socket::Reuse()
 
     if (res == ERROR)
     {
-        std::cerr << "connect failed\n";
+        std::cerr << "setsockopt (reuse) failed\n";
         throw SocketException(numbers::Itoa(errno), ExtendInfo(XINFO));
     }
 }
@@ -114,7 +114,6 @@ size_t Socket::Recv(char* a_buff)
     return readBytes;
 }
 
-//TODO: return here
 void Socket::Send(const char* a_msg)
 {
     size_t len = strlen(a_msg);
@@ -127,8 +126,25 @@ void Socket::Send(const char* a_msg)
 	}        
 }
 
-void Socket::Accept()
-{    
+ISocket* Socket::Accept()
+{
+    struct sockaddr_in sin;	
+    unsigned int addrLen;  
+
+	memset(&sin, 0, sizeof(sin));
+	sin.sin_family = AF_INET;
+	sin.sin_addr.s_addr = inet_addr(m_ip.c_str());
+	sin.sin_port = htons(m_port);
+
+    long newSock = accept(m_socket, (sockaddr*)&sin, &addrLen);
+
+    if (newSock == ERROR)
+    {
+        std::cerr << "accept failed\n";
+        throw SocketException(numbers::Itoa(errno), ExtendInfo(XINFO));
+    }
+
+    return new Socket(newSock);
 }
 
 void Socket::NoBlock()
@@ -136,7 +152,8 @@ void Socket::NoBlock()
 }
 
 void Socket::Close()
-{    
+{
+    close(m_socket);
 }
 
 } //namespace advcpp
