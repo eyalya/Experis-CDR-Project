@@ -3,7 +3,7 @@
 
 #include "waitable_queue.hpp"
 #include "socket.hpp"
-#include "irunnable.hpp"
+#include "thread.hpp"
 
 namespace advcpp 
 {

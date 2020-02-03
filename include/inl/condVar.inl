@@ -5,7 +5,6 @@
 #include "numbers.hpp"
 namespace advcpp{
 
-
 inline CondVarException::CondVarException(const char* a_msg, ExtendInfo a_xInfo)
 : ExtendedException(a_msg, a_xInfo)
 {    

@@ -1,87 +1,90 @@
-#include "waitable_queue.hpp"
-#include "locks.hpp"
-
-namespace advcpp
-{
+#ifndef WAITABLE_QUEUE_INL
+#define WAITABLE_QUEUE_INL
+namespace advcpp{
 
 template <typename T>
-WaitableQueue<T>::WaitableQueue(size_t a_capapcity)
-: m_que()
-, m_lock()
-, m_conitionalVariable(m_lock)
-, m_capacity(a_capapcity)
+WaitableQueue<T>::WaitableQueue(size_t a_capacity) THROW2(MutexException, CondVarException)
+: m_capacity(a_capacity)
 {
-    assert(m_que.empty());
 }
 
 template <typename T>
-void WaitableQueue<T>::Enqueue(T const& a_val)
+void WaitableQueue<T>::Enqueue(T const& a_data) THROW2(MutexException, CondVarException)
 {
     {
-        Guard guard(m_lock);
-        
-        m_conitionalVariable.Wait(PredicateFull<T>(*this));
-        
-        m_que.push(a_val);
+        Guard guard(m_mutex);    
+        m_cv.Wait(m_mutex, IsQFull<T>(*this));
+        m_queue.push(a_data);
     }
-    m_conitionalVariable.Notify();
+    m_cv.Notify();
 }
 
 template <typename T>
-void WaitableQueue<T>::Dequeue(T& a_result)
+void WaitableQueue<T>::Dequeue(T& a_data)
 {
     {
-        Guard guard(m_lock);
-
-        m_conitionalVariable.Wait(PredicateEmpty<T>(*this));
-        
-        a_result = m_que.front();    
-        m_que.pop();
+        Guard guard(m_mutex);
+        m_cv.Wait(m_mutex,IsQEmpty<T>(*this));
+        a_data = m_queue.front();
+        m_queue.pop();
     }
-    m_conitionalVariable.Notify();
+    m_cv.Notify();    
 }
 
 template <typename T>
-bool WaitableQueue<T>::IsEmpty() const
+size_t WaitableQueue<T>::Size() const THROW1(MutexException)
 {
-    Guard guard(m_lock);
-    return m_que.empty();
+    m_mutex.Lock();
+    size_t size = m_queue.size();
+    m_mutex.Unlock();
+
+    return size;
 }
 
 template <typename T>
-bool WaitableQueue<T>::isEmpty() const
+size_t WaitableQueue<T>::Capacity() const NOEXCEPT
 {
-    return m_que.empty();
+    Guard guard(m_mutex);
+    return m_capacity;
 }
 
 template <typename T>
-bool WaitableQueue<T>::isFull() const
+bool WaitableQueue<T>::IsEmpty() const NOEXCEPT
 {
-    return m_que.size() == m_capacity;
+    Guard guard(m_mutex);
+    return m_queue.size() == 0;
 }
 
 template <typename T>
-PredicateEmpty<T>::PredicateEmpty(WaitableQueue<T> const& a_que)
-:m_que(a_que)
-{ 
+bool WaitableQueue<T>::IsFull() const NOEXCEPT
+{
+    Guard guard(m_mutex);
+    return m_queue.size() == m_capacity;
 }
 
 template <typename T>
-bool PredicateEmpty<T>::operator () () const
-{ 
-    return m_que.isEmpty(); 
+IsQEmpty<T>::IsQEmpty(WaitableQueue<T>& a_queue)
+: m_queue(a_queue)
+{
 }
 
 template <typename T>
-PredicateFull<T>::PredicateFull(WaitableQueue<T> const& a_que)
-:m_que(a_que)
-{ }
-
-template <typename T>
-bool PredicateFull<T>::operator () () const
-{ 
-    return m_que.isFull(); 
+bool IsQEmpty<T>::operator()()
+{
+    return m_queue.IsEmpty();
 }
 
-} //namespace advcpp
+template <typename T>
+IsQFull<T>::IsQFull(WaitableQueue<T>& a_queue)
+: m_queue(a_queue)
+{
+}
 
+template <typename T>
+bool IsQFull<T>::operator()()
+{
+    return m_queue.IsFull();
+}
+
+}//namespace advcpp
+#endif //WAITABLE_QUEUE_INL
