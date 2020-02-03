@@ -5,20 +5,20 @@ namespace advcpp
 {
 
 template <typename Runnable>
-Dispatcher<Runnable>::Dispatcher(std::vector<Runnable>& a_runnable)
-: m_runnable(a_runnable)
+Dispatcher<Runnable>::Dispatcher(std::vector<Runnable>& a_receivers)
+: m_receivers(a_receivers)
 {
 }
 
 template <typename Runnable>
 void Dispatcher<Runnable>::WorkersInit()
 {
-    const size_t size = m_runnable.size();
+    const size_t size = m_receivers.size();
     m_workers.reserve(size);
 
     for (size_t i = 0; i < size; ++i)
     {
-        m_workers.push_back(new Thread (m_runnable[i]));
+        m_workers.push_back(new Thread (m_receivers[i]));
     }
 }
 

@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef UTIL_HPP
+#define UTIL_HPP
 
 #include <iostream>
 #include <cstdlib>
@@ -214,4 +214,4 @@ namespace exceptions
 }
 
 } // namespace advcpp
-#endif
+#endif //UTIL_HPP

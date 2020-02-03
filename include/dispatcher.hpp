@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "thread.hpp"
-#include "socket.hpp"
 #include "irecievers.hpp"
 
 namespace advcpp 
@@ -13,7 +12,7 @@ namespace advcpp
 template <typename Runnable>
 class Dispatcher {
 public:
-    explicit Dispatcher(std::vector<Runnable>& a_runnable);
+    explicit Dispatcher(std::vector<Runnable>& a_receivers);
 
     //~Dispatcher() = default;
     //Dispatcher(const Dispatcher<T>& a_rhs) = default;
@@ -25,7 +24,7 @@ private:
     void WorkersInit();
 
 private:
-    std::vector<Runnable>& m_runnable; 
+    std::vector<Runnable>& m_receivers; 
     std::vector<Thread*> m_workers;
 };
 

@@ -1,7 +1,6 @@
 #ifndef I_RECIEVERS_HPP
 #define I_RECIEVERS_HPP
 
-#include "thread.hpp"
 #include "waitable_queue.hpp"
 #include "socket.hpp"
 #include "irunnable.hpp"

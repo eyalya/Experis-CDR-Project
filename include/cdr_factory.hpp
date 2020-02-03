@@ -3,30 +3,22 @@
 
 #include <vector>
 
-#include "thread.hpp"
-#include "idata_upserter.hpp"
+#include "dispatcher.hpp"
 
 namespace advcpp 
 {
 
-class CdrFactory: public UnCopiable {
+template <typename Runnable>
+class CdrFactory: public Dispatcher {
 public:
-    explicit CdrFactory(std::vector<IDataUpserter*>& a_receivers);
+    explicit CdrFactory(std::vector<Runnable>& a_cdrMakers);
 
     //~CdrFactory() = default;
     //CdrFactory(const CdrFactory<T>& a_rhs) = delete;
     //CdrFactory& operator = (const CdrFactory<T> a_rhs) = delete;
 
-    void ActivateWorkers();
-
-private:
-    void WorkersInit();
-
-private:
-    std::vector<IDataUpserter*>& m_recievers; 
-    std::vector<Thread*> m_workers;
 };
 
 } //namespace advcpp 
-#include "dispatcher.inl"
+#include "cdr_factory.inl"
 #endif //CDR_FACTORY_HPP

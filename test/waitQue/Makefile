@@ -14,7 +14,7 @@ CXXFLAGS += -O0
 INC_DIRS += ../../include  ../../inl
 
 SOURCES  = ./$(TARGET).cpp
-SOURCES  += $(wildcard ../../src/*.cpp)
+SOURCES  += $(wildcard ../../source/*.cpp)
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 
