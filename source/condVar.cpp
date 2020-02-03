@@ -1,35 +1,47 @@
-#include <pthread.h> //conditional variable
-#include <cassert> // assert
-
+#include <pthread.h>
+#include <errno.h> 
 #include "condVar.hpp"
+#include "common.hpp"
+#include "numbers.hpp"
 
-namespace advcpp 
+namespace advcpp{
+
+CondVar::CondVar() THROW1(CondVarException)
 {
-CondVar::CondVar(Mutex& a_mutex) THROW1(VCException)
-:m_mutex(a_mutex)
-{
-    if (pthread_cond_init(&m_vc, 0) != 0)
+    size_t retry = INIT_RETRIES;
+    
+    int r = pthread_cond_init(&m_cv, 0);
+    if (r == 0)
     {
-        THROWX(VCException);
+        return;
+    }
+    if (r == EAGAIN)
+    {
+        while (retry--)
+        {
+            if (! pthread_cond_init(&m_cv, 0))
+            {
+                return;
+            }
+        }
+    }
+    throw CondVarException(numbers::Itoa(r), ExtendInfo(XINFO));    
+}
+
+void CondVar::Notify() THROW1(CondVarException)
+{
+    if (int r = pthread_cond_signal(&m_cv))
+    {
+        throw CondVarException(numbers::Itoa(r), ExtendInfo(XINFO));
+    }    
+}
+
+void CondVar::NotifyAll() THROW1(CondVarException)
+{
+    if (int r = pthread_cond_broadcast(&m_cv))
+    {
+        throw CondVarException(numbers::Itoa(r), ExtendInfo(XINFO));
     }
 }
 
-CondVar::~CondVar() NOEXCEPT
-{
-    int res = pthread_cond_destroy(&m_vc);
-    assert(res == 0);
-}
-
-
-
-void CondVar::Notify() NOEXCEPT
-{
-    pthread_cond_signal(&m_vc);
-}
-
-void CondVar::NotifyAll() NOEXCEPT
-{
-    pthread_cond_broadcast(&m_vc);
-}
-
-} //namespace advcpp 
+}//namespace advcpp

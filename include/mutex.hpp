@@ -1,5 +1,5 @@
-#ifndef MUTEX_H
-#define MUTEX_H
+#ifndef MUTEX_HPP
+#define MUTEX_HPP
 #include <pthread.h>
 #include "common.hpp"
 
@@ -42,6 +42,5 @@ private:
 } //namespace advcpp
 
 #include "inl/mutex.inl"
-//#include "condVar.hpp"
 
-#endif //MUTEX_H
+#endif //MUTEX_HPP

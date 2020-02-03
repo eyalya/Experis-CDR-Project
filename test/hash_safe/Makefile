@@ -20,17 +20,19 @@ CXXFLAGS += -O0
 
 #INC_DIRS += ../include
 
-INC_DIRS += ../../../include ../../include ../../include/inl
+INC_DIRS += ../../../include ../../include
 
 INC_DIRS += ../../../cpp/inc
 
-SOURCES  = ./$(TARGET).cpp
-#SOURCES += $(wildcard ../../source/*.cpp)
-SOURCES  = ../../source/TCP_client.cpp ../../source/socket.cpp ../../source/condVar.cpp
+#SOURCES  = $(wildcard ../source/*.cpp)
+
+SOURCES += $(wildcard ../../src/*.cpp)
+
+#SOURCES += ../../src/Text_Transform_src/cap_words.cpp
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 
-TARGET = TCPClientTest
+TARGET = hashSafeTest
 
 .PHONY: clean test all val
 
