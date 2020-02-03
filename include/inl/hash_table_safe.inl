@@ -69,10 +69,10 @@ bool HashTableSafe<Key, Value, HashFunc>::Find(Key const& a_key, Value& a_value)
 template <typename Key, typename Value, typename HashFunc>
 bool HashTableSafe<Key, Value, HashFunc>::Insert(Key const& a_key, Value const& a_value)
 {
+    size_t index = HashIndex(a_key);
+    Bucket<Key, Value>& bucket = this->at(index);
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
-        size_t index = HashIndex(a_key);
-        Bucket<Key, Value>& bucket = this->at(index);
         typename Bucket<Key, Value>::iterator found = bucket.Find(a_key);        
             
         // found -> return
@@ -95,10 +95,10 @@ template <typename Key, typename Value, typename HashFunc> //TODO: insert Update
 template <typename Update>
 bool HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& a_value, Update a_update)
 {
+    size_t index = HashIndex(a_key);
+    Bucket<Key, Value>& bucket = this->at(index);
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
-        size_t index = HashIndex(a_key);
-        Bucket<Key, Value>& bucket = this->at(index);
         typename Bucket<Key, Value>::iterator found = bucket.Find(a_key);
 
         //found - do update -> true
@@ -112,6 +112,7 @@ bool HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& 
         Pair pair(a_key, a_value);
         typename Bucket<Key, Value>::iterator inserted = bucket.Insert(pair);
         assert(inserted != bucket.End());
+        
         ++m_nItems;    	
         return false;
     }
@@ -121,10 +122,10 @@ template <typename Key, typename Value, typename HashFunc>
 bool HashTableSafe<Key, Value, HashFunc>::Remove(Key const& a_key, Value& a_value)
 {
 	
+    size_t index = HashIndex(a_key);    
+    Bucket<Key, Value>& bucket = this->at(index);
     {
         Guard guard(m_mutex[MutexIndex(a_key)]);
-        size_t index = HashIndex(a_key);    
-        Bucket<Key, Value>& bucket = this->at(index);
         typename Bucket<Key, Value>::iterator found;
         found = bucket.Find(a_key);
 	
