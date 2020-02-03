@@ -3,17 +3,19 @@
 
 #include "thread.hpp"
 #include "waitable_queue.hpp"
-#include "socket.hpp"
 #include "irunnable.hpp"
+#include "irecorder.hpp"
+
+//TODO: pesuod need to replace
+typedef Thread Record;
 
 namespace advcpp 
 {
 
-template <typename T, typename DsCont> 
-//T must be a pointer allocated with new
+template <typename DsCont> 
 class CdrFactoryWorker: public IRunnable {
 public:
-    explicit CdrRecievers(WaitableQueue<T>& a_msgQue, IDecoder& a_decoder, IReducer& a_reducer, DsCont& a_dsCont);
+    explicit CdrFactoryWorker(WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont);
 
     //~CdrRecievers() = default;
     //CdrRecievers(const CdrRecievers<T>& a_rhs) = default;
@@ -25,11 +27,10 @@ private:
     void ReadMsgs();
 
 private:
-    WaitableQueue<T>& m_msgQue;
-    IDecoder& m_decoder; 
-    IReducer& m_reducer;
+    WaitableQueue<char*>& m_msgQue;
+    IRecorder& m_recorder;
     bool m_switch; 
-
+    Record m_report;
 };
 
 } //namespace advcpp 
