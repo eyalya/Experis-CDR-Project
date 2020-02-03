@@ -1,34 +1,51 @@
-#include "report.hpp"
+#include "record.hpp"
 
 namespace advcpp
 {
 
-void SubscriberReport::operator+= (const Report & a_report)
+void Record::operator+= (const Record & a_record)
 {
-    m_imsi += a_report.m_imsi;
-    m_outVoiceInOp += a_report.m_outVoiceInOp;
-    m_inVoiceInOp += a_report.m_inVoiceInOp;
-    m_outVoiceOutOp += a_report.m_outVoiceOutOp;
-    m_inVoiceOutOp += a_report.m_inVoiceOutOp;
-    m_outSMSInOp += a_report.m_outSMSInOp;
-    m_inSMSInOp += a_report.m_inSMSInOp;
-    m_outSMSOutOp += a_report.m_outSMSOutOp;
-    m_inSMSOutOp += a_report.m_inSMSOutOp;
-    m_download += a_report.m_download;
-    m_upload += a_report.m_upload;
+    m_operator += a_record.m_operator;
+    m_MCC += a_record.m_MCC;
+    m_imsi += a_record.m_imsi;
+    m_outVoiceInOp += a_record.m_outVoiceInOp;
+    m_inVoiceInOp += a_record.m_inVoiceInOp;
+    m_outVoiceOutOp += a_record.m_outVoiceOutOp;
+    m_inVoiceOutOp += a_record.m_inVoiceOutOp;
+    m_outSMSInOp += a_record.m_outSMSInOp;
+    m_inSMSInOp += a_record.m_inSMSInOp;
+    m_outSMSOutOp += a_record.m_outSMSOutOp;
+    m_inSMSOutOp += a_record.m_inSMSOutOp;
+    m_download += a_record.m_download;
+    m_upload += a_record.m_upload;
 }
 
-void OperatorReport::operator+= (const Report & a_report)
+void SubscriberRecord::operator+= (const Record & a_record)
 {
-    m_brand += a_report.m_operator;
-    m_outVoice += a_report.m_outVoiceInOp;
-    m_outVoice += a_report.m_outVoiceOutOp;
-    m_inVoice += a_report.m_inVoiceInOp;
-    m_inVoice += a_report.m_inVoiceOutOp;
-    m_inSMS += a_report.m_inSMSInOp;
-    m_inSMS += a_report.m_inSMSOutOp;
-    m_outSMS += a_report.m_outSMSInOp;
-    m_outSMS += a_report.m_outSMSOutOp;
+    m_imsi += a_record.m_imsi;
+    m_outVoiceInOp += a_record.m_outVoiceInOp;
+    m_inVoiceInOp += a_record.m_inVoiceInOp;
+    m_outVoiceOutOp += a_record.m_outVoiceOutOp;
+    m_inVoiceOutOp += a_record.m_inVoiceOutOp;
+    m_outSMSInOp += a_record.m_outSMSInOp;
+    m_inSMSInOp += a_record.m_inSMSInOp;
+    m_outSMSOutOp += a_record.m_outSMSOutOp;
+    m_inSMSOutOp += a_record.m_inSMSOutOp;
+    m_download += a_record.m_download;
+    m_upload += a_record.m_upload;
+}
+
+void OperatorRecord::operator+= (const Record & a_record)
+{
+    m_brand += a_record.m_operator;
+    m_outVoice += a_record.m_outVoiceInOp;
+    m_outVoice += a_record.m_outVoiceOutOp;
+    m_inVoice += a_record.m_inVoiceInOp;
+    m_inVoice += a_record.m_inVoiceOutOp;
+    m_inSMS += a_record.m_inSMSInOp;
+    m_inSMS += a_record.m_inSMSOutOp;
+    m_outSMS += a_record.m_outSMSInOp;
+    m_outSMS += a_record.m_outSMSOutOp;
 }
 
 } // namespace advcpp

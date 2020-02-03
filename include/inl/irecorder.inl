@@ -1,19 +1,23 @@
 #include "irecorder.hpp"
+#include "cdr_decoder.hpp"
+#include "reducer.hpp"
+#include "protocol.hpp"
 
 namespace advcpp
 {
 
 template <typename T> 
-RecordAggregator<T>::RecordAggregator(IDecoder& a_decoder, IReducer& a_reducer)
-: m_decoder(a_decoder)
-, m_reducer(a_reducer)
+RecordAggregator<T>::RecordAggregator()
 {
 }
 
 template <typename T> 
-void RecordAggregator<T>::Generate(T& src, IRecord& a_record)
+void RecordAggregator<T>::Generate(char * src, Record& a_record)
 {
-    
+    protocol::MOC moc;
+    DecodeMoc(moc, src);
+    Reducer reducer(moc);
+    reducer.Reduce(a_record);
 }
 
 

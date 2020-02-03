@@ -13,7 +13,7 @@ public:
     Reducer(const protocol::MOC & a_moc);
     ~Reducer();
 
-    virtual void Reduce(Report & a_report);
+    virtual void Reduce(Record & a_record);
 
 private:
     protocol::MOC m_moc;

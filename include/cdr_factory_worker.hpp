@@ -5,9 +5,7 @@
 #include "waitable_queue.hpp"
 #include "irunnable.hpp"
 #include "irecorder.hpp"
-
-//TODO: pesuod need to replace
-typedef Thread Record;
+#include "i_record.hpp"
 
 namespace advcpp 
 {
@@ -30,7 +28,7 @@ private:
     WaitableQueue<char*>& m_msgQue;
     IRecorder& m_recorder;
     bool m_switch; 
-    Record m_report;
+    IRecord & m_record;
 };
 
 } //namespace advcpp 

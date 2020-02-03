@@ -33,5 +33,5 @@ private:
 
 } //namespace advcpp
 
-#include "enriched_exception.inl"
+#include "inl/enriched_exception.inl"
 #endif //ENRICHED_EXCEPTION_HPP

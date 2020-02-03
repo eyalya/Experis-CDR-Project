@@ -7,7 +7,14 @@ typedef unsigned short ushort;
 
 namespace protocol
 {
-	
+
+
+class IMassage
+{
+public: 
+	virtual ~IMassage() = 0;
+};
+
 enum Call
 {
 	CALL_MOC, // outgoing voice call
@@ -73,6 +80,14 @@ struct DataUsage
 	ushort		m_uploaded;
 };
 
+struct Message 
+{
+	uchar		m_type;
+	CDR			m_cdr;
+	Duration	m_duration;
+	Party		m_paryData;
+};
+
 struct MOC 
 {
 	uchar		m_type;
@@ -110,6 +125,10 @@ struct GPRS
 	DataUsage	m_paryData;
 };
 
+
+inline IMassage::~IMassage()
+{
+}
 
 }
 

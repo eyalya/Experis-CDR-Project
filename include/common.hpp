@@ -76,7 +76,7 @@ private:
 
 }//namespace advcpp
 
-#include "common.inl"
+#include "inl/common.inl"
 
 #endif //COMMON_H
 

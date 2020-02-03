@@ -2,38 +2,36 @@
 #define I_RECORDER_HPP
 
 //TODO: pesuod need to replace
-typedef char IDecoder;
-typedef char IReducer;
+#include "record.hpp"
 
 namespace advcpp 
 {
 
+template <typename T> 
 class IRecorder {
 public:
     
-    ~IRecorder() {};
+    virtual ~IRecorder() {};
 
     //IRecorder();
     //IRecorder(const IRecorder<T>& a_rhs) = default;
     //IRecorder& operator = (const IRecorder<T> a_rhs) = default;
 
-    virtual Generate(T& src, IRecord& a_record) = 0;
+    virtual void Generate(char * src, Record& a_record) = 0;
 };
 
 template <typename T> 
-class RecordAggregator: public IRecorder {
+class RecordAggregator: public IRecorder<T> 
+{
 public:
-    explicit RecordAggregator(IDecoder& a_decoder, IReducer& a_reducer);
+    explicit RecordAggregator();
 
     //~RecordAggregator() = default;
     //RecordAggregator(const RecordAggregator<T>& a_rhs) = default;
     //RecordAggregator& operator = (const RecordAggregator<T> a_rhs) = default;
 
-    void Generate(T& src, IRecord& a_record);
-
-private:
-    IDecoder& m_decoder; 
-    IReducer& m_reducer;
+    virtual void Generate(char * src, Record& a_record);
+    
 };
 
 
