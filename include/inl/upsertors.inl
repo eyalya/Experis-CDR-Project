@@ -24,7 +24,7 @@ void Upsertors<DsCont>::Run()
     {
         char* msg = ReadMsgs();
         m_recorder.Generate(msg, m_record);
-        DsCont.DsUpserter(m_record);
+        m_dsCont.DsUpserter(m_record);
         delete[] msg;
     }
 }

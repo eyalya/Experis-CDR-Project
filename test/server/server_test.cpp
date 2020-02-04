@@ -29,18 +29,18 @@ static const int port = 2300;
 int main()
 {    
     bool switchButton = true;
-    const size_t nRecivers = 2;
-    const size_t nUpsertors = 2;
+    const size_t nRecivers = advcpp::NT - 1;
+    //const size_t nUpsertors = 2;
 
     WQSocket queueSocket;
-    WQMsg queReceivers(10);
+    WQMsg queReceivers(10000);
 
     std::vector<IntHashSafe> hashVec;
     HashConts dsCont(hashVec);
 
-    RecieversVec msgRecievers;
+    std::vector<advcpp::Irecievers*> msgRecieversVec;
     //Receivers cdrRceiever(queueSocket, queReceivers, switchButton);
-    ReciversCreate (msgRecievers, queueSocket, queReceivers, switchButton, nRecivers);
+    ReciversCreate (msgRecieversVec, queueSocket, queReceivers, switchButton, nRecivers);
 
     // std::vector<advcpp::IReducing* > reducingVec;
     // reducingVec.push_back (advcpp::MCOReducing())
@@ -50,14 +50,14 @@ int main()
     // HashUpsertors upsertors(queReceivers, IRecorder& a_recorder, dsCont, switchButton));
     // UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, switchButton, nUpsertors)
 
-    advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(vec, switchButton);
+    advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(msgRecieversVec, switchButton);
     dispatcher.ActivateWorkers();
 
-    Acceptor acceptor(LOOPBACK_ADDR, port, queueSocket);
-    AcceptorThread acceptorActivator;
-    advcpp::Thread acceptorThread(acceptorActivator)
+    advcpp::TCPAcceptor acceptor(LOOPBACK_ADDR, port, queueSocket);
+    advcpp::AcceptorThread acceptorActivator(&acceptor);
+    advcpp::Thread acceptorThread(&acceptorActivator);
 
-
+    acceptorThread.Join();
     return 0;
 }
 

@@ -28,7 +28,7 @@ private:
     IRecorder<char*>& m_recorder;
     DsCont& m_dsCont;
     bool& m_switch; 
-    RecordAggregator m_record;
+    Record m_record;
 };
 
 } //namespace advcpp 
