@@ -39,7 +39,7 @@ int main()
     HashConts dsCont;
 
     std::vector<advcpp::Irecievers*> msgRecieversVec;
-    ReciversCreate (msgRecieversVec, queueSocket, msgQue, switchButton, nRecivers);
+    advcpp::ReciversCreate (msgRecieversVec, queueSocket, msgQue, switchButton, nRecivers);
 
     std::vector<advcpp::IReducing* > reducingVec;
     reducingVec.push_back (new advcpp::MCOReducing()); 
