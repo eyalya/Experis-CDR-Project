@@ -3,6 +3,17 @@
 namespace advcpp
 {
 
+OperatorRecord::OperatorRecord(const Record & a_record)
+{
+    *this += a_record;
+}
+
+SubscriberRecord::SubscriberRecord(const Record & a_record)
+{
+    *this += a_record;
+}
+
+
 void Record::operator+= (const Record & a_record)
 {
     m_operator += a_record.m_operator;

@@ -5,7 +5,7 @@
 
 #include "protocol.hpp"
 #include "hash_table_safe.hpp"
-
+#include "TCP_client.hpp"
 namespace advcpp
 {
 
