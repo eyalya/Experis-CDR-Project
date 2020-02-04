@@ -46,6 +46,7 @@ private:
 /////////////////////////////////////////////////////
 
 inline bool IsInvalidInput();
+inline bool IsValidInput();
 inline void WrongInput();
 
 }//namespace advcpp

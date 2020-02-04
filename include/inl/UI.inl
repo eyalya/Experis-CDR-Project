@@ -15,13 +15,14 @@ void UI::Write(T const& a_data)
 }
 
 inline void UI::ExitChosen()
-{
-    std::cout << "\nThank you, come again!\n";
+{    
+    std::cout << "\033[1;32m\nThank you, come again!\n\033[0m\n";
 }
 
 inline void UI::WriteNotFound()
 {
-    std::cout << "Not found\n";
+    
+    std::cout << "\033[1;31mNot found\033[0m\n";
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -33,9 +34,29 @@ inline void WrongInput()
 
 inline bool IsInvalidInput()
 {
-    bool res = std::cin.fail();
-    std::cin.ignore(std::numeric_limits<int>::max(), '\n');   
-    return res;
+    bool fail = std::cin.fail();
+    //bool bad = std::cin.bad();
+    
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<int>::max(), '\n'); 
+
+    // bool fail2 = std::cin.fail(); 
+    // bool bad2 = std::cin.bad(); 
+
+    // fail2 = true; 
+    // bad2 = true;
+
+    // if (fail2 && bad2 && bad)
+    // {
+    //     return fail;
+    // }
+
+    return fail;
+}
+
+inline bool IsValidInput()
+{
+    return !IsInvalidInput();
 }
 
 }//namespace advcpp
