@@ -5,8 +5,8 @@ namespace advcpp
 {
 
 DsContainer::DsContainer()
-: m_subscriber(SUBSCRIBER_CAPACITY, DefaultHasher<uint>())
-, m_operator (OPERATOR_CAPACITY, DefaultHasher<size_t>())
+: m_subscriber(SUBSCRIBER_CAPACITY, Hasher<uint>())
+, m_operator (OPERATOR_CAPACITY, Hasher<size_t>())
 {
 }
 
