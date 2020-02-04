@@ -72,7 +72,7 @@ private:
 private:
 	size_t 		    	m_capacity;
 	HashFunc 	    	m_hushFunc;
-	AtomicValue<size_t>	m_nItems;	//TODO:change to atomic
+	AtomicValue<size_t>	m_nItems;	
     size_t          	m_mutexSize;
 	mutable Mutex*  	m_mutex;
 };

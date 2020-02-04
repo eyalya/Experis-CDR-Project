@@ -1,6 +1,3 @@
-#ifndef DS_CONATAINER_INL
-#define DS_CONATAINER_INL
-
 #include "ds_container.hpp"
 #include "defs.hpp"
 
@@ -35,5 +32,4 @@ void UpdaterOperatorRecord(OperatorRecord& a_current, OperatorRecord const& a_ne
 
 
 } //namespace advcpp 
-#endif //DS_CONATAINER_INL
 

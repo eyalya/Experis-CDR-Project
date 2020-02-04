@@ -22,7 +22,9 @@ size_t hash (uint const& a_num);
 
 size_t hash (size_t const& a_num);
 
-size_t hash(char *a_key);
+size_t hash(const char *a_key);
+
+size_t hash(std::string const& a_key);
 ///////////// Public Functions //////////////////////////////////////////////////////////////////////////////////////
 template <typename Key>
 size_t DefaultHasher<Key>::operator () (Key const& a_key)

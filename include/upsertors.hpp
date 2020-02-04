@@ -4,7 +4,6 @@
 #include "thread.hpp"
 #include "waitable_queue.hpp"
 #include "irecorder.hpp"
-#include "i_record.hpp"
 #include "ds_container.hpp"
 
 namespace advcpp 
