@@ -21,8 +21,8 @@ public:
 
     void DsUpsert(Record& a_record);
     
-    OperatorRecord FindOperator(uint const& a_operator);
-    SubscriberRecord FindSubscriber(uint const& a_subscriber);
+    bool FindOperator(uint a_operator, OperatorRecord& a_op) const;
+    bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_rec) const;
 
 private:
     HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;
@@ -34,5 +34,6 @@ void UpdaterOperatorRecord(OperatorRecord& a_current, OperatorRecord const& a_ne
 
 } //namespace advcpp 
 
-#include "ds_container.inl"
+#include "inl/ds_container.inl"
+
 #endif //DS_CONTAINER_HPP

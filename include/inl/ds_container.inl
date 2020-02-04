@@ -4,18 +4,15 @@
 
 namespace advcpp{
 
-inline OperatorRecord DsContainer::FindOperator(uint const& a_operator)
-{
-    OperatorRecord rec;
-    m_operator.Find(a_operator, rec);
-    return rec;
+
+inline bool DsContainer::FindOperator(uint a_operator, OperatorRecord& a_op) const
+{    
+    return m_operator.Find(a_operator, a_op);
 }
 
-inline SubscriberRecord DsContainer::FindSubscriber(uint const& a_subscriber)
-{
-    SubscriberRecord rec;
-    m_subscriber.Find(a_subscriber, rec);
-    return rec;
+inline bool DsContainer::FindSubscriber(uint a_subscriber, SubscriberRecord& a_sub) const
+{    
+    return m_subscriber.Find(a_subscriber, a_sub);  
 }
 
 } //namespace advcpp 

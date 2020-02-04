@@ -8,7 +8,7 @@ namespace advcpp{
 class Quary
 {
 public:
-    //Quary() = default;
+    Quary(DsContainer& a_container);
     //rule 3 = default;
 
     SubscriberRecord GetSubscriber(uint a_sub) const;
@@ -21,6 +21,11 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////////////////
+
+inline Quary::Quary(DsContainer& a_container)
+: m_container(a_container)
+{  
+}
 
 inline SubscriberRecord Quary::GetSubscriber(uint a_sub) const
 {
