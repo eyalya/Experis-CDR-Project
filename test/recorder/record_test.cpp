@@ -13,7 +13,7 @@ UNIT(check_decode)
     //int num(0);
     char test[] = "\0\1\0\0\0\2\0\0\0\3\0\0\0aaaaaaaaaaaaaaaaa\2\0\0\0\0\0\0\0\1aaa111111111111111111111111111111111111111111111\0";
    
-    advcpp::Record a_record;
+    //advcpp::Record a_record;
 
     std::vector<advcpp::IDecodeMassge *>  a_decoders;
     advcpp::DecodeMCO dmco;
@@ -44,7 +44,7 @@ UNIT(check_decode)
     // std::cout << sizeof(uchar) << sizeof(ushort) << '\n';
     // r.Generate(test, a_record);
 
-    std::cout << a_record.m_outVoiceInOp << '\n';
+    std::cout << record.m_outVoiceInOp << '\n';
 	ASSERT_PASS();
 END_UNIT
 
@@ -84,7 +84,7 @@ UNIT(check_records)
 
     advcpp::Record fRecord;
     fRecord.m_imsi = 89;
-    advcpp::SubscriberRecord sRecord;
+    advcpp::SubscriberRecord sRecord(fRecord);
 
     ASSERT_EQUAL(sRecord.m_imsi, 0);
     

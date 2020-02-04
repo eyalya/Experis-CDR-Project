@@ -24,6 +24,16 @@ public:
     virtual void Reduce(const protocol::Message & a_message, Record & a_record);
 };
 
+
+class MTCReducing : public IReducing
+{
+public:
+    virtual ~MTCReducing();
+
+    virtual void Reduce(const protocol::Message & a_message, Record & a_record);
+};
+
+
 class Reducer : public IReducer
 {
 public:
@@ -45,9 +55,12 @@ inline Reducer::~Reducer()
 {
 }
 
+
 inline IReducing::~IReducing(){}
 
 inline MCOReducing::~MCOReducing(){}
+
+inline MTCReducing::~MTCReducing(){}
 
 } // namespace advcpp
 

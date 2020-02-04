@@ -1,15 +1,13 @@
 #ifndef RECORD_H
 #define RECORD_H
-#include "i_record.hpp"
 #include <cstdlib>
 
 namespace advcpp
 {
 
-struct Record : public IRecord
+struct Record
 {
-    virtual ~Record();
-    void operator+= (const Record & a_record);
+    Record & operator+= (const Record & a_record);
     
     size_t m_brand;
     uint m_imsi;
@@ -28,14 +26,12 @@ struct Record : public IRecord
     size_t m_upload;
 };
 
-struct SubscriberRecord : public IRecord
+struct SubscriberRecord
 {
     SubscriberRecord();
     SubscriberRecord(const Record & a_record);
-    virtual ~SubscriberRecord();
     
-    void operator+= (const Record & ) {} // TODO: remove
-    void operator+= (const SubscriberRecord & a_record);
+    SubscriberRecord & operator+= (const SubscriberRecord & a_record);
     
     uint m_imsi;
     uint m_misdn;
@@ -51,13 +47,12 @@ struct SubscriberRecord : public IRecord
     size_t m_upload;
 };
 
-struct OperatorRecord : public IRecord
+struct OperatorRecord
 {
     OperatorRecord();
     OperatorRecord(const Record & a_record);
     
-    virtual ~OperatorRecord();
-    void operator+= (const Record & a_record);
+    OperatorRecord & operator+= (const OperatorRecord & a_record);
     
     size_t m_brand;
     size_t m_outVoice;
@@ -67,18 +62,6 @@ struct OperatorRecord : public IRecord
 };
 
 
-
-inline OperatorRecord::~OperatorRecord()
-{
-}
-
-inline SubscriberRecord::~SubscriberRecord()
-{
-}
-
-inline Record::~Record()
-{
-}
 
 } // namespace 
 

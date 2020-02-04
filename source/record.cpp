@@ -50,7 +50,7 @@ SubscriberRecord::SubscriberRecord(const Record & a_record)
 }
 
 
-void Record::operator+= (const Record & a_record)
+Record & Record::operator+= (const Record & a_record)
 {
     m_operator += a_record.m_operator;
     m_MCC += a_record.m_MCC;
@@ -65,9 +65,11 @@ void Record::operator+= (const Record & a_record)
     m_inSMSOutOp += a_record.m_inSMSOutOp;
     m_download += a_record.m_download;
     m_upload += a_record.m_upload;
+
+    return *this;
 }
 
-void SubscriberRecord::operator+= (const SubscriberRecord & a_record)
+SubscriberRecord & SubscriberRecord::operator+= (const SubscriberRecord & a_record)
 {
     m_outVoiceInOp += a_record.m_outVoiceInOp;
     m_inVoiceInOp += a_record.m_inVoiceInOp;
@@ -79,18 +81,22 @@ void SubscriberRecord::operator+= (const SubscriberRecord & a_record)
     m_inSMSOutOp += a_record.m_inSMSOutOp;
     m_download += a_record.m_download;
     m_upload += a_record.m_upload;
+
+    return *this;
 }
 
-void OperatorRecord::operator+= (const Record & a_record)
+OperatorRecord & OperatorRecord::operator+= (const OperatorRecord & a_record)
 {
-    m_outVoice += a_record.m_outVoiceInOp;
-    m_outVoice += a_record.m_outVoiceOutOp;
-    m_inVoice += a_record.m_inVoiceInOp;
-    m_inVoice += a_record.m_inVoiceOutOp;
-    m_inSMS += a_record.m_inSMSInOp;
-    m_inSMS += a_record.m_inSMSOutOp;
-    m_outSMS += a_record.m_outSMSInOp;
-    m_outSMS += a_record.m_outSMSOutOp;
+    m_outVoice += a_record.m_outVoice;
+    m_outVoice += a_record.m_outVoice;
+    m_inVoice += a_record.m_inVoice;
+    m_inVoice += a_record.m_inVoice;
+    m_inSMS += a_record.m_inSMS;
+    m_inSMS += a_record.m_inSMS;
+    m_outSMS += a_record.m_outSMS;
+    m_outSMS += a_record.m_outSMS;
+
+    return *this;
 }
 
 } // namespace advcpp
