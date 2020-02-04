@@ -10,10 +10,10 @@
 namespace advcpp 
 {
 
-template <typename DsCont> 
+template <typename T>
 class Upsertors: public IRunnable {
 public:
-    explicit Upsertors(WaitableQueue<char*>& a_msgQue, IRecorder<char*>& a_recorder, DsCont& a_dsCont, bool& a_switch);
+    explicit Upsertors(WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, DsContainer& a_dsCont, bool& a_switch);
 
     //~Upsertors() = default;
     //Upsertors(const Upsertors<T>& a_rhs) = default;
@@ -22,9 +22,9 @@ public:
     void Run();
 
 private:
-    WaitableQueue<char*>& m_msgQue;
-    IRecorder<char*>& m_recorder;
-    DsCont& m_dsCont;
+    WaitableQueue<T>& m_msgQue;
+    IRecorder<T>& m_recorder;
+    DsContainer& m_dsCont;
     bool& m_switch; 
     Record m_record;
 };

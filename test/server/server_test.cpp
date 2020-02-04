@@ -19,8 +19,8 @@ typedef std::vector<advcpp::Irecievers*> RecieversVec;
 
 typedef advcpp::TCPAcceptor Acceptor;
 typedef typename advcpp::HashTableSafe<int, int, Hasher> IntHashSafe;
-typedef advcpp::DsContainer<IntHashSafe> HashConts;
-typedef advcpp::Upsertors< HashConts > HashUpsertors;
+typedef advcpp::DsContainer HashConts;
+typedef advcpp::Upsertors< char* > HashUpsertors;
 
 
 static const char* LOOPBACK_ADDR = "127.0.0.1";
@@ -35,8 +35,7 @@ int main()
     WQSocket queueSocket;
     WQMsg msgQue(10000);
 
-    std::vector<IntHashSafe> hashVec;
-    HashConts dsCont(hashVec);
+    HashConts dsCont;
 
     std::vector<advcpp::Irecievers*> msgRecieversVec;
     //Receivers cdrRceiever(queueSocket, msgQue, switchButton);
@@ -55,7 +54,7 @@ int main()
     // HashUpsertors upsertors(msgQue, recorder, dsCont, switchButton);
     std::vector<HashUpsertors* > m_workers;
 
-    advcpp::UpsertorsCreate(m_workers, msgQue, recorder, dsCont, switchButton, nUpsertors);
+    advcpp::UpsertorsCreate<char*>(m_workers, msgQue, recorder, dsCont, switchButton, nUpsertors);
 
     advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(msgRecieversVec, switchButton);
     dispatcher.ActivateWorkers();

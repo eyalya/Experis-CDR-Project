@@ -10,7 +10,6 @@
 namespace advcpp 
 {
 
-template <typename Cont> 
 class DsContainer {
 public:
     explicit DsContainer();
@@ -20,8 +19,11 @@ public:
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
     void DsUpserter(Record& a_record);
+
 private:
-    void Updater(IRecord& a_lhs, Record const& a_rhs);
+    //static void Updater(IRecord& a_lhs, Record const& a_rhs);
+    static void UpdaterOperator(OperatorRecord& a_lhs, Record const& a_rhs);
+    static void UpdaterSubscriber(SubscriberRecord& a_lhs, Record const& a_rhs);
 
 private:
     HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;

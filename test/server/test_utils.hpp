@@ -13,8 +13,9 @@ namespace advcpp
 
 void ReciversCreate (std::vector<Irecievers* >& a_workers, WaitableQueue<ISocket*>& a_socketQue, WaitableQueue<char*>& a_msgQue, bool& a_switch, size_t a_nWorkers);
 
-template <typename DsCont> 
-void UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue<char*>& a_msgQue, IRecorder<char*>& a_recorder, DsCont& a_dsCont, bool& a_switch, size_t a_nWorkers);
+template <typename T> 
+void UpsertorsCreate (std::vector<Upsertors<T>* >& a_workers, WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder,
+                      advcpp::DsContainer& a_dsCont, bool& a_switch, size_t a_nWorkers);
 
 class AcceptorThread: public IRunnable {
 public:
@@ -27,7 +28,6 @@ public:
 private:
     IAcceptor* m_acceptor;
 };
-
 
 
 

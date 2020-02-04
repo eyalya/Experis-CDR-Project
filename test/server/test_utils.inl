@@ -16,12 +16,12 @@ void ReciversCreate (std::vector<Irecievers* >& a_workers, WaitableQueue<ISocket
     }
 }
 
-template <typename DsCont> 
-void UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue<char*>& a_msgQue, IRecorder<char*>& a_recorder, DsCont& a_dsCont, bool& a_switch, size_t a_nWorkers)
+template <typename T> 
+void UpsertorsCreate (std::vector<Upsertors<T>* >& a_workers, WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, advcpp::DsContainer& a_dsCont, bool& a_switch, size_t a_nWorkers)
 {
     while (--a_nWorkers)
     {
-        Upsertors<DsCont>* newWorker = new Upsertors<DsCont>(a_msgQue, a_recorder, a_dsCont, a_switch);
+        Upsertors<T>* newWorker = new Upsertors<T>(a_msgQue, a_recorder, a_dsCont, a_switch);
         a_workers.push_back(newWorker);
     }
 }
