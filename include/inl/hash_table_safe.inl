@@ -91,7 +91,7 @@ bool HashTableSafe<Key, Value, HashFunc>::Insert(Key const& a_key, Value const& 
     }
 }
 
-template <typename Key, typename Value, typename HashFunc> //TODO: insert Update template
+template <typename Key, typename Value, typename HashFunc>
 template <typename Update>
 bool HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& a_value, Update a_update)
 {
@@ -166,6 +166,28 @@ typename HashTableSafe<Key, Value, HashFunc>::iterator HashTableSafe<Key, Value,
     return HashItr<Key, Value>(this->at(Capacity()-1).End(), this->end(), this->end());
 }
 
+
+template <typename Key, typename Value, typename HashFunc>
+template <typename Action>
+size_t HashTableSafe<Key, Value, HashFunc>::ForEach(Action a_action)
+{
+    LockAll<Key, Value, HashFunc>(*this);
+    {
+        size_t counter = 0;
+        iterator begin = Begin();
+        iterator end = End();
+
+        while(begin != end)
+        {
+            a_action(begin->second);
+            ++begin;
+            ++ counter;
+        }
+        return counter;
+    }
+}
+
+    
 template <typename Key, typename Value, typename HashFunc>
 size_t HashTableSafe<Key, Value, HashFunc>::Capacity() const
 {

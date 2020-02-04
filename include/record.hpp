@@ -29,7 +29,10 @@ struct Record : public IRecord
 
 struct SubscriberRecord : public IRecord
 {
+    SubscriberRecord();
+    SubscriberRecord(const Record & a_record);
     virtual ~SubscriberRecord();
+    
     void operator+= (const Record & a_record);
     
     uint m_imsi;
@@ -48,6 +51,9 @@ struct SubscriberRecord : public IRecord
 
 struct OperatorRecord : public IRecord
 {
+    OperatorRecord();
+    OperatorRecord(const Record & a_record);
+    
     virtual ~OperatorRecord();
     void operator+= (const Record & a_record);
     
@@ -57,6 +63,14 @@ struct OperatorRecord : public IRecord
     size_t m_inSMS;
     size_t m_outSMS;
 };
+
+inline OperatorRecord::OperatorRecord()
+{
+}
+
+inline SubscriberRecord::SubscriberRecord()
+{
+}
 
 inline OperatorRecord::~OperatorRecord()
 {

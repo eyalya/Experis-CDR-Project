@@ -3,6 +3,7 @@
 
 #include "client_test_utils.hpp"
 #include "util.hpp"
+#include "encoder.hpp"
 
 namespace advcpp
 {
@@ -10,7 +11,7 @@ namespace advcpp
 void FillMocDetails(protocol::MOC& a_moc, utils::Sequence<uint, uint>& a_seqGen, utils::RandomGenerator<uint>& a_randGen)
 {
     
-    a_moc.m_cdr.m_imei = a_seqGen();
+    a_moc.m_cdr.m_msisdn = a_seqGen();
     a_moc.m_duration = a_randGen();
 }
 
@@ -33,6 +34,31 @@ void FillMap(HashTableSafe<Key, Value, Hasher>& a_map, size_t a_size)
         a_map.Insert(newMoc.m_cdr.m_imei ,newMoc);
     }
 }
+
+class MessageSender
+{
+public:
+    MessageSender(TCPClient & a_client);
+
+    void operator()(protocol::MOC & a_moc);
+
+private:
+    TCPClient  & m_client;
+};
+
+inline MessageSender::MessageSender(TCPClient & a_client)
+: m_client(a_client)
+{
+}
+
+inline void MessageSender::operator()(protocol::MOC& a_moc)
+{
+    char buffer[sizeof(protocol::MOC)];
+    EncodeMoc(buffer, a_moc);
+    m_client.Send(buffer);
+}
+
+
 
 } //namespace advcpp
 

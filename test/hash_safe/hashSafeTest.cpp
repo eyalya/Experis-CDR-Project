@@ -14,7 +14,18 @@ typedef advcpp::Thread Thread;
 typedef std::vector<advcpp::IRunnable*> RunPull;
 typedef std::vector<Thread*> ThreadPull;
 
+template <typename T>
+class MultBy
+{
+public:
+    MultBy(T a_factor) : m_factor(a_factor) {};
+    //rule 3
 
+    void operator()(T& a_value){a_value *= m_factor;}
+
+private:
+    T m_factor;
+};
 
 template <typename Key, typename Value, typename Hasher>
 void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, unsigned int a_pairs, size_t size);
@@ -58,7 +69,7 @@ template <typename Key, typename Value, typename Hasher>
 void AddUp<Key, Value, Hasher>::Run()
 {
     size_t i = 0;
-    while(i < m_size)    
+    while(i < m_size)
     {
         m_table.Upsert(i, 1, Adder<Key>());
         ++i;
@@ -91,7 +102,7 @@ template <typename Key, typename Value, typename Hasher>
 void AddDown<Key, Value, Hasher>::Run()
 {
     size_t i = m_size;
-    while(i --> 0)    
+    while(i --> 0)
     {
         m_table.Upsert(i, 1, Adder<Key>());       
     }
@@ -130,7 +141,6 @@ void ReduceDown<Key, Value, Hasher>::Run()
 
 ////////////////////////////////////////////////////////////////////////
 
-
 template <typename Key, typename Value, typename Hasher>
 void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, unsigned int a_pairs, size_t a_size)
 {   
@@ -163,15 +173,8 @@ void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, unsigned int
 }
 
 ////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
 
 UNIT(find_finds_inserted_int_remove_removes)
     const size_t size = 1000;
@@ -260,53 +263,49 @@ UNIT(upsert_many_upserts)
     }
 END_UNIT
 
-
-/*
-UNIT(iterators_iterates_over_all_full)
-    const size_t size = 1000;
-    const size_t capacity = 7;
-    IntHashSafe table(capacity, HashC);
-    for (size_t i=0; i<size; ++i)
-    {
-       table.Insert(i, i*10);        
-    }
-
-    IntHashSafe::iterator begin = table.Begin();
-    IntHashSafe::iterator end = table.End();
-    size_t counter = 0;
-    while(begin != end)
-    {
-        ASSERT_EQUAL((begin->first)*10, begin->second);
-        ++begin;
-        ++counter;
-    }
-    ASSERT_EQUAL(counter, size);
-    ASSERT_EQUAL(table.Size(), size);
-END_UNIT  
-
-UNIT(iterators_iterates_over_all_not_full)
-    const size_t size = 40;
+UNIT(foreach_works_on_full_map)
+    const size_t size = 100000;
     const size_t capacity = 100;
     IntHashSafe table(capacity, HashC);
+    
     for (size_t i=0; i<size; ++i)
     {
-       table.Insert(i, i*10);        
+       table.Insert(i, i);
     }
-
-    IntHashSafe::iterator begin = table.Begin();
-    IntHashSafe::iterator end = table.End();
-    size_t counter = 0;
-    while(begin != end)
-    {
-        ASSERT_EQUAL((begin->first)*10, begin->second);
-        ++begin;
-        ++counter;
-    }
+    int factor = 10;
+    size_t counter = table.ForEach(MultBy<int>(factor));
     ASSERT_EQUAL(counter, size);
+    
+    for (int i=0; i<(int)size; ++i)
+    {
+       int data;
+       table.Find(i, data);
+       ASSERT_EQUAL(data, i*factor);
+    }    
     ASSERT_EQUAL(table.Size(), size);
 END_UNIT  
-*/
 
+UNIT(foreach_works_on_non_full_map)
+    const size_t size = 100;
+    const size_t capacity = 1000;
+    IntHashSafe table(capacity, HashC);
+    
+    for (size_t i=0; i<size; ++i)
+    {
+       table.Insert(i, i);
+    }
+    int factor = 10;
+    size_t counter = table.ForEach(MultBy<int>(factor));
+    ASSERT_EQUAL(counter, size);
+    
+    for (int i=0; i<(int)size; ++i)
+    {
+       int data;
+       table.Find(i, data);
+       ASSERT_EQUAL(data, i*factor);
+    }    
+    ASSERT_EQUAL(table.Size(), size);
+END_UNIT  
 
 UNIT(hash_table_upserts_thread_safely)
     const size_t capacity = 100;
@@ -327,14 +326,16 @@ UNIT(hash_table_upserts_thread_safely)
 END_UNIT
 
 ///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 
 TEST_SUITE(hash table)
     TEST(find_finds_inserted_int_remove_removes)
     TEST(insert_doesnt_insert_existing_remove_remove_once)
     TEST(upsert_single_upserts)
     TEST(upsert_many_upserts)
-    //TEST(iterators_iterates_over_all_full)
-    //TEST(iterators_iterates_over_all_not_full)
+    TEST(foreach_works_on_full_map)
+    TEST(foreach_works_on_non_full_map)
     TEST(hash_table_upserts_thread_safely)
 END_SUITE
 
