@@ -44,5 +44,5 @@ private:
 
 } //namespace advcpp 
 
-#include "irecievers.inl"
+#include "inl/irecievers.inl"
 #endif //I_RECIEVERS_HPP

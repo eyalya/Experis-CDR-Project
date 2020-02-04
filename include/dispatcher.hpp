@@ -31,5 +31,5 @@ private:
 };
 
 } //namespace advcpp 
-#include "dispatcher.inl"
+#include "inl/dispatcher.inl"
 #endif //DISPATCHER_HPP
