@@ -19,9 +19,8 @@ void CdrRecievers<T>::Run()
     std::cout << "wait for socket\n";
     while (m_switch)
     {
-        std::cout << "got socket\n";
         m_socketQue.Dequeue(m_socket);
-        std::cout << "got socket\n";
+        std::cout << "got socket, queing msg\n";
         ReadMsgs();
     }
 }
@@ -33,8 +32,9 @@ void CdrRecievers<T>::ReadMsgs()
     while (byte)
     {
         char* buff = new char[BUFFER_SIZE];
+        std::cout << "reading msg\n";
         byte = m_socket->Recv(buff);
-        std::cout << buff <<"\n";
+        std::cout << "msg size " <<  byte << "\n";
         if (byte <= 0)
         {
             delete[] buff;

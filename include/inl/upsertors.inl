@@ -1,6 +1,7 @@
 #ifndef UPSERTORS_INL
 #define UPSERTORS_INL
 
+#include <iostream>
 #include "upsertors.hpp"
 
 namespace advcpp
@@ -22,8 +23,11 @@ void Upsertors<T>::Run()
     char* msg;
     while (m_switch)
     {
+        std::cout << "upsertors geting message \n";
         m_msgQue.Dequeue(msg);
         m_recorder.Generate(msg, m_record);
+        std::cout << SubscriberRecord(m_record) << "\n";
+        std::cout << "i am  here \n";
         m_dsCont.DsUpserter(m_record);
         delete[] msg;
     }
