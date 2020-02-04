@@ -45,13 +45,14 @@ public:
 	
     template <typename Update>
     bool Upsert(Key const& a_key, Value const& a_value, Update a_update);   //update: true, insert: false
-    
+	
 	bool Remove(Key const& a_key, Value& a_value);
+    	
+	template <typename Action>
+	size_t ForEach(Action a_action);
+
 	
 	size_t hash(Key const& a_key) const;
-	
-	//Value& operator[](Key const& a_key);//TODO: it
-	
 	size_t Capacity() const;
 	size_t LoadFactor() const;
 	size_t Size() const;

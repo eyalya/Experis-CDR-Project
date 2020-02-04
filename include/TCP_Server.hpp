@@ -19,10 +19,6 @@ private:
     IServer& operator=(IServer const&);
 };
 
-
-
-
-
 class TCPServer : public IServer
 {
 public:
@@ -30,7 +26,7 @@ public:
     typedef WaitableQueue<char*> WQMsg;
 
 public:
-    TCPServer(IAcceptor& a_acceptor, Dispatcher<>& a_dispatcher);
+    TCPServer(IAcceptor& a_acceptor, Dispatcher<Runable>& a_dispatcher);
     ~TCPServer();
     
     virtual void Run();
