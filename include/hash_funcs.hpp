@@ -46,13 +46,7 @@ size_t hash(size_t const& a_key)
     return a_key ^ 3 << 4 ^ 0x45d9f3b;
 }
 
-size_t hash (int const& a_num)
-{
-//    TODO: find a better one
-    return static_cast<size_t>(a_num);
-}
-
-size_t hash(char *a_key)
+size_t hash(const char *a_key)
 {
     size_t hash, i;
     size_t len = strlen(a_key);
@@ -68,7 +62,7 @@ size_t hash(char *a_key)
     return hash;
 }
 
-size_t hash(std::string a_key)
+size_t hash(std::string const& a_key)
 {
     size_t hash, i;
     size_t len = a_key.size();

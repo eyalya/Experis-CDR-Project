@@ -45,7 +45,7 @@ public:
 	bool Insert(Key const& a_key, Value const& a_value);
 	
     template <typename Update>
-    bool Upsert(Key const& a_key, Value const& a_value, Update a_update);   //update: true, insert: false
+    bool Upsert(Key const& a_key, Value const& a_value, Update a_updater);   //update: true, insert: false
 	
 	bool Remove(Key const& a_key, Value& a_value);
     	

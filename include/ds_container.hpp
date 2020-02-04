@@ -21,15 +21,12 @@ public:
     void DsUpserter(Record& a_record);
 
 private:
-    //static void Updater(IRecord& a_lhs, Record const& a_rhs);
-    static void UpdaterOperator(OperatorRecord& a_lhs, Record const& a_rhs);
-    static void UpdaterSubscriber(SubscriberRecord& a_lhs, Record const& a_rhs);
-
-private:
     HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;
     HashTableSafe<uint, OperatorRecord, DefaultHasher<size_t> > m_operator;
 };
 
+void UpdaterSubscriberRecord(SubscriberRecord& a_current, SubscriberRecord const& a_newRecord);
+void UpdaterOperatorRecord(OperatorRecord& a_current, OperatorRecord const& a_newRecord);
 
 } //namespace advcpp 
 
