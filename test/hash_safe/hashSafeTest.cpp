@@ -14,9 +14,15 @@ typedef advcpp::Thread Thread;
 typedef std::vector<advcpp::IRunnable*> RunPull;
 typedef std::vector<Thread*> ThreadPull;
 
-template <typename Key, typename Value, typename Hasher>
-void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& safeMap, unsigned int a_pairs, size_t size);
 
+
+template <typename Key, typename Value, typename Hasher>
+void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, unsigned int a_pairs, size_t size);
+
+size_t HashC(size_t a_key)
+{
+    return a_key ^ 3 << 4 ^ 0x45d9f3b;
+}
 
 template <typename T>
 class Adder
@@ -26,11 +32,13 @@ public:
     { a_lhs += a_rhs; }
 };
 
+////////////////////////////////////////////////////////////////////////
+
 template <typename Key, typename Value, typename Hasher>
-class AddSert : public advcpp::IRunnable
+class AddUp : public advcpp::IRunnable
 {
 public:
-    AddSert(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size);
+    AddUp(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size);
     //rule 3 = default;
     virtual void Run();
 
@@ -40,22 +48,129 @@ private:
 };
 
 template <typename Key, typename Value, typename Hasher>
-class ReduSert : public advcpp::IRunnable
+AddUp<Key, Value, Hasher>::AddUp(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size)
+: m_table(a_table)
+, m_size(a_size)
 {
-public:
-    ReduSert(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size);
-    //rule 3 = default;
-    virtual void Run();
-
-private:
-    advcpp::HashTableSafe<Key, Value, Hasher>& m_table;
-    size_t m_size;
-};
-
-size_t HashC(size_t a_key)
-{
-    return a_key ^ 3 << 4 ^ 0x45d9f3b;
 }
+
+template <typename Key, typename Value, typename Hasher>
+void AddUp<Key, Value, Hasher>::Run()
+{
+    size_t i = 0;
+    while(i < m_size)    
+    {
+        m_table.Upsert(i, 1, Adder<Key>());
+        ++i;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+template <typename Key, typename Value, typename Hasher>
+class AddDown : public advcpp::IRunnable
+{
+public:
+    AddDown(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size);
+    //rule 3 = default;
+    virtual void Run();
+
+private:
+    advcpp::HashTableSafe<Key, Value, Hasher>& m_table;
+    size_t m_size;
+};
+
+template <typename Key, typename Value, typename Hasher>
+AddDown<Key, Value, Hasher>::AddDown(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size)
+: m_table(a_table)
+, m_size(a_size)
+{
+}
+
+template <typename Key, typename Value, typename Hasher>
+void AddDown<Key, Value, Hasher>::Run()
+{
+    size_t i = m_size;
+    while(i --> 0)    
+    {
+        m_table.Upsert(i, 1, Adder<Key>());       
+    }
+}
+////////////////////////////////////////////////////////////////////////
+
+template <typename Key, typename Value, typename Hasher>
+class ReduceDown : public advcpp::IRunnable
+{
+public:
+    ReduceDown(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size);
+    //rule 3 = default;
+    virtual void Run();
+
+private:
+    advcpp::HashTableSafe<Key, Value, Hasher>& m_table;
+    size_t m_size;
+};
+
+template <typename Key, typename Value, typename Hasher>
+ReduceDown<Key, Value, Hasher>::ReduceDown(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size)
+: m_table(a_table)
+, m_size(a_size)
+{
+}
+
+template <typename Key, typename Value, typename Hasher>
+void ReduceDown<Key, Value, Hasher>::Run()
+{
+    size_t i = m_size;
+    while(i-->0)
+    {
+        m_table.Upsert(i, -1, Adder<Key>());
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+
+
+template <typename Key, typename Value, typename Hasher>
+void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, unsigned int a_pairs, size_t a_size)
+{   
+	RunPull addsUp;
+    RunPull addsDown;
+    for (size_t i=0; i<a_pairs; ++i)
+    {
+        addsUp.push_back(new AddUp<Key, Value, Hasher>(a_table, a_size));
+        addsDown.push_back(new AddDown<Key, Value, Hasher>(a_table, a_size));
+    }    
+   
+    ThreadPull threads;   
+    for (size_t i=0; i<a_pairs; ++i)
+    {
+        threads.push_back(new Thread(addsUp[i]));
+        threads.push_back(new Thread(addsDown[i]));
+    }
+
+    for (size_t i=0; i<2*a_pairs; ++i)
+    {
+        threads[i]->Join();
+        delete threads[i];        
+    }
+
+    for (size_t i=0; i<a_pairs; ++i)
+    {       
+        delete addsUp[i];
+        delete addsDown[i];
+    }   
+}
+
+////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
 
 
 UNIT(find_finds_inserted_int_remove_removes)
@@ -206,7 +321,7 @@ UNIT(hash_table_upserts_thread_safely)
     {
         int data;
         ASSERT_EQUAL(table.Find(i, data), true);
-        ASSERT_EQUAL(data, 0);
+        ASSERT_EQUAL(data, pairs*2);
     }
     ASSERT_EQUAL(table.Size(), size);
 END_UNIT
@@ -223,74 +338,4 @@ TEST_SUITE(hash table)
     TEST(hash_table_upserts_thread_safely)
 END_SUITE
 
-///////////////////////////////////////////////////////////////////////////////////
-
-
-template <typename Key, typename Value, typename Hasher>
-AddSert<Key, Value, Hasher>::AddSert(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size)
-: m_table(a_table)
-, m_size(a_size)
-{
-}
-
-template <typename Key, typename Value, typename Hasher>
-void AddSert<Key, Value, Hasher>::Run()
-{
-    size_t i = 0;
-    while(i < m_size)    
-    {
-        m_table.Upsert(i, 1, Adder<Key>());
-        ++i;
-    }
-}
-
-template <typename Key, typename Value, typename Hasher>
-ReduSert<Key, Value, Hasher>::ReduSert(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, size_t a_size)
-: m_table(a_table)
-, m_size(a_size)
-{
-}
-
-template <typename Key, typename Value, typename Hasher>
-void ReduSert<Key, Value, Hasher>::Run()
-{
-    size_t i = m_size;
-    while(i-->0)
-    {
-        m_table.Upsert(i, -1, Adder<Key>());
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////
-
-template <typename Key, typename Value, typename Hasher>
-void UpsertHash(advcpp::HashTableSafe<Key, Value, Hasher>& a_table, unsigned int a_pairs, size_t a_size)
-{   
-	RunPull adders;
-    RunPull reducers;
-    for (size_t i=0; i<a_pairs; ++i)
-    {
-        adders.push_back(new AddSert<Key, Value, Hasher>(a_table, a_size));
-        reducers.push_back(new ReduSert<Key, Value, Hasher>(a_table, a_size));
-    }    
-   
-    ThreadPull threads;   
-    for (size_t i=0; i<a_pairs; ++i)
-    {
-        threads.push_back(new Thread(adders[i]));
-        threads.push_back(new Thread(reducers[i]));
-    }
-
-    for (size_t i=0; i<2*a_pairs; ++i)
-    {
-        threads[i]->Join();
-        delete threads[i];        
-    }
-
-    for (size_t i=0; i<a_pairs; ++i)
-    {       
-        delete adders[i];
-        delete reducers[i];
-    }   
-}
-
