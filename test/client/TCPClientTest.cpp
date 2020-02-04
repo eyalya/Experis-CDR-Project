@@ -8,6 +8,7 @@
 #include "hash_table_safe.hpp"
 #include "hash_fun.h"
 #include "encoder.hpp"
+#include "record.hpp"
 
 typedef advcpp::TCPClient Client;
 static const int port = 2300;
@@ -56,8 +57,19 @@ UNIT(run_client)
     Client client(LOOPBACK_ADDR, port);
     advcpp::MessageSender mSender(client);
     mocTable.ForEach<advcpp::MessageSender>(mSender);
-    client.Recv();
-    client.Close();
+    ASSERT_PASS();
+END_UNIT
+
+UNIT(run_client_with_adding)
+    const size_t capacity = 1000;
+    const size_t mocTSize = 100;
+    advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
+    advcpp::HashTableSafe<uint, advcpp::SubscriberRecord, Hasher> mocTable(capacity, HashC);
+    advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
+    
+    Client client(LOOPBACK_ADDR, port);
+    advcpp::MessageSender mSender(client);
+    mocTable.ForEach<advcpp::MessageSender>(mSender);
     ASSERT_PASS();
 END_UNIT
 

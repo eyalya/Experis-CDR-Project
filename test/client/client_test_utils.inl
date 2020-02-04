@@ -4,6 +4,7 @@
 #include "client_test_utils.hpp"
 #include "util.hpp"
 #include "encoder.hpp"
+#include "irecorder.hpp"
 
 namespace advcpp
 {
@@ -56,6 +57,33 @@ inline void MessageSender::operator()(protocol::MOC& a_moc)
     char buffer[sizeof(protocol::MOC)];
     EncodeMoc(buffer, a_moc);
     m_client.Send(buffer);
+}
+
+template <typename Hasher>
+class SenderAndAdd
+{
+public:
+    SenderAndAdd(TCPClient & a_client, 
+                HashTableSafe<uint, SubscriberRecord, Hasher> & a_subContainer,
+                RecordAggregator & a_aggregator);
+
+    void operator()(protocol::MOC & a_moc);
+
+private:
+    TCPClient  & m_client;
+    HashTableSafe<uint, SubscriberRecord, Hasher> & m_subContainer;
+    RecordAggregator & m_aggregator;
+    
+};
+
+template <typename Hasher>
+SenderAndAdd<Hasher>::SenderAndAdd(TCPClient & a_client, 
+                            HashTableSafe<uint, SubscriberRecord, Hasher> & a_subContainer,
+                            RecordAggregator & a_aggregator)
+: m_client(a_client)
+, m_subContainer(a_subContainer)
+, m_aggregator(a_aggregator)
+{
 }
 
 
