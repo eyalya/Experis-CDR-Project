@@ -53,13 +53,13 @@ struct Sequence {
 template <typename T, typename U>
 Sequence<T,U> MakeSequence(T const& iv, U const& delta)
 {
-    return Sequence<T,U>(iv, delta);
+    return Sequence<T,U>(delta, iv);
 }
 
 template <typename T>
 Sequence<T,T> MakeSequence(T const& iv = T())
 {
-    return Sequence<T,T>(iv, T());
+    return Sequence<T,T>(T(), iv);
 }
 
 template <typename Iter>
