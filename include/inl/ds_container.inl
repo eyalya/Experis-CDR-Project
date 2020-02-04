@@ -2,13 +2,21 @@
 #define DS_CONATAINER_INL
 #include "ds_container.hpp"
 
-namespace advcpp 
+namespace advcpp{
+
+inline OperatorRecord DsContainer::FindOperator(uint const& a_operator)
 {
-std::string FindOperator(OperatorRecord const&)
-{
-    m_operator.Find()
+    OperatorRecord rec;
+    m_operator.Find(a_operator, rec);
+    return rec;
 }
-std::string FindSubscriber();
+
+inline SubscriberRecord DsContainer::FindSubscriber(uint const& a_subscriber)
+{
+    SubscriberRecord rec;
+    m_subscriber.Find(a_subscriber, rec);
+    return rec;
+}
 
 } //namespace advcpp 
 #endif //DS_CONATAINER_INL

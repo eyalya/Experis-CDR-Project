@@ -6,7 +6,8 @@
 #include "record.hpp"
 #include "hash_table_safe.hpp"
 #include "hash_funcs.hpp"
-typedef std::vector<std::string> Result;
+#include "protocol.hpp"
+
 namespace advcpp 
 {
 
@@ -20,11 +21,8 @@ public:
 
     void DsUpsert(Record& a_record);
     
-    template <typename T>
-    Result FindOperator(T const&);
-    
-    template <typename T>
-    Result FindSubscriber(T const&);
+    OperatorRecord FindOperator(uint const& a_operator);
+    SubscriberRecord FindSubscriber(uint const& a_subscriber);
 
 private:
     HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;

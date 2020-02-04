@@ -11,33 +11,33 @@ public:
     //Quary() = default;
     //rule 3 = default;
 
-    void GetSubscriber();
-    void GetOperator();
-    void GetAllSubscribers();
-    void GetAllOperators();
+    SubscriberRecord GetSubscriber(uint a_sub) const;
+    OperatorRecord GetOperator(uint a_sub) const;
+    void GetAllSubscribers() const;
+    void GetAllOperators() const;
 
 private:
-    DsContainer const& m_container;
+    DsContainer& m_container;
 };
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void Quary::GetSubscriber()
+inline SubscriberRecord Quary::GetSubscriber(uint a_sub) const
 {
-    m_container.
+    return m_container.FindSubscriber(a_sub);
 }
 
-void Quary::GetOperator()
+inline OperatorRecord Quary::GetOperator(uint a_op) const
 {
-    std::cout << "operator chosen\n";
+    return m_container.FindOperator(a_op);
 }
 
-void Quary::GetAllSubscribers()
+inline void Quary::GetAllSubscribers() const
 {
     std::cout << "all subscribers chosen\n";
 }
 
-void Quary::GetAllOperators()
+inline void Quary::GetAllOperators() const
 {
     std::cout << "all operators chosen\n";
 }
