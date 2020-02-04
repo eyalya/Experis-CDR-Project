@@ -28,7 +28,7 @@ private:
     IClient& operator=(IClient const&);
 
 public:
-    virtual void Send(const char* a_msg) = 0;
+    virtual void Send(const char* a_msg, size_t buffSize) = 0;
     virtual size_t Recv() = 0;
     virtual void Close() = 0;
 
@@ -41,7 +41,7 @@ public:
     TCPClient(const char* a_address, int a_port);
     //~TCPClient() = default;
 
-    virtual void Send(const char* a_msg);
+    virtual void Send(const char* a_msg, size_t a_buffSize = 256);
     virtual size_t Recv();
     virtual void Close();
 

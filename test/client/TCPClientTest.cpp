@@ -36,45 +36,65 @@ UNIT(run_client_one)
 
     char buffer[sizeof(protocol::MOC)];
 
-    moc.m_type = 0;
+    moc.m_type = protocol::CALL_MOC;
     moc.m_cdr.m_msisdn = 1984;
     moc.m_cdr.m_imsi = 12;
     moc.m_duration = 20;
     advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
-    client.Send(buffer);
-    client.Recv();
+    client.Send(buffer, sizeof(protocol::MOC));
     client.Close();
     ASSERT_PASS();
 END_UNIT
 
-UNIT(run_client)
-    const size_t capacity = 1000;
-    const size_t mocTSize = 100;
-    advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
-    advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
+UNIT(run_aggragte_message)
+    size_t nSends = 10000;
+    protocol::MOC moc;
+
+    char buffer[sizeof(protocol::MOC)];
+
+    moc.m_type = protocol::CALL_MOC;
+    moc.m_cdr.m_msisdn = 1984;
+    moc.m_cdr.m_imsi = 12;
+    moc.m_duration = 20;
+    advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
-    advcpp::MessageSender mSender(client);
-    mocTable.ForEach<advcpp::MessageSender>(mSender);
+    while (--nSends)
+    {
+        client.Send(buffer, sizeof(protocol::MOC));
+    }
+    client.Close();
     ASSERT_PASS();
 END_UNIT
 
-UNIT(run_client_with_adding)
-    const size_t capacity = 1000;
-    const size_t mocTSize = 100;
-    advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
-    advcpp::HashTableSafe<uint, advcpp::SubscriberRecord, Hasher> subscribersTable(capacity, HashC);
-    advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
-    Client client(LOOPBACK_ADDR, port);
-    advcpp::MessageSender mSender(client);
-    mocTable.ForEach<advcpp::MessageSender>(mSender);
-    ASSERT_PASS();
-END_UNIT
+// UNIT(run_client)
+//     const size_t capacity = 1000;
+//     const size_t mocTSize = 100;
+//     advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
+//     advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
+//     Client client(LOOPBACK_ADDR, port);
+//     advcpp::MessageSender mSender(client);
+//     mocTable.ForEach<advcpp::MessageSender>(mSender);
+//     ASSERT_PASS();
+// END_UNIT
+
+// UNIT(run_client_with_adding)
+//     const size_t capacity = 1000;
+//     const size_t mocTSize = 100;
+//     advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
+//     advcpp::HashTableSafe<uint, advcpp::SubscriberRecord, Hasher> subscribersTable(capacity, HashC);
+//     advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
+//     Client client(LOOPBACK_ADDR, port);
+//     advcpp::MessageSender mSender(client);
+//     mocTable.ForEach<advcpp::MessageSender>(mSender);
+//     ASSERT_PASS();
+// END_UNIT
 
 
 TEST_SUITE(hash table)
-    TEST(fill_map)
-    IGNORE_TEST(run_client_one)
-    TEST(run_client)
+    IGNORE_TEST(fill_map)
+    TEST(run_client_one)
+    TEST(run_aggragte_message)
+    // TEST(run_client)
 END_SUITE
 

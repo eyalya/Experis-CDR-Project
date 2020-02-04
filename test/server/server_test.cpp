@@ -8,6 +8,7 @@
 #include "irecorder.hpp"
 #include "cdr_decoder.hpp"
 #include "reducer.hpp"
+#include "cdr_factory.hpp"
 #include "test_utils.hpp"
 
 typedef size_t (*Hasher)(size_t a_key);
@@ -38,26 +39,29 @@ int main()
     HashConts dsCont;
 
     std::vector<advcpp::Irecievers*> msgRecieversVec;
-    //Receivers cdrRceiever(queueSocket, msgQue, switchButton);
     ReciversCreate (msgRecieversVec, queueSocket, msgQue, switchButton, nRecivers);
 
     std::vector<advcpp::IReducing* > reducingVec;
+    reducingVec.push_back (new advcpp::MCOReducing()); 
     reducingVec.push_back (new advcpp::MCOReducing());
     advcpp::Reducer reducer(reducingVec);
 
     std::vector<advcpp::IDecodeMassge* > decodersVec;
     decodersVec.push_back(new advcpp::DecodeMCO());
+    decodersVec.push_back(new advcpp::DecodeMCO());
     advcpp::CdrDecoder decoder(decodersVec);
 
     advcpp::RecordAggregator<char*> recorder(decoder ,reducer);
 
-    // HashUpsertors upsertors(msgQue, recorder, dsCont, switchButton);
-    std::vector<HashUpsertors* > m_workers;
-
-    advcpp::UpsertorsCreate<char*>(m_workers, msgQue, recorder, dsCont, switchButton, nUpsertors);
+    std::vector<HashUpsertors* > upsertorsVec;
+    
+    advcpp::UpsertorsCreate<char*>(upsertorsVec, msgQue, recorder, dsCont, switchButton, nUpsertors);
 
     advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(msgRecieversVec, switchButton);
     dispatcher.ActivateWorkers();
+
+    advcpp::CdrFactory<HashUpsertors*> cdrFactory(upsertorsVec, switchButton);
+    cdrFactory.ActivateWorkers();
 
     advcpp::TCPAcceptor acceptor(LOOPBACK_ADDR, port, queueSocket);
     advcpp::AcceptorThread acceptorActivator(&acceptor);

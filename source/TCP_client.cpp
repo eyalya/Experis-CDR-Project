@@ -15,9 +15,9 @@ TCPClient::TCPClient(const char* a_address, int a_port)
     m_socket.Connect();
 }
 
-void TCPClient::Send(const char* a_msg)
+void TCPClient::Send(const char* a_msg, size_t a_buffSize)
 {
-    m_socket.Send(a_msg);    
+    m_socket.Send(a_msg, a_buffSize);    
 }
 
 size_t TCPClient::Recv()

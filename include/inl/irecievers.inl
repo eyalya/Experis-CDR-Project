@@ -1,6 +1,7 @@
+#include <iostream>
+#include <cassert>
 #include "irecievers.hpp"
 #include "defs.hpp"
-#include <iostream>
 
 namespace advcpp
 {
@@ -30,11 +31,20 @@ template <typename T>
 void CdrRecievers<T>::ReadMsgs()
 {
     int byte = 1;
+    char* buff = 0;
     while (byte)
     {
-        char* buff = new char[BUFFER_SIZE];
+        try 
+        {
+            buff = new char[BUFFER_SIZE];
+        }
+        catch(...)
+        {
+            std::cout << "alloc falied" << "\n";
+            continue;
+        }
         byte = m_socket->Recv(buff);
-        std::cout << buff <<"\n";
+        std::cout << "byte read: "<< byte <<"\n";
         if (byte <= 0)
         {
             delete[] buff;

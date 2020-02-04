@@ -17,8 +17,8 @@ public:
 
 enum Call
 {
-	CALL_MOC, // outgoing voice call
 	CALL_MTC,// incoming voice call
+	CALL_MOC, // outgoing voice call
 	CALL_SMS_MO, // outgoing SMS
 	CALL_SMS_MT, // incoming messages
 	CALL_GPRS, // internet
