@@ -1,6 +1,7 @@
 #ifndef RECORD_H
 #define RECORD_H
 #include <cstdlib>
+#include <iostream>
 
 namespace advcpp
 {
@@ -8,6 +9,9 @@ namespace advcpp
 struct Record
 {
     Record & operator+= (const Record & a_record);
+    // Record() = default
+    // ~Record() = default
+    // Record & Record(Record & const) = default
     
     size_t m_brand;
     uint m_imsi;
@@ -30,7 +34,10 @@ struct SubscriberRecord
 {
     SubscriberRecord();
     SubscriberRecord(const Record & a_record);
-    
+    // ~SubscriberRecord(); =default
+    // SubscriberRecord & SubscriberRecord(const SubscriberRecord & a_rec); =default
+    // SubscriberRecord & operator= (const SubscriberRecord & a_rec); =default
+ 
     SubscriberRecord & operator+= (const SubscriberRecord & a_record);
     
     uint m_imsi;
@@ -51,7 +58,10 @@ struct OperatorRecord
 {
     OperatorRecord();
     OperatorRecord(const Record & a_record);
-    
+    // ~OperatorRecord(); =default
+    // OperatorRecord & OperatorRecord(const OperatorRecord & a_rec); =default
+    // OperatorRecord & operator= (const OperatorRecord & a_rec); =default
+
     OperatorRecord & operator+= (const OperatorRecord & a_record);
     
     size_t m_brand;
@@ -61,7 +71,7 @@ struct OperatorRecord
     size_t m_outSMS;
 };
 
-
+std::ostream & operator << (std::ostream &out, const SubscriberRecord & a_record);
 
 } // namespace 
 

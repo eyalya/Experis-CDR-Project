@@ -35,7 +35,7 @@ public:
     virtual void Reuse() = 0;
     virtual void NoBlock() = 0;
     virtual size_t Recv(char* a_msg) = 0;
-    virtual void Send(const char* a_msg) = 0;
+    virtual void Send(const char* a_msg, size_t a_buffSize) = 0;
     virtual void Close() = 0;
     
     virtual int Sock() const = 0;
@@ -57,7 +57,7 @@ public:
     virtual void Reuse();
     virtual void NoBlock();
     virtual size_t Recv(char* a_msg);
-    virtual void Send(const char* a_msg);
+    virtual void Send(const char* a_msg, size_t buffSize = 256);
     virtual void Close();
     
     virtual int Sock() const;

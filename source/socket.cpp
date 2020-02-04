@@ -114,10 +114,9 @@ size_t Socket::Recv(char* a_buff)
     return readBytes;
 }
 
-void Socket::Send(const char* a_msg)
+void Socket::Send(const char* a_msg, size_t a_buffSize)
 {
-    size_t len = strlen(a_msg);
-    int sentBytes = send(Sock(), a_msg, len, 0);
+    int sentBytes = send(Sock(), a_msg, a_buffSize, 0);
 	
 	if (sentBytes == ERROR)
 	{

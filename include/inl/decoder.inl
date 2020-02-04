@@ -111,12 +111,9 @@ inline size_t DecodeCdr(protocol::CDR & a_cdr, char * a_src)
     loc += sizeof(uint);
     a_cdr.m_msisdn = DecodeT<uint>(&(a_src[loc]), sizeof(uint));
     loc += sizeof(uint);
-    std::cout << "\nloc before imei " << loc;
     a_cdr.m_imei = DecodeT<uint>(&(a_src[loc]), sizeof(uint));
     loc += sizeof(uint);
-    std::cout << "\nloc after imei " << loc;
     loc += DecodeOperator(a_cdr.m_operator, &(a_src[loc]));
-    std::cout << "\nloc after operator " << loc;
     a_cdr.m_mcc =  DecodeT<uint>(&(a_src[loc]), sizeof(uint));
     loc += sizeof(uint);
     loc += DecodeDate(a_cdr.m_date, &(a_src[loc]));  

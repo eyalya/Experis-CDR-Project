@@ -5,7 +5,6 @@
 
 #include "record.hpp"
 #include "hash_table_safe.hpp"
-#include "hash_funcs.hpp"
 #include "protocol.hpp"
 
 namespace advcpp 
@@ -19,14 +18,14 @@ public:
     //DsContainer(const DsContainer<T>& a_rhs) = default;
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
-    void DsUpsert(Record& a_record);
+    void DsUpserter(Record& a_record);
     
     bool FindOperator(uint a_operator, OperatorRecord& a_op) const;
     bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_rec) const;
 
 private:
-    HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;
-    HashTableSafe<uint, OperatorRecord, DefaultHasher<size_t> > m_operator;
+    HashTableSafe<uint, SubscriberRecord, Hasher<uint> > m_subscriber;
+    HashTableSafe<uint, OperatorRecord, Hasher<size_t> > m_operator;
 };
 
 void UpdaterSubscriberRecord(SubscriberRecord& a_current, SubscriberRecord const& a_newRecord);

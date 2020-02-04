@@ -128,10 +128,25 @@ bool operator!=(HashItr<Key, Value> a_lhs, HashItr<Key, Value> a_rhs)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+inline size_t hash(int a_key)
+{
+	return (a_key ^ 37) >> 4 ^ 0x45d9f3b; 
+}
+
+inline size_t hash(uint a_key)
+{
+	return (a_key ^ 37) >> 4 ^ 0x45d9f3b; 
+}
+
+inline size_t hash(size_t a_key)
+{
+	return (a_key ^ 37) >> 4 ^ 0x45d9f3b; 
+}
 
 template <typename Key>
 class Hasher
 {
+public:
 	size_t operator()(Key const& a_key);
 };
 
@@ -139,11 +154,6 @@ template <typename Key>
 size_t Hasher<Key>::operator()(Key const& a_key)
 {
 	return hash(a_key);
-}
-
-size_t hash(int a_key)
-{
-	return (a_key ^ 37) >> 4 ^ 0x45d9f3b; 
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -35,7 +35,7 @@ HashTableSafe<Key, Value, HashFunc>::~HashTableSafe()
 }
 
 
-size_t MutexSize(size_t a_size)
+inline  size_t MutexSize(size_t a_size)
 {
 	size_t size = a_size / numbers::GOLDEN_RATIO;    
     return size;
