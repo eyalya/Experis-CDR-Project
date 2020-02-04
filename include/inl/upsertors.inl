@@ -2,7 +2,10 @@
 #define UPSERTORS_INL
 
 #include <iostream>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 91c2c8cef0316da87b723ee6e3ed495f6f9ce5bf
 #include "upsertors.hpp"
 
 namespace advcpp
@@ -25,10 +28,16 @@ void Upsertors<T>::Run()
     std::cout << "running\n";
     while (m_switch)
     {
+<<<<<<< HEAD
         std::cout << "whaiting for message\n";
+=======
+        std::cout << "upsertors geting message \n";
+>>>>>>> 91c2c8cef0316da87b723ee6e3ed495f6f9ce5bf
         m_msgQue.Dequeue(msg);
         std::cout << "got message\n";
         m_recorder.Generate(msg, m_record);
+        std::cout << SubscriberRecord(m_record) << "\n";
+        std::cout << "i am  here \n";
         m_dsCont.DsUpserter(m_record);
         std::cout << m_record << "\n";
         delete[] msg;

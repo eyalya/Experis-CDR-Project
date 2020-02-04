@@ -31,18 +31,38 @@ UNIT(fill_map)
     ASSERT_EQUAL(result.m_cdr.m_imei, 10000085);
 END_UNIT
 
+UNIT(run_client_send_char)
+    char buffer[] = "\0hey you";
+
+    std::cout << "buffer size " << sizeof(buffer) << '\n';
+    Client client(LOOPBACK_ADDR, port);
+    client.Send(buffer);
+    client.Close();
+    ASSERT_PASS();
+END_UNIT
+
 UNIT(run_client_one)
     protocol::MOC moc;
-
-    char buffer[sizeof(protocol::MOC)];
+    //sizeof(protocol::MOC)
+    char buffer[256];
 
     moc.m_type = protocol::CALL_MOC;
     moc.m_cdr.m_msisdn = 1984;
     moc.m_cdr.m_imsi = 12;
     moc.m_duration = 20;
     advcpp::EncodeMoc(buffer, moc);
+    std::cout << "buffer size " << sizeof(buffer) << '\n';
+    for(size_t i = 0; i < sizeof(buffer); ++i)
+    {
+        buffer[i] += 'a';
+    }
+    std::cout << "buffer: " << buffer << '\n';
     Client client(LOOPBACK_ADDR, port);
+<<<<<<< HEAD
     client.Send(buffer, sizeof(protocol::MOC));
+=======
+    client.Send(buffer);
+>>>>>>> 91c2c8cef0316da87b723ee6e3ed495f6f9ce5bf
     client.Close();
     ASSERT_PASS();
 END_UNIT
@@ -93,8 +113,14 @@ END_UNIT
 
 TEST_SUITE(hash table)
     IGNORE_TEST(fill_map)
+<<<<<<< HEAD
     TEST(run_client_one)
     TEST(run_aggragte_message)
     // TEST(run_client)
+=======
+    TEST(run_client_send_char)
+    TEST(run_client_one)
+    //TEST(run_client)
+>>>>>>> 91c2c8cef0316da87b723ee6e3ed495f6f9ce5bf
 END_SUITE
 
