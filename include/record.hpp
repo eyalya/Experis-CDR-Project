@@ -11,6 +11,7 @@ struct Record : public IRecord
     virtual ~Record();
     void operator+= (const Record & a_record);
     
+    size_t m_brand;
     uint m_imsi;
     uint m_misdn;
     uint m_MCC;
@@ -64,13 +65,7 @@ struct OperatorRecord : public IRecord
     size_t m_outSMS;
 };
 
-inline OperatorRecord::OperatorRecord()
-{
-}
 
-inline SubscriberRecord::SubscriberRecord()
-{
-}
 
 inline OperatorRecord::~OperatorRecord()
 {

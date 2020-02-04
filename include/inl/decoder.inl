@@ -61,6 +61,21 @@ inline size_t DecodeMoc(protocol::Message & a_moc, char * a_src)
     return loc;
 }
 
+inline size_t DecodeMtc(protocol::Message & a_moc, char * a_src)
+{
+    size_t loc = 0; 
+    a_moc.m_type = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
+    loc += sizeof(uchar);
+    std::cout <<  loc << '\n';
+    loc += DecodeCdr(a_moc.m_cdr, &(a_src[loc]));
+    
+    a_moc.m_duration = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
+    loc += sizeof(uchar);
+    loc += DecodeParty(a_moc.m_paryData, &(a_src[loc]));
+
+    return loc;
+}
+
 inline size_t DecodeCdr(protocol::CDR & a_cdr, char * a_src)
 {
     size_t loc = 0; 

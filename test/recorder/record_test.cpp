@@ -80,9 +80,20 @@ UNIT(check_encode_decode)
     ASSERT_EQUAL(message.m_cdr.m_msisdn, moc.m_cdr.m_msisdn);
 END_UNIT
 
+UNIT(check_records)
+
+    advcpp::Record fRecord;
+    fRecord.m_imsi = 89;
+    advcpp::SubscriberRecord sRecord;
+
+    ASSERT_EQUAL(sRecord.m_imsi, 0);
+    
+END_UNIT
+
 TEST_SUITE(thread tests)
 	TEST(check_decode)
     TEST(check_encode)
     TEST(check_encode_decode)
+    TEST(check_records)
 END_SUITE
 
