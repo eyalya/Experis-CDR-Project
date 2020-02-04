@@ -10,7 +10,8 @@
 namespace advcpp 
 {
 
-class DsContainer {
+class DsContainer
+{
 public:
     explicit DsContainer();
 
@@ -19,9 +20,8 @@ public:
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
     void DsUpserter(Record& a_record);
-    
-    bool FindOperator(uint a_operator, OperatorRecord& a_op) const;
-    bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_rec) const;
+    bool FindOperator(uint a_operator, OperatorRecord& a_op);
+    bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_rec);
 
 private:
     HashTableSafe<uint, SubscriberRecord, Hasher<uint> > m_subscriber;

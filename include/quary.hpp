@@ -11,8 +11,8 @@ public:
     Quary(DsContainer& a_container);
     //rule 3 = default;
 
-    SubscriberRecord GetSubscriber(uint a_sub) const;
-    OperatorRecord GetOperator(uint a_sub) const;
+    bool GetSubscriber(uint a_sub, SubscriberRecord& a_subRec) const;
+    bool GetOperator(uint a_op, OperatorRecord& a_opRec) const;
     void GetAllSubscribers() const;
     void GetAllOperators() const;
 
@@ -27,12 +27,15 @@ inline Quary::Quary(DsContainer& a_container)
 {  
 }
 
-inline SubscriberRecord Quary::GetSubscriber(uint a_sub) const
+inline bool Quary::GetSubscriber(uint a_sub) const
 {
-    return m_container.FindSubscriber(a_sub);
+    m_container.FindSubscriber(a_sub);
+    return 
 }
+//TODO: continue from here
+//FIXME:
 
-inline OperatorRecord Quary::GetOperator(uint a_op) const
+inline bool Quary::GetOperator(uint a_op) const
 {
     return m_container.FindOperator(a_op);
 }
