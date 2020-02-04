@@ -67,7 +67,7 @@ void Record::operator+= (const Record & a_record)
     m_upload += a_record.m_upload;
 }
 
-void SubscriberRecord::operator+= (const Record & a_record)
+void SubscriberRecord::operator+= (const SubscriberRecord & a_record)
 {
     m_outVoiceInOp += a_record.m_outVoiceInOp;
     m_inVoiceInOp += a_record.m_inVoiceInOp;

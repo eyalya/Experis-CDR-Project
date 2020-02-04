@@ -93,7 +93,8 @@ bool HashTableSafe<Key, Value, HashFunc>::Insert(Key const& a_key, Value const& 
 
 template <typename Key, typename Value, typename HashFunc>
 template <typename Update>
-bool HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& a_value, Update a_update)
+bool 
+HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& a_value, Update a_updater)
 {
     size_t index = HashIndex(a_key);
     Bucket<Key, Value>& bucket = this->at(index);
@@ -104,7 +105,7 @@ bool HashTableSafe<Key, Value, HashFunc>::Upsert(Key const& a_key, Value const& 
         //found - do update -> true
         if (found != bucket.End())
         {
-            a_update(found->second, a_value);
+            a_updater(found->second, a_value);
             return true;
         }
         

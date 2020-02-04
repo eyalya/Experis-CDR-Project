@@ -13,23 +13,26 @@ DsContainer::DsContainer()
 {
 }
 
-void DsContainer::DsUpserter(Record& a_record)
-{
-    SubscriberRecord subRecord(a_record);
-    m_subscriber.Upsert(a_record.m_misdn, subRecord, UpdaterSubscriber);
-    OperatorRecord operatorRecord(a_record);
-    m_operator.Upsert(a_record.m_brand, operatorRecord, UpdaterOperator);
-}
 
 // void DsContainer::Updater(IRecord& a_lhs, Record const& a_rhs)
 // {
 //     a_lhs += a_rhs;
 // }
 
-void DsContainer::UpdaterSubscriber(SubscriberRecord& a_lhs, Record const& a_rhs)
+void UpdaterSubscriberRecord(SubscriberRecord& a_current, SubscriberRecord const& a_newRecord)
 {
-    a_lhs += a_rhs;
+    a_current += a_newRecord;
 }
+
+void DsContainer::DsUpserter(Record& a_record)
+{
+    SubscriberRecord subRecord(a_record);
+    m_subscriber.Upsert(a_record.m_misdn, subRecord, UpdaterSubscriberRecord);
+    
+    // OperatorRecord operatorRecord(a_record);
+    // m_operator.Upsert(a_record.m_brand, operatorRecord, UpdaterOperator);
+}
+
 
 void DsContainer::UpdaterOperator(OperatorRecord& a_lhs, Record const& a_rhs)
 {

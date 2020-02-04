@@ -34,7 +34,8 @@ struct SubscriberRecord : public IRecord
     SubscriberRecord(const Record & a_record);
     virtual ~SubscriberRecord();
     
-    void operator+= (const Record & a_record);
+    void operator+= (const Record & ) {} // TODO: remove
+    void operator+= (const SubscriberRecord & a_record);
     
     uint m_imsi;
     uint m_misdn;
