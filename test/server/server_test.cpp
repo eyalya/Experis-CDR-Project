@@ -30,25 +30,32 @@ int main()
 {    
     bool switchButton = true;
     const size_t nRecivers = advcpp::NT - 1;
-    //const size_t nUpsertors = 2;
+    const size_t nUpsertors = 2;
 
     WQSocket queueSocket;
-    WQMsg queReceivers(10000);
+    WQMsg msgQue(10000);
 
     std::vector<IntHashSafe> hashVec;
     HashConts dsCont(hashVec);
 
     std::vector<advcpp::Irecievers*> msgRecieversVec;
-    //Receivers cdrRceiever(queueSocket, queReceivers, switchButton);
-    ReciversCreate (msgRecieversVec, queueSocket, queReceivers, switchButton, nRecivers);
+    //Receivers cdrRceiever(queueSocket, msgQue, switchButton);
+    ReciversCreate (msgRecieversVec, queueSocket, msgQue, switchButton, nRecivers);
 
-    // std::vector<advcpp::IReducing* > reducingVec;
-    // reducingVec.push_back (advcpp::MCOReducing())
-    // advcpp::Reducer reducer
-    // advcpp::RecordAggregator<char*> recorder();
+    std::vector<advcpp::IReducing* > reducingVec;
+    reducingVec.push_back (new advcpp::MCOReducing());
+    advcpp::Reducer reducer(reducingVec);
 
-    // HashUpsertors upsertors(queReceivers, IRecorder& a_recorder, dsCont, switchButton));
-    // UpsertorsCreate (std::vector<Upsertors<DsCont>* >& a_workers, WaitableQueue<char*>& a_msgQue, IRecorder& a_recorder, DsCont& a_dsCont, switchButton, nUpsertors)
+    std::vector<advcpp::IDecodeMassge* > decodersVec;
+    decodersVec.push_back(new advcpp::DecodeMCO());
+    advcpp::CdrDecoder decoder(decodersVec);
+
+    advcpp::RecordAggregator<char*> recorder(decoder ,reducer);
+
+    // HashUpsertors upsertors(msgQue, recorder, dsCont, switchButton);
+    std::vector<HashUpsertors* > m_workers;
+
+    advcpp::UpsertorsCreate(m_workers, msgQue, recorder, dsCont, switchButton, nUpsertors);
 
     advcpp::Dispatcher<advcpp::Irecievers*> dispatcher(msgRecieversVec, switchButton);
     dispatcher.ActivateWorkers();

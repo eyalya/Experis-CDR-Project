@@ -20,14 +20,16 @@ Upsertors<DsCont>::Upsertors(WaitableQueue<char*>& a_msgQue, IRecorder<char*>& a
 template <typename DsCont> 
 void Upsertors<DsCont>::Run()
 {
+    char* msg;
     while (m_switch)
     {
-        char* msg = ReadMsgs();
+        m_msgQue.Dequeue(msg);
         m_recorder.Generate(msg, m_record);
-        m_dsCont.DsUpserter(m_record);
+        m_dsCont.DsUpserter(&m_record);
         delete[] msg;
     }
 }
+
 
 } //namespace advcpp
 

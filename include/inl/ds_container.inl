@@ -7,20 +7,23 @@ namespace advcpp
 {
 
 template <typename Cont>
-DsContainer<Cont>::DsContainer(std::vector<Cont>& a_conts)
-: m_conts(a_conts)
+DsContainer<Cont>::DsContainer()
+: m_subscriber(SUBSCRIBER_CAPACITY, DefaultHasher<uint>())
+, m_operator (OPERATOR_CAPACITY, DefaultHasher<size_t>())
 {
 }
 
 template <typename Cont>
-void DsContainer<Cont>::DsUpserter(IRecord* a_record)
+void DsContainer<Cont>::DsUpserter(Record& a_record)
 {
-    const size_t size = m_conts.size();
+    m_subscriber.Upsert(a_record.m_misdn, SubscriberRecord(a_record), Updater);
+    m_operator.Upsert(a_record.brand, OperatorRecord(a_record), Updater);
+}
 
-    for (size_t i = 0; i < size; ++i)
-    {
-        m_conts[i].Upsert(a_record);
-    }
+template <typename Cont>
+void DsContainer<Cont>::Updater(IRecord& a_lhs, Record const& a_rhs)
+{
+    a_lhs += a_rhs;
 }
 
 } //namespace advcpp 

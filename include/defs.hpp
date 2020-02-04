@@ -9,6 +9,10 @@ namespace advcpp
 #define BYTE 8
 #define BUFFER_SIZE  256
 
+//HashDefines
+#define SUBSCRIBER_CAPACITY 1000
+#define OPERATOR_CAPACITY 1000
+
 }
 
 #endif //DEFS_HPP

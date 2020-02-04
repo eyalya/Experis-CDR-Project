@@ -3,8 +3,9 @@
 
 #include <vector>
 
-#include "i_record.hpp"
-
+#include "record.hpp"
+#include "hash_table_safe.hpp"
+#include "hash_funcs.hpp"
 
 namespace advcpp 
 {
@@ -12,17 +13,21 @@ namespace advcpp
 template <typename Cont> 
 class DsContainer {
 public:
-    explicit DsContainer(std::vector<Cont>& a_conts);
+    explicit DsContainer();
 
     //~DsContainer() = default;
     //DsContainer(const DsContainer<T>& a_rhs) = default;
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
-    void DsUpserter(IRecord* a_record);
+    void DsUpserter(Record& a_record);
+private:
+    void Updater(IRecord& a_lhs, Record const& a_rhs);
 
 private:
-    std::vector<Cont>& m_conts; 
+    HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;
+    HashTableSafe<uint, OperatorRecord, DefaultHasher<size_t> > m_operator;
 };
+
 
 } //namespace advcpp 
 

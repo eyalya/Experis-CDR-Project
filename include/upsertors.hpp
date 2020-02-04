@@ -5,6 +5,7 @@
 #include "waitable_queue.hpp"
 #include "irecorder.hpp"
 #include "i_record.hpp"
+#include "ds_container.hpp"
 
 namespace advcpp 
 {
@@ -19,9 +20,6 @@ public:
     //Upsertors& operator = (const Upsertors<T> a_rhs) = default;
 
     void Run();
-
-private:
-    void ReadMsgs();
 
 private:
     WaitableQueue<char*>& m_msgQue;
