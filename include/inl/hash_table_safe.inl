@@ -197,28 +197,22 @@ size_t HashTableSafe<Key, Value, HashFunc>::Capacity() const
 template <typename Key, typename Value, typename HashFunc>
 size_t HashTableSafe<Key, Value, HashFunc>::Size() const
 {
-    {
-        LockAll<Key, Value, HashFunc> lockAll(*this);
-        return m_nItems;
-    }
+    return m_nItems.Get();    
 }
 
 template <typename Key, typename Value, typename HashFunc>
 bool HashTableSafe<Key, Value, HashFunc>::IsEmpty() const
 {
-    {
-        LockAll<Key, Value, HashFunc> lockAll(*this);  
-        return 0 == m_nItems;
-    }
+    size_t size = m_nItems;
+    return size == 0;
 }
 
 template <typename Key, typename Value, typename HashFunc>
-size_t HashTableSafe<Key, Value, HashFunc>::LoadFactor() const
+double HashTableSafe<Key, Value, HashFunc>::LoadFactor() const
 {
-    {
-        LockAll<Key, Value, HashFunc>(*this);  
-        return m_capacity / m_nItems;
-    }
+    size_t size = m_nItems;
+    return m_capacity / size;
+    
 }
 
 template <typename Key, typename Value, typename HashFunc>

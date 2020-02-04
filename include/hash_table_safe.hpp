@@ -10,6 +10,7 @@
 #include "hash_table.hpp" //HashItr, Hasher
 #include "bucket.hpp"
 #include "mutex.hpp"
+#include "atomic.hpp"
 
 namespace advcpp{
 
@@ -54,7 +55,7 @@ public:
 	
 	size_t hash(Key const& a_key) const;
 	size_t Capacity() const;
-	size_t LoadFactor() const;
+	double LoadFactor() const;
 	size_t Size() const;
 	bool IsEmpty() const;
 
@@ -69,11 +70,11 @@ private:
     size_t GetMutexSize() const;
 
 private:
-	size_t 		    m_capacity;
-	HashFunc 	    m_hushFunc;
-	size_t 		    m_nItems;	
-    size_t          m_mutexSize;
-	mutable Mutex*  m_mutex;
+	size_t 		    	m_capacity;
+	HashFunc 	    	m_hushFunc;
+	AtomicValue<size_t>	m_nItems;	//TODO:change to atomic
+    size_t          	m_mutexSize;
+	mutable Mutex*  	m_mutex;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////
