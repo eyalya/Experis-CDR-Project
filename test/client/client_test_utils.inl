@@ -65,28 +65,37 @@ class SenderAndAdd
 public:
     SenderAndAdd(TCPClient & a_client, 
                 HashTableSafe<uint, SubscriberRecord, Hasher> & a_subContainer,
-                RecordAggregator & a_aggregator);
+                RecordAggregator<char *> & a_aggregator);
 
     void operator()(protocol::MOC & a_moc);
 
 private:
     TCPClient  & m_client;
     HashTableSafe<uint, SubscriberRecord, Hasher> & m_subContainer;
-    RecordAggregator & m_aggregator;
+    RecordAggregator<char *> & m_aggregator;
     
 };
 
 template <typename Hasher>
 SenderAndAdd<Hasher>::SenderAndAdd(TCPClient & a_client, 
                             HashTableSafe<uint, SubscriberRecord, Hasher> & a_subContainer,
-                            RecordAggregator & a_aggregator)
+                            RecordAggregator<char *> & a_aggregator)
 : m_client(a_client)
 , m_subContainer(a_subContainer)
 , m_aggregator(a_aggregator)
 {
 }
 
-
+template <typename Hasher>
+void SenderAndAdd<Hasher>::operator()(protocol::MOC & a_moc)
+{
+    char buffer[sizeof(protocol::MOC)];
+    EncodeMoc(buffer, a_moc);
+    m_client.Send(buffer);
+    Record rec;
+    m_aggregator.Generate(buffer, rec);
+    m_subContainer.Insert(rec);
+}
 
 } //namespace advcpp
 

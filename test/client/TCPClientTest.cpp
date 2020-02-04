@@ -53,7 +53,6 @@ UNIT(run_client)
     const size_t mocTSize = 100;
     advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
     advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
-    
     Client client(LOOPBACK_ADDR, port);
     advcpp::MessageSender mSender(client);
     mocTable.ForEach<advcpp::MessageSender>(mSender);
@@ -64,9 +63,8 @@ UNIT(run_client_with_adding)
     const size_t capacity = 1000;
     const size_t mocTSize = 100;
     advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
-    advcpp::HashTableSafe<uint, advcpp::SubscriberRecord, Hasher> mocTable(capacity, HashC);
+    advcpp::HashTableSafe<uint, advcpp::SubscriberRecord, Hasher> subscribersTable(capacity, HashC);
     advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
-    
     Client client(LOOPBACK_ADDR, port);
     advcpp::MessageSender mSender(client);
     mocTable.ForEach<advcpp::MessageSender>(mSender);
