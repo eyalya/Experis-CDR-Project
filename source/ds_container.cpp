@@ -10,7 +10,7 @@ DsContainer::DsContainer()
 {
 }
 
-void DsContainer::DsUpserter(Record& a_record)
+void DsContainer::DsUpsert(Record& a_record)
 {
     SubscriberRecord subRecord(a_record);
     m_subscriber.Upsert(a_record.m_misdn, subRecord, UpdaterSubscriberRecord);

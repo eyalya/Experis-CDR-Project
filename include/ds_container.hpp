@@ -18,7 +18,7 @@ public:
     //DsContainer(const DsContainer<T>& a_rhs) = default;
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
-    void DsUpserter(Record& a_record);
+    void DsUpsert(Record& a_record);
     
     bool FindOperator(uint a_operator, OperatorRecord& a_op) const;
     bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_rec) const;
