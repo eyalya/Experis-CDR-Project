@@ -17,11 +17,9 @@ CdrRecievers<T>::CdrRecievers(WaitableQueue<ISocket*>& a_socketQue, WaitableQueu
 template <typename T> 
 void CdrRecievers<T>::Run()
 {
-    std::cout << "wait for socket\n";
     while (m_switch)
     {
         m_socketQue.Dequeue(m_socket);
-        std::cout << "got socket, queing msg\n";
         ReadMsgs();
     }
 }
@@ -43,7 +41,6 @@ void CdrRecievers<T>::ReadMsgs()
             continue;
         }
         byte = m_socket->Recv(buff);
-        std::cout << "byte read: "<< byte <<"\n";
         if (byte <= 0)
         {
             delete[] buff;

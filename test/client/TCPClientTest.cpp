@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <ctime>
 #include "TCP_client.hpp"
 #include "client_test_utils.hpp"
 #include "hash_table_safe.hpp"
@@ -34,7 +35,6 @@ END_UNIT
 UNIT(run_client_send_char)
     char buffer[] = "\0hey you";
 
-    std::cout << "buffer size " << sizeof(buffer) << '\n';
     Client client(LOOPBACK_ADDR, port);
     client.Send(buffer);
     client.Close();
@@ -57,7 +57,7 @@ UNIT(run_client_one)
 END_UNIT
 
 UNIT(run_aggragte_message)
-    size_t nSends = 10000;
+    size_t nSends = 1000000;
     protocol::MOC moc;
 
     char buffer[sizeof(protocol::MOC)];

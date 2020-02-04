@@ -7,7 +7,7 @@
 namespace advcpp{
 
 static const int ERROR = -1;
-static const size_t MAX_BUFF_LEN = 1024;
+static const size_t MAX_BUFF_LEN = 60;
 
 class SocketException : private ExtendedException
 {

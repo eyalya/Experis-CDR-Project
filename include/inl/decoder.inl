@@ -33,7 +33,10 @@ inline CdrDecoder::CdrDecoder(std::vector<IDecodeMassge *> & a_decoders)
 inline void CdrDecoder::Decode(char * a_src, protocol::Message & a_message)
 {
     uchar index = DecodeT<uchar>(&(a_src[0]), sizeof(uchar));
-    m_decoders[index] -> Decode(a_src, a_message);
+    (void) index;
+    // FIXME: fix decoder
+    // m_decoders[index] -> Decode(a_src, a_message);
+    m_decoders[1] -> Decode(a_src, a_message);
 }
 
 

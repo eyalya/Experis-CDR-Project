@@ -5,7 +5,9 @@ namespace advcpp
 
 void Reducer::Reduce(const protocol::Message & a_message, Record & a_record)
 {
-   m_reducers[a_message.m_type] -> Reduce(a_message, a_record);
+    // FIXME: fix decoder
+//    m_reducers[a_message.m_type] -> Reduce(a_message, a_record);
+    m_reducers[1] -> Reduce(a_message, a_record);
 }
 
 void MCOReducing::Reduce(const protocol::Message & a_message, Record & a_record)
