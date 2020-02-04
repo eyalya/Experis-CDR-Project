@@ -1,5 +1,10 @@
-
+#ifndef UI_HPP
+#define UI_HPP
 #include <iostream>
+
+namespace advcpp{
+
+
 enum Choice
 {
     SUBSCRIBER = 1,
@@ -9,22 +14,6 @@ enum Choice
     EXIT
 };
 
-void GetSubscriber()
-{
-    std::cout << "subscriber chosen\n";
-}
-void GetOperator()
-{
-    std::cout << "operator chosen\n";
-}
-void GetAllSubscribers()
-{
-    std::cout << "all subscribers chosen\n";
-}
-void GetAllOperators()
-{
-    std::cout << "all operators chosen\n";
-}
 void ShutDown()
 {
     std::cout << "exit chosen\n";
@@ -40,7 +29,7 @@ int Manu()
 
     while(go)
     {
-        std::cout <<    "--------------------------\n" <<
+        std::cout <<   "\n--------------------------\n" <<
                         "Welcome to CDR Application\n" <<
                         "--------------------------\n" <<
                         "1.........Get subscriber data\n" <<
@@ -80,13 +69,12 @@ int Manu()
                 break;
             
             default:
-                WrongInput(); 
+                WrongInput();
+                //FIXME: add check input function 
         }       
     }
     return 0;
 }
 
-int main()
-{
-    Manu();
-}
+}//namespace advcpp
+#endif //UI_HPP

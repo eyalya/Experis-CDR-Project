@@ -32,7 +32,7 @@ INC_DIRS += ../../../cpp/inc
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 
-TARGET = mvpTest
+TARGET = quaryTest
 
 .PHONY: clean test all val
 

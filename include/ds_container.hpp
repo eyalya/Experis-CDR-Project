@@ -6,7 +6,7 @@
 #include "record.hpp"
 #include "hash_table_safe.hpp"
 #include "hash_funcs.hpp"
-
+typedef std::vector<std::string> Result;
 namespace advcpp 
 {
 
@@ -18,7 +18,13 @@ public:
     //DsContainer(const DsContainer<T>& a_rhs) = default;
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
-    void DsUpserter(Record& a_record);
+    void DsUpsert(Record& a_record);
+    
+    template <typename T>
+    Result FindOperator(T const&);
+    
+    template <typename T>
+    Result FindSubscriber(T const&);
 
 private:
     HashTableSafe<uint, SubscriberRecord, DefaultHasher<uint> > m_subscriber;
