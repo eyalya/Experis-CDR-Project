@@ -85,8 +85,8 @@ UNIT(check_records)
     advcpp::Record fRecord;
     fRecord.m_imsi = 89;
     advcpp::SubscriberRecord sRecord(fRecord);
-
-    ASSERT_EQUAL(sRecord.m_imsi, 0);
+    std::cout << sRecord;
+    ASSERT_EQUAL(sRecord.m_imsi, 89);
     
 END_UNIT
 

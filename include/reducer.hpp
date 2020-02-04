@@ -19,7 +19,11 @@ public:
 class MCOReducing : public IReducing
 {
 public:
-    virtual ~MCOReducing();
+    // MCOReducing(); = default
+    // virtual ~MCOReducing();
+    // MCOReducing & MCOReducing(const MCOReducing & a_red)
+    // MCOReducing & operator= (const MCOReducing & a_red)
+
 
     virtual void Reduce(const protocol::Message & a_message, Record & a_record);
 };
@@ -28,7 +32,10 @@ public:
 class MTCReducing : public IReducing
 {
 public:
-    virtual ~MTCReducing();
+    // MTCReducing(); = default
+     // virtual ~MTCReducing();
+    // MTCReducing & MTCReducing(const MTCReducing & a_red)
+    // MTCReducing & operator= (const MTCReducing & a_red)
 
     virtual void Reduce(const protocol::Message & a_message, Record & a_record);
 };
@@ -58,9 +65,6 @@ inline Reducer::~Reducer()
 
 inline IReducing::~IReducing(){}
 
-inline MCOReducing::~MCOReducing(){}
-
-inline MTCReducing::~MTCReducing(){}
 
 } // namespace advcpp
 
