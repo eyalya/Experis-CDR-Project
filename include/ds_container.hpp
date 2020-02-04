@@ -20,8 +20,8 @@ public:
     //DsContainer& operator = (const DsContainer<T> a_rhs) = default;
 
     void DsUpsert(Record& a_record);
-    bool FindOperator(uint a_operator, OperatorRecord& a_op);
-    bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_rec);
+    bool FindOperator(uint a_operator, OperatorRecord& a_opRec);
+    bool FindSubscriber(uint a_subscriber, SubscriberRecord& a_recRec);
 
 private:
     HashTableSafe<uint, SubscriberRecord, Hasher<uint> > m_subscriber;

@@ -27,17 +27,17 @@ inline Quary::Quary(DsContainer& a_container)
 {  
 }
 
-inline bool Quary::GetSubscriber(uint a_sub) const
+inline bool Quary::GetSubscriber(uint a_sub, SubscriberRecord& a_subRec) const
 {
-    m_container.FindSubscriber(a_sub);
+    m_container.FindSubscriber(a_sub, a_subRec);
     return 
 }
 //TODO: continue from here
 //FIXME:
 
-inline bool Quary::GetOperator(uint a_op) const
+inline bool Quary::GetOperator(uint a_op, OperatorRecord& a_opRec) const
 {
-    return m_container.FindOperator(a_op);
+    return m_container.FindOperator(a_op. a_opRec);
 }
 
 inline void Quary::GetAllSubscribers() const
