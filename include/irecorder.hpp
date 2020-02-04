@@ -24,7 +24,7 @@ public:
     virtual void Generate(char * src, Record& a_record) = 0;
 };
 
-//TODO: change src to T from char*
+
 template <typename T> 
 class RecordAggregator: public IRecorder<T> 
 {

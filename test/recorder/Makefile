@@ -24,7 +24,7 @@ INC_DIRS += ../../include/inl
 
 #INC_DIRS += ../book_inc
 
-SOURCES  = ../../source/record.cpp ../../source/reducer.cpp ../../source/cdr_decoder.cpp
+SOURCES  = ../../source/record.cpp ../../source/reducer.cpp ../../source/cdr_decoder.cpp ../../source/encoder.cpp
 
 #SOURCES += 
 

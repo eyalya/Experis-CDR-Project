@@ -5,7 +5,7 @@
 #include "protocol.hpp"
 #include "irecorder.hpp"
 #include "record.hpp"
-
+#include "encoder.hpp"
 
 UNIT(check_decode)
 
@@ -48,8 +48,41 @@ UNIT(check_decode)
 	ASSERT_PASS();
 END_UNIT
 
+UNIT(check_encode)
+
+    char test[10] = {0};
+
+    int i = 4;
+    size_t size = advcpp::EncodeT<int>(test, i);
+    int l = advcpp::DecodeT<int>(test, size);
+    std::cout << size << '\n' << l << '\n';
+	ASSERT_PASS();
+END_UNIT
+
+UNIT(check_encode_decode)
+
+    protocol::MOC moc;
+    protocol::Message message;
+
+    moc.m_duration = 20;
+    moc.m_type = 0;
+    moc.m_cdr.m_msisdn = 1956;
+    char test[sizeof(protocol::MOC)] = {0};
+    advcpp::EncodeMoc(test, moc);
+
+    std::vector<advcpp::IDecodeMassge *>  a_decoders;
+    advcpp::DecodeMCO dmco;
+    a_decoders.push_back(&dmco);
+    advcpp::CdrDecoder cDecoder(a_decoders);
+    cDecoder.Decode(test, message);
+
+    ASSERT_EQUAL(message.m_duration, moc.m_duration);
+    ASSERT_EQUAL(message.m_cdr.m_msisdn, moc.m_cdr.m_msisdn);
+END_UNIT
 
 TEST_SUITE(thread tests)
 	TEST(check_decode)
+    TEST(check_encode)
+    TEST(check_encode_decode)
 END_SUITE
 

@@ -22,7 +22,6 @@ void Record::operator+= (const Record & a_record)
 
 void SubscriberRecord::operator+= (const Record & a_record)
 {
-    m_imsi += a_record.m_imsi;
     m_outVoiceInOp += a_record.m_outVoiceInOp;
     m_inVoiceInOp += a_record.m_inVoiceInOp;
     m_outVoiceOutOp += a_record.m_outVoiceOutOp;
@@ -37,7 +36,6 @@ void SubscriberRecord::operator+= (const Record & a_record)
 
 void OperatorRecord::operator+= (const Record & a_record)
 {
-    m_brand += a_record.m_operator;
     m_outVoice += a_record.m_outVoiceInOp;
     m_outVoice += a_record.m_outVoiceOutOp;
     m_inVoice += a_record.m_inVoiceInOp;

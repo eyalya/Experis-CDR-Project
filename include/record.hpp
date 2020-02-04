@@ -12,6 +12,7 @@ struct Record : public IRecord
     void operator+= (const Record & a_record);
     
     uint m_imsi;
+    uint m_misdn;
     uint m_MCC;
     uint m_operator;
     size_t m_outVoiceInOp;
@@ -32,6 +33,7 @@ struct SubscriberRecord : public IRecord
     void operator+= (const Record & a_record);
     
     uint m_imsi;
+    uint m_misdn;
     size_t m_outVoiceInOp;
     size_t m_inVoiceInOp;
     size_t m_outVoiceOutOp;
