@@ -110,6 +110,7 @@ inline size_t DecodeGPRS(protocol::Message & a_sgprs, char * a_src)
 inline size_t DecodeCdr(protocol::CDR & a_cdr, char * a_src)
 {
     size_t loc = 0; 
+
     a_cdr.m_imsi = DecodeT<uint>(&(a_src[loc]), sizeof(uint));
     loc += sizeof(uint);
     a_cdr.m_msisdn = DecodeT<uint>(&(a_src[loc]), sizeof(uint));
@@ -120,7 +121,8 @@ inline size_t DecodeCdr(protocol::CDR & a_cdr, char * a_src)
     a_cdr.m_mcc =  DecodeT<uint>(&(a_src[loc]), sizeof(uint));
     loc += sizeof(uint);
     loc += DecodeDate(a_cdr.m_date, &(a_src[loc]));  
-    loc += DecodeTime(a_cdr.m_time, &(a_src[loc]));  
+    loc += DecodeTime(a_cdr.m_time, &(a_src[loc])); 
+
     return loc;
 }
     
@@ -128,6 +130,7 @@ inline size_t DecodeCdr(protocol::CDR & a_cdr, char * a_src)
 inline size_t DecodeOperator(protocol::Operator & a_op, char * a_src)
 {
     size_t loc = 0; 
+
     a_op.m_type = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
     loc += sizeof(uchar);
     a_op.m_length = DecodeT<uint>(&(a_src[loc]), sizeof(uint));
@@ -142,6 +145,7 @@ inline size_t DecodeDate(protocol::Date & a_date, char * a_src)
 {
     
     size_t loc = 0; 
+
     a_date.m_day = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
     loc += sizeof(uchar);
     a_date.m_month = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
@@ -155,6 +159,7 @@ inline size_t DecodeDate(protocol::Date & a_date, char * a_src)
 inline size_t DecodeTime(protocol::Time & a_time, char * a_src)
 {
     int loc = 0; 
+
     a_time.m_hour = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
     loc += sizeof(uchar);
     a_time.m_minutes = DecodeT<uchar>(&(a_src[loc]), sizeof(uchar));
@@ -168,6 +173,7 @@ inline size_t DecodeTime(protocol::Time & a_time, char * a_src)
 inline size_t DecodeParty(protocol::Party & a_party, char * a_src)
 {
     size_t loc = 0; 
+    
     a_party.m_paryMSISDN = DecodeT<uint>(&(a_src[loc]), 4);
     loc += 4;
     loc += DecodeOperator(a_party.m_paryOperator, &(a_src[loc]));

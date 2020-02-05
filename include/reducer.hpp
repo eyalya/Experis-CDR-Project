@@ -19,7 +19,7 @@ public:
 class MCOReducing : public IReducing
 {
 public:
-    // MCOReducing(); = default
+    // MCOReducing(); = default;
     // virtual ~MCOReducing();
     // MCOReducing & MCOReducing(const MCOReducing & a_red)
     // MCOReducing & operator= (const MCOReducing & a_red)
@@ -61,6 +61,7 @@ public:
 
     virtual void Reduce(const protocol::Message & a_message, Record & a_record);
 };
+
 
 
 class Reducer : public IReducer
