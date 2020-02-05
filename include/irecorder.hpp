@@ -21,7 +21,7 @@ public:
     //IRecorder(const IRecorder<T>& a_rhs) = default;
     //IRecorder& operator = (const IRecorder<T> a_rhs) = default;
 
-    virtual void Generate(char * src, Record& a_record) = 0;
+    virtual void Generate(const char * src, Record& a_record) = 0;
 };
 
 
@@ -36,7 +36,7 @@ public:
     //RecordAggregator(const RecordAggregator<T>& a_rhs) = default;
     //RecordAggregator& operator = (const RecordAggregator<T> a_rhs) = default;
 
-    virtual void Generate(char * src, Record& a_record);
+    virtual void Generate(const char * src, Record& a_record);
 
 private:
     CdrDecoder & m_decoder; 

@@ -14,7 +14,7 @@ RecordAggregator<T>::RecordAggregator(CdrDecoder & a_decoder, Reducer & a_reduce
 }
 
 template <typename T> 
-void RecordAggregator<T>::Generate(char * src, Record& a_record)
+void RecordAggregator<T>::Generate(const char * src, Record& a_record)
 {
     protocol::Message msg;
     m_decoder.Decode(src, msg);
