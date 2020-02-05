@@ -10,7 +10,7 @@ void UI::SubscriberChosen()
     while(FOREVER)
     {
         //TODO: GetMSISDN function
-        std::cout << "\033[1;32mEnter MSISDN: \n\033[0m";
+        std::cout << "\033[1;33mEnter MSISDN: \n\033[0m";
         std::cin >> msisdn;                
 
         if (IsValidInput())
@@ -46,22 +46,22 @@ void UI::AllOperatorsChosen()
 
 void UI::Run()
 {    
-    std::cout <<        "\033[1;36m-------------------------------------\n\033[0m" <<
-                        "\033[1;32m      Welcome to CDR Application\n\033[0m";
+    std::cout <<        "\033[1;36m----------------------------------\n\033[0m" <<
+                        "\033[1;31m    Welcome to CDR Application\n\033[0m";
 
     while(FOREVER)
     {
-        std::cout <<    "\033[1;36m-------------------------------------\n\033[0m" <<
+        std::cout <<    "\033[1;36m----------------------------------\n\033[0m" <<
                         "\033[1;36m1.........Get subscriber data\n\033[0m" <<
                         "\033[1;36m2.........Get operator data\n\033[0m" <<
                         "\033[1;36m3.........Get all subscribers data\n\033[0m" <<
                         "\033[1;36m4.........Get operators data\n\033[0m" <<
                         "\033[1;36m5.........Exit\n\033[0m" <<
-                        "\033[1;36m-------------------------------------\n\033[0m";
+                        "\033[1;36m----------------------------------\n\033[0m";
 
 
 
-        std::cout << "\033[1;32mEnter your choice: \n\033[0m";
+        std::cout << "\033[1;33mEnter your choice: \n\033[0m";
         uint choice;
         std::cin >> choice;
 
