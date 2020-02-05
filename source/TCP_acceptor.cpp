@@ -8,6 +8,7 @@
 #include <fcntl.h> //fcntl
 #include <unistd.h> //close
 #include <iostream> // cerr
+#include <cassert>
 #include "TCP_acceptor.hpp"
 
 namespace advcpp{
@@ -22,6 +23,8 @@ TCPAcceptor::TCPAcceptor(const char* a_ip, int a_port, WaitableQueue<ISocket*>& 
 , m_socket(m_ip.c_str(), m_port)
 , m_queue(a_queue)
 {	
+	assert (a_ip != 0);
+	
 	m_socket.Reuse(); //setsockopt
 	m_socket.Bind();
 	//check if need to add SIGINT sigaction...

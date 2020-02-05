@@ -1,7 +1,10 @@
 #include <iostream>
 #include <cassert>
+#include <unistd.h>
+
 #include "irecievers.hpp"
 #include "defs.hpp"
+
 
 namespace advcpp
 {
@@ -35,16 +38,18 @@ void CdrRecievers<T>::ReadMsgs()
         {
             buff = new char[BUFFER_SIZE];
         }
-        catch(...)
+        catch(std::bad_alloc const& a_except)
         {
-            std::cout << "alloc falied" << "\n";
+            std::cerr << "alloc falied" << "\n";
+            sleep(1);
+            //log
             continue;
         }
         byte = m_socket->Recv(buff);
         if (byte <= 0)
         {
             delete[] buff;
-            m_socket->Close();
+            delete m_socket;
             //log it
             break;
         }

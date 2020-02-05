@@ -43,7 +43,7 @@ private:
 	int 				m_port;
     Socket                      m_socket;
 	WaitableQueue<ISocket*>&     m_queue;    
-    char                        m_buff[MAX_BUFF_LEN];
+    char                        m_buff[MAX_BUFF_LEN]; //TODO: remove
 };
 
 }//namespace advcpp
