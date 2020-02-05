@@ -59,7 +59,7 @@ public:
 	size_t Size() const;
 	bool IsEmpty() const;
 
-    template <typename K, typename V, typename H>
+    template <typename K, typename V, typename H> 
     friend class LockAll;
 
 private:

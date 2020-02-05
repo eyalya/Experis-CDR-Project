@@ -18,6 +18,7 @@ UNIT(check_decode)
     std::vector<advcpp::IDecodeMassge *>  a_decoders;
     advcpp::DecodeMCO dmco;
     a_decoders.push_back(&dmco);
+    a_decoders.push_back(&dmco);
     advcpp::CdrDecoder cDecoder(a_decoders);
     protocol::Message a_message;
     cDecoder.Decode(test, a_message);
@@ -30,6 +31,7 @@ UNIT(check_decode)
 
     std::vector<advcpp::IReducing *> a_reducers;
     advcpp::MCOReducing mcoreducering;
+    a_reducers.push_back(&mcoreducering);
     a_reducers.push_back(&mcoreducering);
     advcpp::Reducer reducer(a_reducers);
     advcpp::Record record;
@@ -69,12 +71,25 @@ UNIT(check_encode_decode)
     moc.m_cdr.m_msisdn = 1956;
     char test[sizeof(protocol::MOC)] = {0};
     advcpp::EncodeMoc(test, moc);
-
+    std::cout << "\n\n";
+    for(size_t i = 0; i < sizeof(test); ++i)
+    {
+        std::cout << (int)test[i];
+    }
+    std::cout << "\n\n";
     std::vector<advcpp::IDecodeMassge *>  a_decoders;
     advcpp::DecodeMCO dmco;
     a_decoders.push_back(&dmco);
+    a_decoders.push_back(&dmco);
     advcpp::CdrDecoder cDecoder(a_decoders);
     cDecoder.Decode(test, message);
+    advcpp::Record record;
+    advcpp::MCOReducing mcoreducering;
+    mcoreducering.Reduce(message, record);
+    std::cout << "record imsdn " << record.m_misdn << '\n';
+    advcpp::SubscriberRecord sub(record);
+    std::cout << sub;
+
 
     ASSERT_EQUAL(message.m_duration, moc.m_duration);
     ASSERT_EQUAL(message.m_cdr.m_msisdn, moc.m_cdr.m_msisdn);

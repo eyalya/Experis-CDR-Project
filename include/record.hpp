@@ -9,9 +9,10 @@ namespace advcpp
 struct Record
 {
     Record & operator+= (const Record & a_record);
-    // Record() = default
+    Record();
     // ~Record() = default
     // Record & Record(Record & const) = default
+    // Record & operator= (Record & const) = default
     
     size_t m_brand;
     uint m_imsi;

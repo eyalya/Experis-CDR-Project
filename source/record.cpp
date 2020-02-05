@@ -3,6 +3,25 @@
 namespace advcpp
 {
 
+Record::Record()
+: m_brand(0)
+, m_imsi(0)
+, m_misdn(0)
+, m_MCC(0)
+, m_operator(0)
+, m_outVoiceInOp(0)
+, m_inVoiceInOp(0)
+, m_outVoiceOutOp(0)
+, m_inVoiceOutOp(0)
+, m_outSMSInOp(0)
+, m_inSMSInOp(0)
+, m_outSMSOutOp(0)
+, m_inSMSOutOp(0)
+, m_download(0)
+, m_upload(0)
+{
+}
+
 OperatorRecord::OperatorRecord()
 : m_brand(0)
 , m_outVoice(0)

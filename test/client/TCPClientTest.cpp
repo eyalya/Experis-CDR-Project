@@ -9,6 +9,7 @@
 #include "hash_table_safe.hpp"
 #include "hash_fun.h"
 #include "encoder.hpp"
+#include "i_decoder.hpp"
 #include "record.hpp"
 
 typedef advcpp::TCPClient Client;
@@ -52,6 +53,27 @@ UNIT(run_client_one)
     advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
     client.Send(buffer, sizeof(protocol::MOC));
+
+    std::vector<advcpp::IDecodeMassge *>  a_decoders;
+    advcpp::DecodeMCO dmco;
+    a_decoders.push_back(&dmco);
+    a_decoders.push_back(&dmco);
+    advcpp::CdrDecoder cDecoder(a_decoders);
+    protocol::Message a_message;
+    cDecoder.Decode(buffer, a_message);
+
+    std::vector<advcpp::IReducing *> a_reducers;
+    advcpp::MCOReducing mcoreducering;
+    a_reducers.push_back(&mcoreducering);
+    a_reducers.push_back(&mcoreducering);
+    advcpp::Reducer reducer(a_reducers);
+    advcpp::Record record;
+    reducer.Reduce(a_message, record);
+    advcpp::SubscriberRecord sRecord(record);
+
+    std::cout << sRecord;
+
+
     client.Close();
     ASSERT_PASS();
 END_UNIT
@@ -103,7 +125,7 @@ END_UNIT
 TEST_SUITE(hash table)
     IGNORE_TEST(fill_map)
     TEST(run_client_one)
-    TEST(run_aggragte_message)
+    //TEST(run_aggragte_message)
     // TEST(run_client)
 END_SUITE
 
