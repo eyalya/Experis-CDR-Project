@@ -7,6 +7,7 @@
 namespace advcpp
 {
 
+//FIXME: change char* to T
 template <typename T> 
 Upsertors<T>::Upsertors(WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, DsContainer& a_dsCont, bool& a_switch)
 : m_msgQue(a_msgQue)
@@ -17,6 +18,7 @@ Upsertors<T>::Upsertors(WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, Ds
 {
 }
 
+//FIXME: add exception handling
 template <typename T> 
 void Upsertors<T>::Run()
 {

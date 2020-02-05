@@ -33,6 +33,8 @@ void Dispatcher<Runnable>::ActivateWorkers()
     catch(...)
     {
         const size_t size = m_workers.size();
+
+        //FIXME: kill all threads before delete
         
         for (size_t i = 0; i < size; ++i)
         {

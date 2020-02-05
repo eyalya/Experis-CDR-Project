@@ -56,13 +56,25 @@ void TCPAcceptor::Run()
 
 		catch(const SocketException& e)
 		{		
+			continue;
 		}
 
 		catch(...)
 		{
-			throw;
+			//logGeneralExceptio
+			continue;
 		}
-		m_queue.Enqueue(newSock);
+
+		try
+		{
+			m_queue.Enqueue(newSock);
+		}
+		catch(...)
+		{
+			delete newSock;
+			//logGeneralExceptio
+			continue;
+		}
 	}
 
 	ShutDown();

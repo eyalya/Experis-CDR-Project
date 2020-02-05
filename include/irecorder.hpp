@@ -29,6 +29,7 @@ template <typename T>
 class RecordAggregator: public IRecorder<T> 
 {
 public:
+//FIXME: change cfrDecoder, Reducer to const? 
     explicit RecordAggregator(CdrDecoder & a_decoder, Reducer & a_reducer);
 
     //~RecordAggregator() = default;
