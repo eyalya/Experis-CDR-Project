@@ -24,11 +24,11 @@ INC_DIRS += ../../../include ../../include
 
 INC_DIRS += ../../../cpp/inc
 
-#SOURCES  = $(wildcard ../source/*.cpp)
+SOURCES  = $(wildcard ../../source/*.cpp)
 
-SOURCES += $(wildcard ../../source/*.cpp)
+#SOURCES += ../../source/UI.cpp ../../source/ds_container.cpp 
 
-#SOURCES += ../../src/Text_Transform_src/cap_words.cpp
+#SOURCES += ../../source/query.cpp
 
 OBJECTS  = $(SOURCES:.cpp=.o)
 
