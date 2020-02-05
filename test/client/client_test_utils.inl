@@ -1,6 +1,8 @@
 #ifndef CLIENT_TEST_UTILS_INL
 #define CLIENT_TEST_UTILS_INL
 
+#include <set>
+
 #include "client_test_utils.hpp"
 #include "util.hpp"
 #include "encoder.hpp"
@@ -9,10 +11,11 @@
 namespace advcpp
 {
 
-void FillMocDetails(protocol::MOC& a_moc, utils::Sequence<uint, uint>& a_seqGen, utils::RandomGenerator<uint>& a_randGen)
+void FillMocDetails(protocol::MOC& a_moc, SeqGen& a_msisdnGen, OpGen& a_operator, RandGen& a_randGen)
 {
     
-    a_moc.m_cdr.m_msisdn = a_seqGen();
+    a_moc.m_cdr.m_msisdn = a_msisdnGen();
+    a_moc.m_cdr.m_operator.m_value = a_operator();
     a_moc.m_duration = a_randGen();
 }
 
@@ -21,18 +24,20 @@ void FillMap(HashTableSafe<Key, Value, Hasher>& a_map, size_t a_size)
 {
     const uint iv = 10000001;
     const uint delta = 1;
-    const uint range = 100;
+    const uint durationRange = 100;
+    const uchar operatorRange = 255;
 
 
     utils::Sequence<uint, uint> seqGen = utils::MakeSequence<uint, uint>(iv, delta);
-    utils::RandomGenerator<uint> randGen = utils::MakeRandomNum<uint>(range);
+    utils::RandomGenerator<uint> randGen = utils::MakeRandomNum<uint>(durationRange);
+    utils::RandomGenerator<uchar> operatorGen = utils::MakeRandomNum<uchar>(operatorRange);
 
     protocol::MOC newMoc;
 
     while (--a_size)
     {
-        FillMocDetails(newMoc, seqGen, randGen);
-        a_map.Insert(newMoc.m_cdr.m_imei ,newMoc);
+        FillMocDetails(newMoc, seqGen, operatorGen, randGen);
+        a_map.Insert(newMoc.m_cdr.m_msisdn ,newMoc);
     }
 }
 

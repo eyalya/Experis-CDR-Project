@@ -30,7 +30,7 @@ UNIT(fill_map)
     protocol::MOC result;
     uint key = 10000085;
     mocTable.Find(key, result);
-    ASSERT_EQUAL(result.m_cdr.m_imei, 10000085);
+    ASSERT_EQUAL(result.m_cdr.m_msisdn, 10000085);
 END_UNIT
 
 UNIT(run_client_send_char)
@@ -88,6 +88,7 @@ UNIT(run_aggragte_message)
     moc.m_cdr.m_msisdn = 1984;
     moc.m_cdr.m_imsi = 12;
     moc.m_duration = 20;
+    moc.m_cdr.m_operator.m_value = 10;
     advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
     while (nSends)
@@ -124,7 +125,7 @@ END_UNIT
 
 
 TEST_SUITE(hash table)
-    IGNORE_TEST(fill_map)
+    TEST(fill_map)
     // TEST(run_client_one)
     TEST(run_aggragte_message)
     // TEST(run_client)
