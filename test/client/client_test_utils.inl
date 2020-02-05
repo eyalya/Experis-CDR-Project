@@ -19,26 +19,36 @@ void FillMocDetails(protocol::MOC& a_moc, SeqGen& a_msisdnGen, OpGen& a_operator
     a_moc.m_duration = a_randGen();
 }
 
-template <typename Key, typename Value, typename Hasher>
-void FillMap(HashTableSafe<Key, Value, Hasher>& a_map, size_t a_size)
+template <typename Cont>
+void FillCont(Cont& a_map, size_t a_size)
 {
-    const uint iv = 10000001;
+    const uint iv = 0;
     const uint delta = 1;
-    const uint durationRange = 100;
-    const uchar operatorRange = 255;
-
 
     utils::Sequence<uint, uint> seqGen = utils::MakeSequence<uint, uint>(iv, delta);
-    utils::RandomGenerator<uint> randGen = utils::MakeRandomNum<uint>(durationRange);
-    utils::RandomGenerator<uchar> operatorGen = utils::MakeRandomNum<uchar>(operatorRange);
 
     protocol::MOC newMoc;
 
     while (--a_size)
     {
-        FillMocDetails(newMoc, seqGen, operatorGen, randGen);
+        newMoc.m_cdr.m_msisdn = seqGen();
         a_map.Insert(newMoc.m_cdr.m_msisdn ,newMoc);
     }
+}
+
+template <typename Cont>
+void GetSampleMoc(Cont& a_map, size_t a_misdnRange, protocol::MOC& a_moc)
+{
+    const uint durationRange = 100;
+    const uchar operatorRange = 255;
+
+    static utils::RandomGenerator<uint> durationGen = utils::MakeRandomNum<uint>(durationRange);
+    static utils::RandomGenerator<uint> misdnGen = utils::MakeRandomNum<uint>(a_misdnRange);
+    static utils::RandomGenerator<uchar> operatorGen = utils::MakeRandomNum<uchar>(operatorRange);
+
+    a_map.Find(misdnGen(), a_moc);
+    a_moc.m_cdr.m_operator.m_value = operatorGen();
+    a_moc.m_duration = durationGen();
 }
 
 class MessageSender

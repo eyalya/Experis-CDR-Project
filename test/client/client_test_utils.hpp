@@ -17,10 +17,11 @@ typedef utils::RandomGenerator<uchar> OpGen;
 
 void FillMocDetails(protocol::MOC& a_moc, SeqGen& a_msisdnGen, OpGen& a_operator, RandGen& a_randGen);
 
-template <typename Key, typename Value, typename Hasher>
-void FillMap(HashTableSafe<Key, Value, Hasher>& a_map, size_t a_size);
+template <typename Cont>
+void FillCont(Cont& a_map, size_t a_size);
 
-
+template <typename Cont>
+void GetSampleMoc(Cont& a_map, size_t a_misdnRange);
 
 } //namespace advcpp
 

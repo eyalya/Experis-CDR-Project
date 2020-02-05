@@ -25,12 +25,35 @@ UNIT(fill_map)
     const size_t capacity = 1000;
     const size_t mocTSize = 100;
     advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
-    advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
+    advcpp::FillCont< advcpp::HashTableSafe < uint, protocol::MOC, Hasher> > (mocTable, mocTSize);
 
     protocol::MOC result;
-    uint key = 10000085;
+    uint key = 85;
     mocTable.Find(key, result);
-    ASSERT_EQUAL(result.m_cdr.m_msisdn, 10000085);
+    ASSERT_EQUAL(result.m_cdr.m_msisdn, 85);
+END_UNIT
+
+UNIT(send_from_map)
+    size_t nSends = 10000000;
+    const size_t capacity = 1000;
+    const size_t mocTSize = 100;
+    
+    advcpp::HashTableSafe<uint, protocol::MOC, Hasher> mocTable(capacity, HashC);
+    advcpp::FillCont< advcpp::HashTableSafe < uint, protocol::MOC, Hasher> > (mocTable, mocTSize);
+
+    char buffer[sizeof(protocol::MOC)];
+    protocol::MOC moc;
+
+    Client client(LOOPBACK_ADDR, port);
+    while (--nSends)
+    {
+        advcpp::GetSampleMoc(mocTable, mocTSize, moc);
+        advcpp::EncodeMoc(buffer, moc);
+        client.Send(buffer, sizeof(protocol::MOC));
+    }
+    client.Close();
+    ASSERT_PASS();
+    
 END_UNIT
 
 UNIT(run_client_send_char)
@@ -119,15 +142,15 @@ END_UNIT
 //     advcpp::FillMap<uint, protocol::MOC, Hasher> (mocTable, mocTSize);
 //     Client client(LOOPBACK_ADDR, port);
 //     advcpp::MessageSender mSender(client);
-//     mocTable.ForEach<advcpp::MessageSender>(mSender);
-//     ASSERT_PASS();
+//     mocTable.ForEach<advcpp::MessageSender>(mUNIT(send_from_map)
 // END_UNIT
 
 
 TEST_SUITE(hash table)
     TEST(fill_map)
+    TEST(send_from_map)
     // TEST(run_client_one)
-    TEST(run_aggragte_message)
+    // TEST(run_aggragte_message)
     // TEST(run_client)
 END_SUITE
 
