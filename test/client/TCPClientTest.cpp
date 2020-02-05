@@ -79,7 +79,7 @@ UNIT(run_client_one)
 END_UNIT
 
 UNIT(run_aggragte_message)
-    size_t nSends = 1000000;
+    size_t nSends = 10;
     protocol::MOC moc;
 
     char buffer[sizeof(protocol::MOC)];
@@ -90,9 +90,10 @@ UNIT(run_aggragte_message)
     moc.m_duration = 20;
     advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
-    while (--nSends)
+    while (nSends)
     {
         client.Send(buffer, sizeof(protocol::MOC));
+        --nSends;
     }
     client.Close();
     ASSERT_PASS();
@@ -124,8 +125,8 @@ END_UNIT
 
 TEST_SUITE(hash table)
     IGNORE_TEST(fill_map)
-    TEST(run_client_one)
-    //TEST(run_aggragte_message)
+    // TEST(run_client_one)
+    TEST(run_aggragte_message)
     // TEST(run_client)
 END_SUITE
 

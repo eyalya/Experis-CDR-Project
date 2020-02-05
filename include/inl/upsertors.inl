@@ -29,7 +29,6 @@ void Upsertors<T>::Run()
         m_recorder.Generate(msg, m_record);
         m_dsCont.DsUpsert(m_record);
         SubscriberRecord sR(m_record);
-        std::cout << sR;
         delete[] msg;
     }
 }

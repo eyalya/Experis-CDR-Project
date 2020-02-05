@@ -124,20 +124,20 @@ OperatorRecord & OperatorRecord::operator+= (const OperatorRecord & a_record)
 
 std::ostream & operator << (std::ostream &out, const SubscriberRecord & a_record)
 {
-    out << "subscriber: " << a_record.m_imsi << '\n';
-    
-    out << "misdn: " << a_record.m_misdn << '\n';
-    out << "out voice calls inside operator: " << a_record.m_outVoiceInOp << '\n';
-    out << "in voice calls inside operator: " << a_record.m_inVoiceInOp << '\n';
-    out << "out voice calls outside operator: " << a_record.m_outVoiceOutOp << '\n';
-    out << "out voice calls inside operator: " << a_record.m_inVoiceOutOp << '\n';
-    out << "out sms inside operator: " << a_record.m_outSMSInOp << '\n';
-    out << "in sms inside operator: " << a_record.m_inSMSInOp << '\n';
-    out << "out sms outside operator: " << a_record.m_outSMSOutOp << '\n';
-    out << "in sms outside operator: " << a_record.m_inSMSOutOp << '\n';
-    out << "megabytes downloaded: " << a_record.m_download << '\n';
-    out << "megabytes uploaded: " << a_record.m_upload;
+    out << "\033[1;95m" << "subscriber: "                       << "\033[0m" << "\033[1;33m" << a_record.m_imsi          << "\033[0m" << '\n';
+    out << "\033[1;95m" << "misdn: "                            << "\033[0m" << "\033[1;33m" << a_record.m_misdn         << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out voice calls inside operator: "  << "\033[0m" << "\033[1;33m" << a_record.m_outVoiceInOp  << "\033[0m" << '\n';
+    out << "\033[1;95m" << "in voice calls inside operator: "   << "\033[0m" << "\033[1;33m" << a_record.m_inVoiceInOp   << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out voice calls outside operator: " << "\033[0m" << "\033[1;33m" << a_record.m_outVoiceOutOp << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out voice calls inside operator: "  << "\033[0m" << "\033[1;33m" << a_record.m_inVoiceOutOp  << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out sms inside operator: "          << "\033[0m" << "\033[1;33m" << a_record.m_outSMSInOp    << "\033[0m" << '\n';
+    out << "\033[1;95m" << "in sms inside operator: "           << "\033[0m" << "\033[1;33m" << a_record.m_inSMSInOp     << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out sms outside operator: "         << "\033[0m" << "\033[1;33m" << a_record.m_outSMSOutOp   << "\033[0m" << '\n';
+    out << "\033[1;95m" << "in sms outside operator: "          << "\033[0m" << "\033[1;33m" << a_record.m_inSMSOutOp    << "\033[0m" << '\n';
+    out << "\033[1;95m" << "megabytes downloaded: "             << "\033[0m" << "\033[1;33m" << a_record.m_download      << "\033[0m" << '\n';
+    out << "\033[1;95m" << "megabytes uploaded: "               << "\033[0m" << "\033[1;33m" << a_record.m_upload        << "\033[0m" << '\n';
 
+// \033[1;33m\nThank you, come again!\n\033[0m\n
     return out;
 }
 
