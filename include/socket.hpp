@@ -36,7 +36,7 @@ public:
     virtual void NoBlock() = 0;
     virtual size_t Recv(char* a_msg) = 0;
     virtual void Send(const char* a_msg, size_t a_buffSize) = 0;
-    virtual void Close() = 0;
+    virtual void Close() = 0; //TODO: hide as private -> close in dtor
     
     virtual int Sock() const = 0;
 };

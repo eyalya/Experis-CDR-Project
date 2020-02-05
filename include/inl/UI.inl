@@ -16,7 +16,7 @@ void UI::Write(T const& a_data)
 
 inline void UI::ExitChosen()
 {    
-    std::cout << "\033[1;32m\nThank you, come again!\n\033[0m\n";
+    std::cout << "\033[1;33m\nThank you, come again!\n\033[0m\n";
 }
 
 inline void UI::WriteNotFound()
@@ -29,7 +29,7 @@ inline void UI::WriteNotFound()
 
 inline void WrongInput()
 {
-    std::cout << "\033[1;31mwrong input, try again\033[0m\n";
+    std::cout << "\033[1;33mwrong input, try again\033[0m\n";
 }
 
 inline bool IsInvalidInput()

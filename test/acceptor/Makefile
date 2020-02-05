@@ -14,7 +14,7 @@ CXXFLAGS += -std=c++03
 
 CXXFLAGS += -O0
 
-# LDFLAGS += 
+LDFLAGS += -pthread
 
 # LDLIBS += 
 

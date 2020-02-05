@@ -39,20 +39,11 @@ void TCPAcceptor::ShutDown()
 
 void TCPAcceptor::Run()
 {
+	m_socket.Listen(QUEUE_SIZE);
+	
 	while (true)
 	{   
-		try
-		{
-			#if DEBUG > 0
-				std::cout << "Acceptor: listening..."
-			#endif
-
-			m_socket.Listen(QUEUE_SIZE);
-		}
-		catch(...)
-		{
-			continue;
-		}
+		
 		ISocket* newSock;	
 		try
 		{
