@@ -48,11 +48,11 @@ SubscriberRecord::SubscriberRecord()
 }
 
 OperatorRecord::OperatorRecord(const Record & a_record)
-: m_brand(a_record.m_brand)
-, m_outVoice(a_record.m_outVoiceInOp)
-, m_inVoice(a_record.m_inVoiceInOp)
-, m_inSMS(a_record.m_inSMSInOp)
-, m_outSMS(a_record.m_outSMSInOp)
+: m_brand(a_record.m_MCC)
+, m_outVoice(a_record.m_outVoiceOutOp + a_record.m_outVoiceInOp)
+, m_inVoice(a_record.m_inVoiceInOp + a_record.m_inVoiceOutOp)
+, m_inSMS(a_record.m_inSMSInOp + a_record.m_inSMSOutOp)
+, m_outSMS(a_record.m_outSMSInOp + a_record.m_outSMSOutOp)
 {
 }
 
@@ -111,12 +111,8 @@ SubscriberRecord & SubscriberRecord::operator+= (const SubscriberRecord & a_reco
 OperatorRecord & OperatorRecord::operator+= (const OperatorRecord & a_record)
 {
     m_outVoice += a_record.m_outVoice;
-    m_outVoice += a_record.m_outVoice;
-    m_inVoice += a_record.m_inVoice;
     m_inVoice += a_record.m_inVoice;
     m_inSMS += a_record.m_inSMS;
-    m_inSMS += a_record.m_inSMS;
-    m_outSMS += a_record.m_outSMS;
     m_outSMS += a_record.m_outSMS;
 
     return *this;

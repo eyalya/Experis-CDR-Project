@@ -1,5 +1,6 @@
 #include "ds_container.hpp"
 #include "defs.hpp"
+#include <iostream>
 
 namespace advcpp 
 {
@@ -14,9 +15,11 @@ void DsContainer::DsUpsert(Record& a_record)
 {
     SubscriberRecord subRecord(a_record);
     m_subscriber.Upsert(a_record.m_misdn, subRecord, UpdaterSubscriberRecord);
+    std::cout << subRecord << "\n";
     
     OperatorRecord operatorRecord(a_record);
-    m_operator.Upsert(a_record.m_brand, operatorRecord, UpdaterOperatorRecord);
+    std::cout << operatorRecord << "\n\n";
+    m_operator.Upsert(a_record.m_MCC, operatorRecord, UpdaterOperatorRecord);
 }
 
 void UpdaterSubscriberRecord(SubscriberRecord& a_current, SubscriberRecord const& a_newRecord)

@@ -103,7 +103,7 @@ UNIT(run_client_one)
 END_UNIT
 
 UNIT(run_aggragte_message)
-    size_t nSends = 1000000;
+    size_t nSends = 100;
     protocol::MOC moc;
 
     char buffer[sizeof(protocol::MOC)];
@@ -113,6 +113,7 @@ UNIT(run_aggragte_message)
     moc.m_cdr.m_imsi = 12;
     moc.m_duration = 10;
     moc.m_cdr.m_operator.m_value = 10;
+    moc.m_cdr.m_mcc = 42;
     advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
     int cnt = 0;
