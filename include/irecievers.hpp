@@ -32,7 +32,8 @@ public:
     void Run();
 
 private:
-    void ReadMsgs();
+    void HandleSocket();
+    int ReadMsg(char* a_newMsg);
 
 private:
     WaitableQueue<ISocket*>& m_socketQue;

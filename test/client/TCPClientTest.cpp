@@ -103,7 +103,7 @@ UNIT(run_client_one)
 END_UNIT
 
 UNIT(run_aggragte_message)
-    size_t nSends = 100000;
+    size_t nSends = 1000000;
     protocol::MOC moc;
 
     char buffer[sizeof(protocol::MOC)];

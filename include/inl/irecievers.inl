@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <unistd.h>
+#include <cstring>
 
 #include "irecievers.hpp"
 #include "defs.hpp"
@@ -25,25 +26,21 @@ void CdrRecievers<T>::Run()
     while (m_switch)
     {
         m_socketQue.Dequeue(m_socket);
-        ReadMsgs();
+        HandleSocket();
     }
 }
 
 template <typename T> 
-void CdrRecievers<T>::ReadMsgs()
+void CdrRecievers<T>::HandleSocket()
 {
-    static int cnt = 0;
-    int byte = 1;
-    int diff = g_maxBuff;
     char* buff = 0;
+    const size_t forever = 1;
 
-    while (byte)
+    while (forever)
     {
-        byte = 0;
-        diff = g_maxBuff;
         try 
         {
-            buff = new char[BUFFER_SIZE];
+            buff = new char[g_maxBuff + 1];
         }
         catch(std::bad_alloc const& a_except)
         {
@@ -53,26 +50,44 @@ void CdrRecievers<T>::ReadMsgs()
             continue;
         }
 
-        while (byte != g_maxBuff)
+        if (ReadMsg(buff) <= 0)
         {
-            byte += m_socket->Recv(buff, diff);
-            diff = 60 - byte;
-            if (byte <= 0)
-            {
-                delete[] buff;
-                delete m_socket;
-                //log it
-                std::cout << "reciever cnt: " << cnt << "\n";
-                return;
-            }
+            delete[] buff;
+            delete m_socket;
+            //log it
+            return;
         }
-        
-        assert (byte == 60);
+
         m_msgQue.Enqueue(buff);
-        ++cnt;
+    }
+}
+
+template <typename T> 
+int CdrRecievers<T>::ReadMsg(char* a_newMsg)
+{
+    int byteRead = 0;
+    int accumulateRead = 0;
+    int diff = g_maxBuff;
+    char temp[g_maxBuff];
+    
+    while (accumulateRead != g_maxBuff)
+    {
+        byteRead = m_socket->Recv(temp, diff);
+        if (byteRead <= 0)
+        {
+            return byteRead;
+        }
+
+        memcpy(a_newMsg + accumulateRead, temp, diff);
+        accumulateRead += byteRead; 
+        diff = g_maxBuff - accumulateRead;
     }
     
-    
+    assert (accumulateRead == g_maxBuff);
+    return accumulateRead;
 }
+
+
+
 
 } //namespace advcpp
