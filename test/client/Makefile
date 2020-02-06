@@ -26,7 +26,7 @@ INC_DIRS += ../../../cpp/inc
 
 SOURCES  = ./$(TARGET).cpp
 #SOURCES += $(wildcard ../../source/*.cpp)
-SOURCES  = ../../source/TCP_client.cpp ../../source/socket.cpp ../../source/condVar.cpp ../../source/encoder.cpp ../../source/reducer.cpp ../../source/record.cpp
+SOURCES  = ../../source/TCP_client.cpp ../../source/socket.cpp ../../source/condVar.cpp ../../source/encoder.cpp ../../source/reducer.cpp ../../source/record.cpp ../../source/cdr_decoder.cpp
  
 OBJECTS  = $(SOURCES:.cpp=.o)
 

@@ -34,7 +34,7 @@ UNIT(fill_map)
 END_UNIT
 
 UNIT(send_from_map)
-    size_t nSends = 10000000;
+    size_t nSends = 1000000;
     const size_t capacity = 1000;
     const size_t mocTSize = 100;
     
@@ -43,6 +43,7 @@ UNIT(send_from_map)
 
     char buffer[sizeof(protocol::MOC)];
     protocol::MOC moc;
+    
 
     Client client(LOOPBACK_ADDR, port);
     while (--nSends)

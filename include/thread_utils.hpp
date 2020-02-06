@@ -8,9 +8,10 @@
 namespace advcpp
 {
 
+void KillThreads (std::vector<Thread*> a_threads);
+
 void JoinAll (std::vector<Thread*> a_threads);
 
 } // namespace advcpp
 
-#include "inl/thread_utils.inl"
 #endif //THREAD_UTILS
