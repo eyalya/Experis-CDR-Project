@@ -17,9 +17,16 @@ void Dispatcher<Runnable>::WorkersInit()
     const size_t size = m_receivers.size();
     m_workers.reserve(size);
 
-    for (size_t i = 0; i < size; ++i)
+    try
     {
-        m_workers.push_back(new Thread (m_receivers[i]));
+        for (size_t i = 0; i < size; ++i)
+        {
+            m_workers.push_back(new Thread (m_receivers[i]));
+        }   
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
 }
 
@@ -32,14 +39,7 @@ void Dispatcher<Runnable>::ActivateWorkers()
     }
     catch(...)
     {
-        const size_t size = m_workers.size();
-
-        KillThreads(m_workers);
-        
-        for (size_t i = 0; i < size; ++i)
-        {
-            delete m_workers[i];
-        }
+        FailierHandler(m_workers);
         //log
         throw;
     }

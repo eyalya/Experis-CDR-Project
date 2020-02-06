@@ -25,7 +25,7 @@ inline Thread::Thread(IRunnable* a_prun, Policy a_poli) THROW1(ThreadException)
 : m_isJoinable(true)
 , m_policy(a_poli)
 {
-    if (pthread_create(&m_thread, 0, Thunk, static_cast<void*>(a_prun)))
+    if (pthread_create(&m_thread, 0, Thunk, static_cast<void*>(a_prun)) == g_defsSystemFail)
     {
         throw ThreadException(strerror(errno), ExtendInfo(XINFO));
     }

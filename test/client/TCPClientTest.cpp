@@ -103,7 +103,7 @@ UNIT(run_client_one)
 END_UNIT
 
 UNIT(run_aggragte_message)
-    size_t nSends = 10;
+    size_t nSends = 20;
     protocol::MOC moc;
 
     char buffer[sizeof(protocol::MOC)];
@@ -111,7 +111,7 @@ UNIT(run_aggragte_message)
     moc.m_type = protocol::CALL_MOC;
     moc.m_cdr.m_msisdn = 1984;
     moc.m_cdr.m_imsi = 12;
-    moc.m_duration = 20;
+    moc.m_duration = 1;
     moc.m_cdr.m_operator.m_value = 10;
     advcpp::EncodeMoc(buffer, moc);
     Client client(LOOPBACK_ADDR, port);
@@ -148,10 +148,9 @@ END_UNIT
 
 
 TEST_SUITE(hash table)
-    TEST(fill_map)
-    TEST(send_from_map)
-    // TEST(run_client_one)
-    // TEST(run_aggragte_message)
-    // TEST(run_client)
+    IGNORE_TEST(fill_map)
+    IGNORE_TEST(send_from_map)
+    IGNORE_TEST(run_client_one)
+    TEST(run_aggragte_message)
 END_SUITE
 
