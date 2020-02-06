@@ -13,7 +13,7 @@ public:
 
     bool GetSubscriber(uint a_sub, SubscriberRecord& a_subRec);
     //void GetOperator(uint a_op, UI const& a_ui) const;
-    // void GetAllSubscribers() const;
+    void GetAllSubscribers() const;
     // void GetAllOperators() const;
     
 private:

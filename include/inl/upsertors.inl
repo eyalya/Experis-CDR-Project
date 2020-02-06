@@ -22,6 +22,7 @@ Upsertors<T>::Upsertors(WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, Ds
 template <typename T> 
 void Upsertors<T>::Run()
 {
+    static int cnt = 0;
     char* msg;
     while (m_switch)
     {
@@ -30,7 +31,10 @@ void Upsertors<T>::Run()
         m_dsCont.DsUpsert(m_record);
         SubscriberRecord sR(m_record);
         delete[] msg;
+        ++cnt;
+        std::cout << "upsertor cnt: " << cnt << "\n";
     }
+
 }
 
 

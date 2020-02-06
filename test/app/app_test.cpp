@@ -33,8 +33,8 @@ static const int port = 2300;
 UNIT(server_multi)
     bool switchButton = true;
     // const size_t nRecivers = advcpp::NT - 1;
-    const size_t nRecivers = 10;
-    const size_t nUpsertors = 10;
+    const size_t nRecivers = 1;
+    const size_t nUpsertors = 1;
 
     WQSocket queueSocket;
     WQMsg msgQue(10000);

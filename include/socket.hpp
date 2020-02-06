@@ -34,7 +34,7 @@ public:
     virtual ISocket* Accept() = 0;
     virtual void Reuse() = 0;
     virtual void NoBlock() = 0;
-    virtual size_t Recv(char* a_msg) = 0;
+    virtual size_t Recv(char* a_msg, size_t a_buffSize = MAX_BUFF_LEN) = 0;
     virtual void Send(const char* a_msg, size_t a_buffSize) = 0;
     virtual void Close() = 0; //TODO: hide as private -> close in dtor
     
@@ -56,7 +56,7 @@ public:
     virtual ISocket* Accept();
     virtual void Reuse();
     virtual void NoBlock();
-    virtual size_t Recv(char* a_msg);
+    virtual size_t Recv(char* a_msg, size_t a_buffSize = MAX_BUFF_LEN);
     virtual void Send(const char* a_msg, size_t buffSize = 256);
     virtual void Close();
     

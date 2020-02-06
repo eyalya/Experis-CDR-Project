@@ -103,9 +103,9 @@ void Socket::Reuse()
     }
 }
 
-size_t Socket::Recv(char* a_buff)
+size_t Socket::Recv(char* a_buff, size_t a_buffSize)
 {
-    int readBytes = recv(m_socket, a_buff, MAX_BUFF_LEN, 0);
+    int readBytes = recv(m_socket, a_buff, a_buffSize, 0);
 	
 	if (readBytes == ERROR)
 	{
