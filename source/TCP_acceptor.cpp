@@ -32,8 +32,6 @@ TCPAcceptor::TCPAcceptor(const char* a_ip, int a_port, WaitableQueue<ISocket*>& 
 
 void TCPAcceptor::ShutDown()
 {
-    //FIXME: busy wait for queue to empty... what is better?
-	while(m_queue.Size() > 0);
 	m_socket.Close();
 }
 
@@ -51,7 +49,7 @@ void TCPAcceptor::Run()
 				std::cout << "Acceptor: accepting..."
 			#endif
 
-			newSock = m_socket.Accept(); //FIXME: blocks here on second accept...
+			newSock = m_socket.Accept(); 
 		}
 
 		catch(const SocketException& e)
