@@ -141,4 +141,15 @@ std::ostream & operator << (std::ostream &out, const SubscriberRecord & a_record
     return out;
 }
 
+std::ostream & operator << (std::ostream &out, const OperatorRecord & a_record)
+{
+    out << "\033[1;95m" << "operator: "                         << "\033[0m" << "\033[1;33m" << a_record.m_brand    << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out voice calls: "                  << "\033[0m" << "\033[1;33m" << a_record.m_outVoice << "\033[0m" << '\n';
+    out << "\033[1;95m" << "in voice calls: "                   << "\033[0m" << "\033[1;33m" << a_record.m_inVoice  << "\033[0m" << '\n';
+    out << "\033[1;95m" << "out sms: "                          << "\033[0m" << "\033[1;33m" << a_record.m_outSMS   << "\033[0m" << '\n';
+    out << "\033[1;95m" << "in sms : "                          << "\033[0m" << "\033[1;33m" << a_record.m_inSMS    << "\033[0m" << '\n';
+
+    return out;
+}
+
 } // namespace advcpp
