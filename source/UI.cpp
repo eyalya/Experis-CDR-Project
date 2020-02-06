@@ -5,34 +5,76 @@ namespace advcpp{
 
 void UI::SubscriberChosen()
 {    
-    uint msisdn;
-
-    while(FOREVER)
-    {
-        //TODO: GetMSISDN function
-        std::cout << "\033[1;33mEnter MSISDN: \n\033[0m";
-        std::cin >> msisdn;                
-
-        if (IsValidInput())
-        {
-            break;
-        }
-        WrongInput();
-    }
-
+    uint msisdn = GetMSISDN();
     SubscriberRecord subRec;
+
     if (m_query.GetSubscriber(msisdn, subRec))
     {
-        Write(subRec);
+        Write(subRec);      
         return;        
     }
     WriteNotFound();
 }
 
+uint UI::GetMSISDN()
+{
+    uint msisdn;
+    while(FOREVER)
+    {      
+        std::cout << "\033[1;33mEnter MSISDN: \n\033[0m";
+        std::cin >> msisdn;
+
+        if (IsValidInput())
+        {
+            break;
+        }
+        WrongInput();        
+    }
+    return msisdn;
+}
+
+
+
+
+
+
+
 void UI::OperatorChosen()
 {     
-    std::cout << "\033[1;33mOperator chosen\n\033[0m";
+    uint op = GetOperator();
+    OperatorRecord opRec;
+
+    if (m_query.GetOperator(op, opRec))
+    {
+        Write(opRec);
+        return;        
+    }
+    WriteNotFound();
 }
+
+uint UI::GetOperator()
+{
+    uint op;
+    while(FOREVER)
+    {      
+        std::cout << "\033[1;33mEnter Operator: \n\033[0m";
+        std::cin >> op;
+
+        if (IsValidInput())
+        {
+            break;
+        }
+        WrongInput();        
+    }
+    return op;
+}
+
+
+
+
+
+
+
 
 void UI::AllSubscribersChosen()
 {    

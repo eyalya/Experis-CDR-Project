@@ -2,10 +2,11 @@
 #include <sstream>
 #include "protocol.hpp"
 
+namespace advcpp{
 std::stringstream& operator>>(std::stringstream& a_ss, protocol::MOC& a_moc)
 {
     a_ss >> a_moc.m_type;
-    a_ss >> a_moc.m_cdr;
+    a_ss >> a_moc.m_cdr; // overload conflict with a_messege.m_cdr
     a_ss >> a_moc.m_duration;
     a_ss >> a_moc.m_paryData;
     return a_ss;
@@ -36,15 +37,16 @@ std::stringstream& operator>>(std::stringstream& a_ss, protocol::Date& a_date)
 {
     std:: string s;
     std::getline(a_ss, s, '/');
+
     std:: stringstream ss(s);
     ss >> a_date.m_day;
 
     std::getline(a_ss, s, '/');
-    std:: stringstream ss(s);
+    ss << s;
     a_ss >> a_date.m_month;
 
     std::getline(a_ss, s, ' ');
-    std:: stringstream ss(s);
+    ss << s;
     a_ss >> a_date.m_year;
 
     return a_ss;
@@ -54,15 +56,15 @@ std::stringstream& operator>>(std::stringstream& a_ss, protocol::Time& a_time)
 {
     std:: string s;
     std::getline(a_ss, s, '/');
-    std:: stringstream ss(s);
+    std::stringstream ss(s);
     a_ss >> a_time.m_hour;
 
     std::getline(a_ss, s, '/');
-    std:: stringstream ss(s);
+    ss << s;
     a_ss >> a_time.m_minutes;
 
     std::getline(a_ss, s, ' ');
-    std:: stringstream ss(s);
+    ss << s;
     a_ss >> a_time.m_sec;
     return a_ss;
 }
@@ -89,6 +91,6 @@ std::stringstream& operator>>(std::stringstream& a_ss, protocol::Message& a_mess
     a_ss >> a_messege.m_paryData;
     return a_ss;
 }
+} //namespace advcpp
 */
-
 
