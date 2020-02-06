@@ -74,6 +74,7 @@ struct OperatorRecord
 };
 
 std::ostream & operator << (std::ostream &out, const SubscriberRecord & a_record);
+std::ostream & operator << (std::ostream &out, const OperatorRecord & a_record);
 
 } // namespace 
 
