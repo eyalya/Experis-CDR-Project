@@ -33,15 +33,9 @@ uint UI::GetMSISDN()
     return msisdn;
 }
 
-
-
-
-
-
-
 void UI::OperatorChosen()
 {     
-    uint op = GetOperator();
+    uint op = GetMCC();
     OperatorRecord opRec;
 
     if (m_query.GetOperator(op, opRec))
@@ -52,12 +46,12 @@ void UI::OperatorChosen()
     WriteNotFound();
 }
 
-uint UI::GetOperator()
+uint UI::GetMCC()
 {
     uint op;
     while(FOREVER)
     {      
-        std::cout << "\033[1;33mEnter Operator: \n\033[0m";
+        std::cout << "\033[1;33mEnter MCC: \n\033[0m";
         std::cin >> op;
 
         if (IsValidInput())
@@ -68,13 +62,6 @@ uint UI::GetOperator()
     }
     return op;
 }
-
-
-
-
-
-
-
 
 void UI::AllSubscribersChosen()
 {    

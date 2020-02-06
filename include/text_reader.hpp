@@ -1,6 +1,8 @@
 #ifndef TEXTREADER_HPP
 #define TEXTREADER_HPP
 #include <string>
+#include <fstream>
+
 namespace advcpp{
 
 class ITextReader
@@ -16,11 +18,12 @@ public:
 	virtual bool IsDone() const = 0;
 };
 
+/*
 class StringReader : public ITextReader
 {
 public:
 	
-	StringReader(std::string const& a_str);
+	StringReader(const char* a_str);
 	//virtual StringReader(StringReader const& a_other) = default;
 	//virtual StringReader& operator=(StringReader const& a_rhs) = default;
 	//virtual ~StringReader() = default;
@@ -31,12 +34,12 @@ public:
 private:
 	std::string m_str;
 };
-
+*/
 class FileReader : public ITextReader
 {
 public:
 
-	FileReader(std::string const& a_fileName);
+	FileReader(const char* a_fileName);
 	//FileReader(FileReader const& a_other) = default;
 	//virtual FileReader& operator=(FileReader const& a_rhs) = default;
 	//virtual ~FileReader() = default;
@@ -45,10 +48,11 @@ public:
 	virtual bool IsDone() const;
 
 private:
-	std::string m_str;
-	std::string m_inFileName;
+	std::string m_line;
+	std::ifstream m_ifs;
 };
 
+/*
 class ConsoleReader : public ITextReader
 {
 public:
@@ -64,7 +68,7 @@ public:
 private:
 	std::string m_str;
 };
-
+*/
 
 }//namespace advcpp
 #endif //TEXTREADER_HPP

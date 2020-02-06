@@ -1,4 +1,3 @@
-/*
 #include <sstream>
 #include "protocol.hpp"
 
@@ -27,8 +26,8 @@ std::stringstream& operator>>(std::stringstream& a_ss, protocol::CDR& a_cdr)
 std::stringstream& operator>>(std::stringstream& a_ss, protocol::Operator& a_operator)
 {
     
-    //a_ss >> a_operator.m_type;
-    //a_ss >> a_operator.m_length;
+    a_ss >> a_operator.m_type;
+    a_ss >> a_operator.m_length;
     a_ss >> a_operator.m_value;
     return a_ss;
 }
@@ -72,7 +71,7 @@ std::stringstream& operator>>(std::stringstream& a_ss, protocol::Time& a_time)
 std::stringstream& operator>>(std::stringstream& a_ss, protocol::Party& a_party)
 {
     a_ss >> a_party.m_paryMSISDN;
-    a_ss >> a_party.m_paryOperator;
+    //a_ss >> a_party.m_paryOperator;
     return a_ss;
 }
 
@@ -92,5 +91,5 @@ std::stringstream& operator>>(std::stringstream& a_ss, protocol::Message& a_mess
     return a_ss;
 }
 } //namespace advcpp
-*/
+
 

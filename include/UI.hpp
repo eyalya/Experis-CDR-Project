@@ -35,7 +35,7 @@ private:
     void ExitChosen();
 
     uint GetMSISDN();
-    uint GetOperator();
+    uint GetMCC();
 
     template <typename T>
     void Write(T const& a_data);
