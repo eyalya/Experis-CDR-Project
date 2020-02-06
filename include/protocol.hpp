@@ -1,5 +1,6 @@
 #ifndef PROTOCOL_HPP
 #define	PROTOCOL_HPP
+#include <sstream>
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
@@ -130,7 +131,18 @@ inline IMassage::~IMassage()
 {
 }
 
-}
+////////////////////////////////////////////////////////////////////////////////////
+
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::MOC& a_moc);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::CDR& a_cdr);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::Operator& a_operator);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::Date& a_date);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::Time& a_time);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::Party& a_party);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::DataUsage& a_data);
+std::stringstream& operator>>(std::stringstream& a_ss, protocol::Message& a_messege);
+
+} //namespace advcpp
 
 #endif	//PROTOCOL_HPP
 
