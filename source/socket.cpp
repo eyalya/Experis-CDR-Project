@@ -55,8 +55,9 @@ void Socket::Connect()
     
     if (res == ERROR)
     {
-        std::cerr << "connect failed\n";
-        throw SocketException(numbers::Itoa(errno), ExtendInfo(XINFO));
+        char* errorMessege = strerror(errno);
+        std::cerr << errorMessege << "\n"; 
+        throw SocketException(errorMessege, ExtendInfo(XINFO));
     }	
 }
 
