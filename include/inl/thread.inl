@@ -5,9 +5,8 @@
 #include <cassert>
 #include <signal.h>
 #include <cerrno> //errno
- #include <cstring> //strerror
+#include <cstring> //strerror
 
-#include "numbers.hpp"
 #include "defs.hpp" //g_defsSystemFail
 
 namespace advcpp{

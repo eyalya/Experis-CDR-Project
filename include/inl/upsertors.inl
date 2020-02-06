@@ -7,7 +7,6 @@
 namespace advcpp
 {
 
-//FIXME: change char* to T
 template <typename T> 
 Upsertors<T>::Upsertors(WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, DsContainer& a_dsCont, bool& a_switch)
 : m_msgQue(a_msgQue)
@@ -18,22 +17,26 @@ Upsertors<T>::Upsertors(WaitableQueue<T>& a_msgQue, IRecorder<T>& a_recorder, Ds
 {
 }
 
-//FIXME: add exception handling
 template <typename T> 
 void Upsertors<T>::Run()
 {
-    static int cnt = 0;
-    char* msg;
+    T msg;
+
     while (m_switch)
     {
-        m_msgQue.Dequeue(msg);
-        m_recorder.Generate(msg, m_record);
-        m_dsCont.DsUpsert(m_record);
-        SubscriberRecord sR(m_record);
-        // std::cout << "record: \n" << m_record << "\n";
-        delete[] msg;
-        ++cnt;
-        // std::cout << "upsertor cnt: " << cnt << "\n";
+        try
+        {
+            m_msgQue.Dequeue(msg);
+            m_recorder.Generate(msg, m_record);
+            m_dsCont.DsUpsert(m_record);
+            SubscriberRecord sR(m_record);
+            delete[] msg;
+        }
+        catch(const std::exception& e)
+        {
+            delete[] msg;
+            std::cerr << e.what() << '\n';
+        }
     }
 
 }

@@ -1,8 +1,12 @@
 #ifndef CONDVAR_INL
 #define CONDVAR_INL
 #include <pthread.h>
+#include <cerrno> //errno
+#include <cstring> //strerror
+
+#include "defs.hpp" //g_defsSystemFail
 #include "common.hpp"
-#include "numbers.hpp"
+
 namespace advcpp{
 
 inline CondVarException::CondVarException(const char* a_msg, ExtendInfo a_xInfo)
@@ -20,9 +24,9 @@ void CondVar::Wait(Mutex& a_mutex, Pred a_pred) THROW1(CondVarException)
 {
     while(a_pred())
     {
-        if (int r = pthread_cond_wait(&m_cv, a_mutex.GetMutex()))
+        if (pthread_cond_wait(&m_cv, a_mutex.GetMutex()) == g_defsSystemFail)
         {
-            throw CondVarException(numbers::Itoa(r), ExtendInfo(XINFO));
+            throw CondVarException(strerror(errno), ExtendInfo(XINFO));
         }
     }
 }
